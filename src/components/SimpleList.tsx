@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Divider,
   IconButton,
   TextField,
   Typography,
@@ -14,22 +15,49 @@ import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
 import { Add, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/deleteList";
 import { useUpdateListName } from "../hooks/mutations/editList";
+import type { Item } from "../types/supabaseTypes";
 import { AddItemFormNew } from "./AddItemFormNew";
-import type { IList } from "../hooks/queries/useGetListById";
+import { ItemDialog } from "./ItemDialog";
 import { useAuth } from "../hooks/useAuth";
 
 interface CustomListProps {
-  list: IList;
+  name: string;
+  isOwner: boolean;
+  owner: string;
 }
-export const CustomList: React.FC<CustomListProps> = ({ list }) => {
-  const { user } = useAuth();
+export const SimpleList: React.FC<CustomListProps> = ({
+  owner,
+  isOwner,
+  name,
+}) => {
   const params = useParams();
-  const items = useGetItemsByListId(params.list_id || "");
+    const {session,  user } = useAuth();
   
+  const items = useGetItemsByListId(params.list_id || "");
+  console.log("i", items.data);
   const [dialog, setDialog] = React.useState("");
   const nav = useNavigate();
-  const [newName, setNewName] = React.useState(list.name);
-
+  const goToMovie = (itemId: string, movieRefId: string) => {
+    console.log('movieref', movieRefId)
+    const path = '/movies/' + itemId
+    const q = `?ratedBy=${user?.id}&item_id=${itemId}&movie_ref_id=${movieRefId}`
+    nav(path + q)
+  }
+  const displayedItems = items.data?.map((i) => (
+      <Box key={i.id} sx={{ cursor: "pointer" }} onClick={() => goToMovie(i.id, i.movie_ref_id)}>
+        <CustomItem item={i} />
+      </Box>
+    ));
+  const [newName, setNewName] = React.useState(name);
+  const [selectedId, setRow] = React.useState<Item["id"] | undefined>(
+    undefined
+  );
+  const onCloseRow = () => {
+    setRow(undefined);
+  };
+  const onRowClick = (id: Item["id"]) => {
+    setRow(id);
+  };
 
   const onClose = () => {
     setDialog("");
@@ -79,13 +107,8 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
       onClick: onDelete,
     },
   ];
-  const goToMovie = (itemId: string, movieRefId: string) => {
-    console.log("movieref", movieRefId);
-    const path = "/movies/" + itemId;
-    const q = `?ratedBy=${list.user_id}&item_id=${itemId}&movie_ref_id=${movieRefId}`;
-    nav(path + q);
-  };
-
+  const selectedItem: Item = items.data?.find((d) => d?.id === selectedId);
+  console.log("hi", selectedItem);
   return (
     <Box>
       <Box
@@ -98,9 +121,9 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
         }}
       >
         <Typography variant="h4" fontWeight={"bold"}>
-          {list.name}
+          {name}
         </Typography>
-        {list.user_id === user?.id && (
+        {isOwner && (
           <IconButton onClick={() => setDialog("add")} sx={{ ml: "auto" }}>
             <Add />
           </IconButton>
@@ -113,7 +136,9 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           <MoreVert />
         </IconButton>
       </Box>
-      <Box></Box>
+      <Box>
+      
+      </Box>
       <DialogWrapper open={dialog === "add"} title={"Add"} onClose={onClose}>
         <AddItemFormNew onClose={onClose} list_id={params.list_id} />
       </DialogWrapper>
@@ -148,10 +173,26 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           </Button>
         </Box>
       </DialogWrapper>
+      <DialogWrapper onClose={onCloseRow} title="Details" open={!!selectedId}>
+        {selectedItem && (
+          <ItemDialog
+            api_id={selectedItem.api_id}
+            listId={params.list_id}
+            onClose={onCloseRow}
+            item={selectedItem}
+          />
+        )}
+      </DialogWrapper>
 
       {items.data?.map((i) => (
-        <Box onClick={() => goToMovie(i.id, i.movie_ref_id)} key={i.id}>
-          <CustomItem item={i} />
+        <Box key={i.name} onClick={() => onRowClick(i.id)}>
+          <CustomItem
+            api_id={i.api_id}
+            dateWatched={i.date_watched}
+            key={i.name}
+            name={i.name}
+            rating={i.rating}
+          />
         </Box>
       ))}
     </Box>

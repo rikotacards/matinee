@@ -28,8 +28,9 @@ function App() {
                 <Route index element={<Lists />} />
                 <Route path="all-films" element={<AllFilms />} />
                 <Route path="lists" element={<Lists />} />
-                <Route path={'/movies/:movie_id'} element={<MovieProfile/>}/>
-                <Route path={"list/:list_id"} element={<ListPage />} />
+                <Route path={"lists/:list_id"} element={<ListPage />} />
+
+                <Route path={"/movies/:item_id"} element={<MovieProfile />} />
                 {/* </Route> */}
               </Route>
             </Routes>

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../supbaseClient";
+import { useSnackbar } from "notistack";
 
 interface AddItemToListPayload {
   list_id: string;
@@ -13,7 +14,7 @@ interface AddItemToListPayload {
  */
 export const useAddItemToList = () => {
   const queryClient = useQueryClient();
-
+  const {enqueueSnackbar} = useSnackbar()
   const mutationFn = async (payload: AddItemToListPayload) => {
     // Insert the new row into the 'list_items' junction table.
     const { data, error } = await supabase
@@ -35,8 +36,12 @@ export const useAddItemToList = () => {
   return useMutation({
     mutationFn,
     onSuccess: (_, variables) => {
+      enqueueSnackbar({message: 'Added to list', variant:'success'})
       // Invalidate the cache for the specific list to trigger a refetch.
       queryClient.invalidateQueries({ queryKey: ["items", variables.list_id] });
     },
+    onError: (e) => {
+      enqueueSnackbar({message: e.message, variant: 'error'})
+    }
   });
 };

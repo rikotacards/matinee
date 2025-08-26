@@ -8,7 +8,7 @@ import { ItemDialog } from "../components/ItemDialog";
 import { useNavigate } from "react-router";
 
 export const AllFilms: React.FC = () => {
-  const { user } = useAuth();
+  const {session,  user } = useAuth();
   const items = useGetUserItems(user?.id);
   const [id, setId] = React.useState<string | undefined>();
   const nav = useNavigate();
@@ -18,17 +18,21 @@ export const AllFilms: React.FC = () => {
   const onCloseRow = () => {
     setId(undefined);
   };
-  const goToMovie = (id: string) => {
-    const path = '/movies/' + id
-    const q = `?ratedBy=${user?.id}`
+  const goToMovie = (itemId: string, movieRefId: string) => {
+    console.log('movieref', movieRefId)
+    const path = '/movies/' + itemId
+    const q = `?ratedBy=${user?.id}&item_id=${itemId}&movie_ref_id=${movieRefId}`
     nav(path + q)
   }
   const selectedItem = items.data?.find((i) => i.id === id);
   const displayedItems = items.data?.map((i) => (
-    <Box sx={{ cursor: "pointer" }} onClick={() => goToMovie(i.movie_ref_id)}>
+    <Box key={i.id} sx={{ cursor: "pointer" }} onClick={() => goToMovie(i.id, i.movie_ref_id)}>
       <CustomItem item={i} />
     </Box>
   ));
+  if(!session){
+    return <Typography>Sign in to add films</Typography>
+  }
   if (!items.data?.length) {
     return <Typography>You have not added any films</Typography>;
   }

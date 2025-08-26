@@ -1,5 +1,11 @@
 import { supabase } from "../../supbaseClient";
-
+export interface IList {
+  id: string;
+  create_at: string;
+  name: string;
+  is_public: boolean;
+  user_id: string;
+}
 const getListById = async (listId: string) => {
   if (!listId) {
     return null; // Return null if no ID is provided to prevent an unnecessary query.
@@ -22,7 +28,7 @@ const getListById = async (listId: string) => {
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetListById = (listId: string) => {
-  return useQuery({
+  return useQuery<IList | null>({
     queryKey: ["lists", listId], // The query key should include the listId to be unique.
     queryFn: () => getListById(listId),
     enabled: !!listId, // The query will only run if listId is a truthy value.

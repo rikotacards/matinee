@@ -9,27 +9,39 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useQueries } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { useGetMovieRef } from "../hooks/queries/useGetMovieRef";
 import { getImage } from "../utils/getImage";
 import { useGetExternalMovieDetailsById } from "../hooks/queries/useGetMovieById";
+import { useDialogControl } from "../hooks/useDialogControl";
+import { DialogWrapper } from "../components/DialogWrapper";
+import { AddToListPage } from "./AddToListPage";
+import { useQueries } from "@tanstack/react-query";
 
 export const MovieProfile: React.FC = () => {
-  const q = useParams();
-  console.log("q", q);
-  const movie_ref_id = q.movie_id;
-  const movie_ref = useGetMovieRef(movie_ref_id);
-  const externalDetails = useGetExternalMovieDetailsById(movie_ref.data?.external_id)
-  const poster_path = getImage(movie_ref.data?.poster_path);
+  const [q] = useSearchParams();
+  const nav = useNavigate();
+  const item_id = q.get('item_id')
+  const movie_ref_id = q.get('movie_ref_id')
+  console.log("query item id", item_id)
+    console.log("query movie id", movie_ref_id)
+
+  const { name, onCloseDialog, setDialogName } = useDialogControl();
+  const movie_ref = useGetMovieRef(movie_ref_id || "");
+  const externalDetails = useGetExternalMovieDetailsById(
+    movie_ref.data?.external_id
+  );
+  const poster_path = getImage(movie_ref?.data?.poster_path);
 
   const [searchParams] = useSearchParams();
-  console.log("p", searchParams.get("ratedBy"));
+  if (!item_id) {
+    return <Typography>Invalid page</Typography>;
+  }
+
   const ratedBy = searchParams.get("ratedBy");
-  const nav = useNavigate();
-  if(movie_ref.isLoading || externalDetails.isLoading){
-    return <CircularProgress/>
+  if (movie_ref?.isLoading || externalDetails.isLoading) {
+    return <CircularProgress />;
   }
   return (
     <Box>
@@ -40,12 +52,11 @@ export const MovieProfile: React.FC = () => {
         <Typography>{movie_ref.data?.title}</Typography>
       </Box>
       <Box>
-        <Box sx={{display:'flex'}}>
+        <Box sx={{ display: "flex" }}>
           <Avatar sx={{ height: 80, width: 80 }} src={poster_path} />
-          <Stack direction='column'>
-
-          <Typography>Release</Typography>
-          <Typography>{movie_ref.data.release}</Typography>
+          <Stack direction="column">
+            <Typography>Release</Typography>
+            <Typography>{movie_ref.data?.release}</Typography>
           </Stack>
         </Box>
       </Box>
@@ -53,16 +64,21 @@ export const MovieProfile: React.FC = () => {
         <Typography>Overview</Typography>
         <Typography>{externalDetails.data?.overview}</Typography>
       </Box>
-      <Box sx={{p:1}}>
-      review by {ratedBy}
-        </Box>
+      <Box sx={{ p: 1 }}>review by {ratedBy}</Box>
       <Divider />
       <Box>
         <Typography>Have you seen this?</Typography>
         <Button>Save to collection</Button>
         <Button>Add to watch list</Button>
-        <Button>Add to list</Button>
+        <Button onClick={() => setDialogName('addToList')}>Add to list</Button>
       </Box>
+      <DialogWrapper
+        title={"add"}
+        open={name === "addToList"}
+        onClose={onCloseDialog}
+      >
+        <AddToListPage itemId={item_id} />
+      </DialogWrapper>
     </Box>
   );
 };
