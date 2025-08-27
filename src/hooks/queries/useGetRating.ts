@@ -32,7 +32,7 @@ export const useGetRating = ({
       .select("*") // Select all columns from the items table
       .eq("movie_ref_id", movie_ref_id)
       .eq("user_id", user_id) // Filter for rows where user_id matches
-      .select() // Use single() to get a single row directly, since you expect a unique result
+      .maybeSingle() // Use single() to get a single row directly, since you expect a unique result
 
     if (error) {
       throw new Error(error.message);
@@ -44,7 +44,7 @@ export const useGetRating = ({
     return data;
   };
 
-  return useQuery<Rating[] | null>({
+  return useQuery<Rating | null>({
     queryKey: ["rating", movie_ref_id, user_id],
     queryFn,
     enabled: !!movie_ref_id || !!user_id,

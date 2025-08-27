@@ -70,7 +70,7 @@ export const MovieProfile: React.FC = () => {
             </Typography>
             <Stack>
               <Typography color="textSecondary">Your rating</Typography>
-              <RatingDisplay rating={yourRating.data?.[0].rating} />
+              <RatingDisplay rating={yourRating.data?.rating} />
             </Stack>
             {/* <Typography variant="body2" color="textSecondary">
               Release
@@ -86,7 +86,7 @@ export const MovieProfile: React.FC = () => {
         <Box sx={{ mb: 2 }}>
           <Stack>
             <Typography color="textSecondary">Your rating</Typography>
-            <RatingDisplay rating={yourRating.data?.[0].rating} />
+            <RatingDisplay rating={yourRating.data?.rating} />
           </Stack>
         </Box>
       </Box>

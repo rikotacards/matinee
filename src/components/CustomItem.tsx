@@ -11,13 +11,13 @@ interface CustomListItemProps {
 }
 const size = 50;
 export const CustomItem: React.FC<CustomListItemProps> = ({ item }) => {
-  console.log('lol', item)
   const { movie_ref_id, last_watched_date } = item;
   const { data: movie_ref } = useGetMovieRef(movie_ref_id);
   const { data: rating } = useGetRating({
     movie_ref_id,
     user_id: item.user_id,
   });
+  console.log("rr', ", movie_ref_id, item.user_id)
   const poster = movie_ref?.poster_path
     ? getImage(movie_ref.poster_path)
     : undefined;
@@ -37,9 +37,9 @@ export const CustomItem: React.FC<CustomListItemProps> = ({ item }) => {
             fontWeight={"bold"}
             sx={{ textTransform: "capitalize", mr: 1 }}
           >
-            {movie_ref?.title} -
+            {movie_ref?.title} 
           </Typography>
-          <RatingDisplay rating={rating?.[0]?.rating || 0} />
+          <RatingDisplay rating={rating?.rating || 0} />
         </Box>
         {last_watched_date ? (
           <Typography color="textSecondary" variant="body2">
