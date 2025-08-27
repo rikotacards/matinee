@@ -10,24 +10,22 @@ interface CustomListItemProps {
   item: UserItem;
 }
 const size = 50;
-export const CustomItem: React.FC<CustomListItemProps> = ({ item }) => {
+export const MovieItem: React.FC<CustomListItemProps> = ({ item }) => {
   const { movie_ref_id, last_watched_date } = item;
   const { data: movie_ref } = useGetMovieRef(movie_ref_id);
   const { data: rating } = useGetRating({
     movie_ref_id,
     user_id: item.user_id,
   });
-  console.log("rr', ", movie_ref_id, item.user_id)
-  const poster = movie_ref?.poster_path
-    ? getImage(movie_ref.poster_path)
-    : undefined;
+  console.log("rating", rating);
+  const poster = getImage(movie_ref?.poster_path);
   return (
     <Box
       sx={{
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        minWidth: 300
+        minWidth: 300,
       }}
     >
       <Avatar sx={{ height: size, width: size, mr: 1 }} src={poster} />
@@ -37,7 +35,7 @@ export const CustomItem: React.FC<CustomListItemProps> = ({ item }) => {
             fontWeight={"bold"}
             sx={{ textTransform: "capitalize", mr: 1 }}
           >
-            {movie_ref?.title} 
+            {movie_ref?.title}
           </Typography>
           <RatingDisplay rating={rating?.rating || 0} />
         </Box>

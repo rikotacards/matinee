@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { CustomItem } from "./CustomItem";
+import {  MovieItem } from "./MovieItem";
 import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate, useParams } from "react-router";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
@@ -175,7 +175,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           onClick={() => goToMovie(i.id, i.movie_ref_id)}
           key={i.id}
         >
-          <CustomItem item={i} />
+          <MovieItem item={i} />
           <IconButton size="small" onClick={onItemMoreClick}>
             <MoreVert fontSize="small" color="action" />
           </IconButton>

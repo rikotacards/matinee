@@ -2,7 +2,7 @@ import { Box, Chip, CircularProgress, Typography } from "@mui/material";
 import React from "react";
 import { useGetUserItems } from "../hooks/queries/useGetUserItems";
 import { useAuth } from "../hooks/useAuth";
-import { CustomItem } from "../components/CustomItem";
+import { MovieItem } from "../components/MovieItem";
 import { useNavigate } from "react-router";
 
 export const AllFilms: React.FC = () => {
@@ -25,7 +25,7 @@ export const AllFilms: React.FC = () => {
       sx={{ mb: 2, cursor: "pointer" }}
       onClick={() => goToMovie(i.id, i.movie_ref_id)}
     >
-      <CustomItem item={i} />
+      <MovieItem item={i} />
     </Box>
   ));
   if (!session) {
