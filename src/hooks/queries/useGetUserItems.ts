@@ -19,14 +19,13 @@ export interface UserItem {
 export const useGetUserItems = (userId?: string) => {
   const queryFn = async () => {
     if ( !userId) {
-      return null;
+      return []
     }
 
     const { data, error } = await supabase
       .from('user_item')
       .select('*') // Select all columns from the items table
       .eq('user_id', userId) // Filter for rows where user_id matches
-      .select(); // Use single() to get a single row directly, since you expect a unique result
 
     if (error) {
       throw new Error(error.message);
@@ -35,8 +34,8 @@ export const useGetUserItems = (userId?: string) => {
     return data;
   };
 
-  return useQuery<UserItem[] | null>({
-    queryKey: ['items', userId],
+  return useQuery<UserItem[]>({
+    queryKey: ['user_item', userId],
     queryFn,
     enabled: !!userId,
   });

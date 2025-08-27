@@ -12,7 +12,7 @@ export const AllFilms: React.FC = () => {
   if (items.isLoading) {
     return <CircularProgress />;
   }
-
+  console.log('it', items.data)
   const goToMovie = (itemId: string, movieRefId: string) => {
     console.log("movieref", movieRefId);
     const path = "/movies/" + itemId;
