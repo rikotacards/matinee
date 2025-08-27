@@ -13,7 +13,6 @@ export const Layout: React.FC = () => {
           margin: "0 auto",
           display: "flex",
           p: 2,
-          width:'100%',
           justifyContent: "center",
         }}
         component="main"

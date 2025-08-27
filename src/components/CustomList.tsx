@@ -2,8 +2,10 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
   IconButton,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -11,7 +13,7 @@ import { CustomItem } from "./CustomItem";
 import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate, useParams } from "react-router";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
-import { Add, MoreVert } from "@mui/icons-material";
+import { Add, Close, Delete, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/deleteList";
 import { useUpdateListName } from "../hooks/mutations/editList";
 import { AddItemFormNew } from "./AddItemFormNew";
@@ -25,16 +27,18 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
   const { user } = useAuth();
   const params = useParams();
   const items = useGetItemsByListId(params.list_id || "");
-  
+
   const [dialog, setDialog] = React.useState("");
   const nav = useNavigate();
   const [newName, setNewName] = React.useState(list.name);
 
-
   const onClose = () => {
     setDialog("");
   };
-
+  const onItemMoreClick = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setDialog("itemMore");
+  };
   const updateList = useUpdateListName();
   const onUpdateListName = async () => {
     if (!params.list_id) {
@@ -60,7 +64,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
   if (items.isLoading) {
     return <CircularProgress />;
   }
-  const options = [
+  const listActions = [
     {
       name: "Make private",
     },
@@ -118,7 +122,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
         <AddItemFormNew onClose={onClose} list_id={params.list_id} />
       </DialogWrapper>
       <DialogWrapper open={dialog === "more"} title="options" onClose={onClose}>
-        {options.map((b) => (
+        {listActions.map((b) => (
           <Button
             fullWidth
             onClick={b.onClick ? () => b.onClick() : undefined}
@@ -148,10 +152,33 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           </Button>
         </Box>
       </DialogWrapper>
+      <Dialog open={dialog === "itemMore"} onClose={onClose} title={"More"}>
+        <Box sx={{ minWidth: 300 }}>
+          <Toolbar disableGutters variant="dense">
+            <IconButton onClick={onClose} sx={{ ml: "auto", mr: 1 }}>
+              <Close />
+            </IconButton>
+          </Toolbar>
+          <Button startIcon={<Delete />} fullWidth color="error">
+            Delete
+          </Button>
+        </Box>
+      </Dialog>
 
       {items.data?.map((i) => (
-        <Box onClick={() => goToMovie(i.id, i.movie_ref_id)} key={i.id}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+          onClick={() => goToMovie(i.id, i.movie_ref_id)}
+          key={i.id}
+        >
           <CustomItem item={i} />
+          <IconButton size="small" onClick={onItemMoreClick}>
+            <MoreVert fontSize="small" color="action" />
+          </IconButton>
         </Box>
       ))}
     </Box>

@@ -2,11 +2,11 @@ import { Star } from "@mui/icons-material";
 import { Box, Typography, type TypographyProps } from "@mui/material";
 import React from "react";
 interface RatingDisplayProps {
-  rating: number;
+  rating: number | null | undefined;
   textVariant?: TypographyProps['variant']
 }
 export const RatingDisplay: React.FC<RatingDisplayProps> = ({textVariant, rating }) => {
-  if (rating === 0) {
+  if (!rating ) {
     return <Typography variant='caption'>Not rated</Typography>;
   }
   return (

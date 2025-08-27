@@ -24,10 +24,10 @@ export const CustomItem: React.FC<CustomListItemProps> = ({ item }) => {
   return (
     <Box
       sx={{
-        mb: 2,
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
+        minWidth: 300
       }}
     >
       <Avatar sx={{ height: size, width: size, mr: 1 }} src={poster} />
@@ -46,11 +46,11 @@ export const CustomItem: React.FC<CustomListItemProps> = ({ item }) => {
             Watched:{" "}
             {last_watched_date
               ? new Date(last_watched_date).toDateString()
-              : "no date added"}
+              : "no watch date added"}
           </Typography>
         ) : (
           <Typography variant="body2" color="textSecondary">
-            No date added
+            No watch date added
           </Typography>
         )}
       </Box>

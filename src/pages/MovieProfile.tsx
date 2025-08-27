@@ -10,22 +10,26 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useGetMovieRef } from "../hooks/queries/useGetMovieRef";
 import { getImage } from "../utils/getImage";
 import { useGetExternalMovieDetailsById } from "../hooks/queries/useGetMovieById";
 import { useDialogControl } from "../hooks/useDialogControl";
 import { DialogWrapper } from "../components/DialogWrapper";
 import { AddToListPage } from "./AddToListPage";
-import { useQueries } from "@tanstack/react-query";
+import { useGetRating } from "../hooks/queries/useGetRating";
+import { useAuth } from "../hooks/useAuth";
+import { RatingDisplay } from "../components/RatingDisplay";
+import { useGetUserItemById } from "../hooks/queries/useGetUserItemById";
 
 export const MovieProfile: React.FC = () => {
   const [q] = useSearchParams();
   const nav = useNavigate();
-  const item_id = q.get('item_id')
-  const movie_ref_id = q.get('movie_ref_id')
-  console.log("query item id", item_id)
-    console.log("query movie id", movie_ref_id)
+  const { user } = useAuth();
+  const item_id = q.get("item_id");
+  const item = useGetUserItemById({ userId: user?.id, id: item_id });
+  const hasWatched = item.data?.status === "watched";
+  const movie_ref_id = q.get("movie_ref_id");
 
   const { name, onCloseDialog, setDialogName } = useDialogControl();
   const movie_ref = useGetMovieRef(movie_ref_id || "");
@@ -35,42 +39,70 @@ export const MovieProfile: React.FC = () => {
   const poster_path = getImage(movie_ref?.data?.poster_path);
 
   const [searchParams] = useSearchParams();
+
+  const ratedBy = searchParams.get("ratedBy");
+  const yourRating = useGetRating({
+    user_id: user?.id || "",
+    movie_ref_id: movie_ref_id || "",
+  });
   if (!item_id) {
     return <Typography>Invalid page</Typography>;
   }
-
-  const ratedBy = searchParams.get("ratedBy");
   if (movie_ref?.isLoading || externalDetails.isLoading) {
     return <CircularProgress />;
   }
   return (
-    <Box>
+    <Box sx={{ maxWidth: 400 }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <IconButton onClick={() => nav(-1)}>
           <ArrowBackIosNew />
         </IconButton>
-        <Typography>{movie_ref.data?.title}</Typography>
+        <Typography fontWeight={"bold"} variant="body2">
+          Back
+        </Typography>
       </Box>
       <Box>
-        <Box sx={{ display: "flex" }}>
-          <Avatar sx={{ height: 80, width: 80 }} src={poster_path} />
+        <Box sx={{ mt: 2, mb: 2, display: "flex", alignItems: "center" }}>
+          <Avatar sx={{ mr: 2, height: 120, width: 120 }} src={poster_path} />
           <Stack direction="column">
-            <Typography>Release</Typography>
-            <Typography>{movie_ref.data?.release}</Typography>
+            <Typography sx={{ mb: 1 }} fontWeight={"bold"} variant="h5">
+              {movie_ref.data?.title}
+            </Typography>
+            <Stack>
+              <Typography color="textSecondary">Your rating</Typography>
+              <RatingDisplay rating={yourRating.data?.[0].rating} />
+            </Stack>
+            {/* <Typography variant="body2" color="textSecondary">
+              Release
+            </Typography>
+            <Typography>
+              {movie_ref.data?.release
+                ? new Date(movie_ref.data.release).toDateString()
+                : null}
+            </Typography> */}
+          </Stack>
+        </Box>
+        <Divider sx={{ mb: 2 }} />
+        <Box sx={{ mb: 2 }}>
+          <Stack>
+            <Typography color="textSecondary">Your rating</Typography>
+            <RatingDisplay rating={yourRating.data?.[0].rating} />
           </Stack>
         </Box>
       </Box>
-      <Box>
-        <Typography>Overview</Typography>
+      <Box
+        sx={{ display: "flex", whiteSpace: "wrap", flexDirection: "column" }}
+      >
+        <Typography color="textSecondary">Overview</Typography>
         <Typography>{externalDetails.data?.overview}</Typography>
       </Box>
-      <Box sx={{ p: 1 }}>review by {ratedBy}</Box>
-      <Divider />
+
+      <Divider sx={{ mt: 2, mb: 2 }} />
       <Box>
-        <Typography>Have you seen this?</Typography>
         <Button>Save to collection</Button>
         <Button>Add to watch list</Button>
-        <Button onClick={() => setDialogName('addToList')}>Add to list</Button>
+        <Button>Add review</Button>
+        <Button onClick={() => setDialogName("addToList")}>Add to list</Button>
       </Box>
       <DialogWrapper
         title={"add"}

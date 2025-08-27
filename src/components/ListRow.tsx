@@ -15,17 +15,19 @@ export const ListRow: React.FC<ListPreviewProps> = ({
   const items = useGetItemsByListId(listId);
   const count = items.data?.length || 0;
   if(items.isLoading){
-    return <Skeleton variant='rectangular' width={200} height={52}/>
+    return <Skeleton sx={{mb:1}} variant='rectangular' width={200} height={52}/>
   }
   return (
     <Box
       onClick={onClick}
       sx={{
+        cursor:'pointer',
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         p: 2,
         mb: 1,
+        minWidth:300
       }}
       component={Card}
       variant="outlined"
