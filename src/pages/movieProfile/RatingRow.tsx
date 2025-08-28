@@ -15,9 +15,12 @@ import { RatingInputForm } from "../../components/RatingInputForm";
 interface RatingRowProps {
   rating: number;
   userId: string;
+  isOwner?: boolean;
 }
-export const RatingRow: React.FC<RatingRowProps> = ({ rating, userId}) => {
+
+export const RatingRow: React.FC<RatingRowProps> = ({ isOwner, rating, userId}) => {
   const { name, onCloseDialog, setDialogName } = useDialogControl();
+  
   return (
     <Box>
       <Stack alignItems={"center"} direction="row">
@@ -28,7 +31,7 @@ export const RatingRow: React.FC<RatingRowProps> = ({ rating, userId}) => {
           rated
         </Typography>
         <RatingDisplay textVariant="body2" rating={rating} />
-        <Box sx={{ ml: "auto" }}>
+        <Box sx={{visibility: isOwner ? 'visible' : 'hidden',  ml: "auto" }}>
             <MoreHoriz fontSize="small" />
         </Box>
       </Stack>

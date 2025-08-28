@@ -68,6 +68,7 @@ export const MovieProfile: React.FC = () => {
   if (movie_ref?.isLoading || externalDetails.isLoading) {
     return <CircularProgress />;
   }
+  const imageProfileSize = 180;
   return (
     <Box sx={{ maxWidth: 400 }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -79,21 +80,47 @@ export const MovieProfile: React.FC = () => {
         </Typography>
       </Box>
       <Box>
-        <Box sx={{ mt: 2, mb: 2, display: "flex", alignItems: "center" }}>
-          <Avatar sx={{ mr: 2, height: 120, width: 120 }} src={poster_path} />
+        <Box sx={{ mt: 2, mb: 2, display: "flex", alignItems: "flex-start" }}>
+          <Avatar
+            sx={{ mr: 2, height: imageProfileSize, width: imageProfileSize }}
+            src={poster_path}
+          />
           <Stack direction="column">
-            <Typography sx={{ mb: 1 }} fontWeight={"bold"} variant="h5">
+            <Typography sx={{ m: 1 }} fontWeight={"bold"} variant="h6">
               {movie_ref.data?.title}
             </Typography>
 
-            <Typography variant="caption" color="textSecondary">
+            <Typography sx={{ ml: 1 }} variant="caption" color="textSecondary">
               Release date
             </Typography>
-            <Typography variant="caption">
+            <Typography sx={{ ml: 1 }} variant="caption">
               {movie_ref.data?.release
                 ? new Date(movie_ref.data.release).toDateString()
                 : null}
             </Typography>
+            {myItem.data?.status !== null && (
+              <Box sx={{ mt: 3, mb: 2, flexDirection: "column" }}>
+                <Chip
+                  icon={
+                    !hasWatched ? (
+                      <RadioButtonUncheckedIcon color="error" />
+                    ) : (
+                      <CheckCircleIcon color="success" />
+                    )
+                  }
+                  deleteIcon={<KeyboardArrowDownIcon />}
+                  onDelete={() =>
+                    onUpdate({
+                      itemId: item_id,
+                      updatePayload: {
+                        status: hasWatched ? "not watched" : "watched",
+                      },
+                    })
+                  }
+                  label={hasWatched ? "Watched" : "Not watched"}
+                />
+              </Box>
+            )}
           </Stack>
         </Box>
 
@@ -103,29 +130,8 @@ export const MovieProfile: React.FC = () => {
               Have you seen this?
             </Typography>
           )}
-        {myItem.data?.status !== null &&  <Box sx={{ mb: 2, flexDirection: "column" }}>
-            <Chip
-            
-              icon={
-                !hasWatched ? (
-                  <RadioButtonUncheckedIcon color='error' />
-                ) : (
-                  <CheckCircleIcon color="success" />
-                )
-              }
-              deleteIcon={<KeyboardArrowDownIcon />}
-              onDelete={() =>
-                onUpdate({
-                  itemId: item_id,
-                  updatePayload: {
-                    status: hasWatched ? "not watched" : "watched",
-                  },
-                })
-              }
-              label={hasWatched ? "Watched" : "Not watched"}
-            />
-          </Box>}
-          <Divider/>
+
+          <Divider />
           {myItem.data?.status === null && (
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Button

@@ -25,9 +25,9 @@ export const AllRatings: React.FC<AllRatingsProps> = ({
   return (
     <Box>
       {ratedBy !== user?.id && otherPersonRating && (
-        <RatingRow rating={otherPersonRating.data?.rating || 0} />
+        <RatingRow userId={ratedBy} isOwner={false} rating={otherPersonRating.data?.rating || 0} />
       )}
-      {myRating.data && <RatingRow userId={username} rating={myRating.data?.rating || 0} />}
+      {myRating.data && <RatingRow isOwner userId={username} rating={myRating.data?.rating || 0} />}
       <RatingRow userId={'MichaelHsu95'} rating={3} />
             <RatingRow userId={'AlbertHsie'} rating={3} />
 
