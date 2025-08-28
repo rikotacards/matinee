@@ -12,10 +12,9 @@ export const AllFilms: React.FC = () => {
   if (items.isLoading) {
     return <CircularProgress />;
   }
-  console.log('it', items.data)
+
   const goToMovie = (itemId: string, movieRefId: string) => {
-    console.log("movieref", movieRefId);
-    const path = "/movies/" + itemId;
+    const path = "/movies/" + movieRefId;
     const q = `?ratedBy=${user?.id}&item_id=${itemId}&movie_ref_id=${movieRefId}`;
     nav(path + q);
   };
@@ -43,7 +42,6 @@ export const AllFilms: React.FC = () => {
         <Chip label="Watch list" />
       </Box>
       {displayedItems}
-      
     </Box>
   );
 };

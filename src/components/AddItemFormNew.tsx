@@ -10,7 +10,7 @@ import { Button } from "@mui/material";
 import { useGetItemByApiAndUser } from "../hooks/queries/useGetMyItemsById";
 import { useUpsertMovieRef } from "../hooks/mutations/useUpsertMovieRef";
 import { useUpsertUserItem } from "../hooks/mutations/useUpsertUserItem";
-import { useUpsertRating } from "../hooks/mutations/upsertRating";
+import { useUpsertRating } from "../hooks/mutations/useUpsertRating";
 interface AddItemFormNewProps {
   onClose: () => void;
   list_id?: string;

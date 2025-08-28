@@ -17,7 +17,6 @@ export const MovieItem: React.FC<CustomListItemProps> = ({ item }) => {
     movie_ref_id,
     user_id: item.user_id,
   });
-  console.log("rating", rating);
   const poster = getImage(movie_ref?.poster_path);
   return (
     <Box

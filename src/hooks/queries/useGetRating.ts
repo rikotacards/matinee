@@ -10,7 +10,7 @@ import { supabase } from "../../supbaseClient";
 export interface Rating {
   id: string;
   created_at: string;
-  user_id: string;
+  user_id?: string;
   rating: number;
   movie_ref_id: string;
   review?: string;

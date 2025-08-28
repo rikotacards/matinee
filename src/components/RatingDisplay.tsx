@@ -15,7 +15,6 @@ export const RatingDisplay: React.FC<RatingDisplayProps> = ({textVariant, rating
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        fontFamily: "",
       }}
     >
       <Typography variant={textVariant} fontWeight={"bold"}>{rating}/5</Typography>

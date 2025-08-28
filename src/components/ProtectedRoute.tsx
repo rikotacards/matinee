@@ -10,6 +10,5 @@ export const ProtectedRoute: React.FC = () => {
   if(session){
     return <Outlet/>
   }
-  console.log('no session')
   return  <Navigate to="/login" replace />;
 };

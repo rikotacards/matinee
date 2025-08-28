@@ -84,7 +84,6 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
     },
   ];
   const goToMovie = (itemId: string, movieRefId: string) => {
-    console.log("movieref", movieRefId);
     const path = "/movies/" + itemId;
     const q = `?ratedBy=${list.user_id}&item_id=${itemId}&movie_ref_id=${movieRefId}`;
     nav(path + q);
@@ -160,7 +159,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
             </IconButton>
           </Toolbar>
           <Button startIcon={<Delete />} fullWidth color="error">
-            Delete
+            Remove from list
           </Button>
         </Box>
       </Dialog>

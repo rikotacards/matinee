@@ -15,13 +15,11 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSelect }) => {
   const [inputValue, setInputValue] = React.useState("");
   const debounced = useDebounce(inputValue, 500);
   const { data: movies, isLoading } = useSearchMovies(debounced, "");
-  console.log('movies', movies)
   return (
     <Autocomplete
       sx={{ p: 2 }}
       value={value}
       onChange={(_, newValue: string | null) => {
-        console.log("onchange", newValue);
         setValue(newValue);
       }}
       options={movies || []}
