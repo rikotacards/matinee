@@ -3,6 +3,7 @@ import { Box, IconButton, Stack, Typography } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
 import React from "react";
 interface IconLayoutProps {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ export const IconLayout: React.FC<IconLayoutProps> = ({ children, label }) => {
           display: "flex",
         }}
       >
-        <IconButton>{children}</IconButton>
+        <IconButton size='small'>{children}</IconButton>
       </Box>
       <Typography sx={{textAlign: 'center'}} variant="caption">{label}</Typography>
     </Box>
@@ -32,15 +33,18 @@ export const IconLayout: React.FC<IconLayoutProps> = ({ children, label }) => {
 };
 export const Actions: React.FC = () => {
   return (
-    <Stack direction="row" alignItems="center">
+    <Stack direction="row" alignItems="center" justifyContent={'space-around'}>
       <IconLayout label="List">
         <PlaylistAddIcon />
       </IconLayout>
-       <IconLayout label="Watchlist">
+       <IconLayout  label="Watchlist">
         <VisibilityIcon />
       </IconLayout>
-       <IconLayout label="Share">
+          <IconLayout label="Share">
         <SendIcon />
+      </IconLayout>
+       <IconLayout label="Log">
+        <PlaylistAddCircleIcon />
       </IconLayout>
     </Stack>
   );

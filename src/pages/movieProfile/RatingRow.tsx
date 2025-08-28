@@ -14,23 +14,22 @@ import { useDialogControl } from "../../hooks/useDialogControl";
 import { RatingInputForm } from "../../components/RatingInputForm";
 interface RatingRowProps {
   rating: number;
+  userId: string;
 }
-export const RatingRow: React.FC<RatingRowProps> = ({ rating }) => {
+export const RatingRow: React.FC<RatingRowProps> = ({ rating, userId}) => {
   const { name, onCloseDialog, setDialogName } = useDialogControl();
   return (
     <Box>
       <Stack alignItems={"center"} direction="row">
-        <Typography sx={{ mr: 1 }} fontWeight={"bold"}>
-          Maxwellhsu
+        <Typography variant='body2' sx={{ mr: 1 }} fontWeight={"bold"}>
+          {userId}
         </Typography>
-        <Typography color="textSecondary" sx={{ mr: 1 }}>
+        <Typography variant='body2' color="textSecondary" sx={{ mr: 1 }}>
           rated
         </Typography>
-        <RatingDisplay rating={rating} />
+        <RatingDisplay textVariant="body2" rating={rating} />
         <Box sx={{ ml: "auto" }}>
-          <IconButton onClick={() => setDialogName("options")}>
-            <MoreHoriz />
-          </IconButton>
+            <MoreHoriz fontSize="small" />
         </Box>
       </Stack>
       <Dialog onClose={onCloseDialog} open={name === "options"}>

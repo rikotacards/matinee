@@ -23,7 +23,6 @@ import { DialogWrapper } from "../../components/DialogWrapper";
 import { AddToListPage } from "../AddToListPage";
 import { useGetRating } from "../../hooks/queries/useGetRating";
 import { useAuth } from "../../hooks/useAuth";
-import { RatingDisplay } from "../../components/RatingDisplay";
 import { useGetUserItemById } from "../../hooks/queries/useGetUserItemById";
 import { Actions } from "./actions";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -33,6 +32,7 @@ import {
 } from "../../hooks/mutations/useUpdateUserItem";
 import { RatingRow } from "./RatingRow";
 import { RatingInputForm } from "../../components/RatingInputForm";
+import { AllRatings } from "./AllRatings";
 export const MovieProfile: React.FC = () => {
   const [q] = useSearchParams();
   const params = useParams();
@@ -47,7 +47,7 @@ export const MovieProfile: React.FC = () => {
   const myItem = useGetUserItemById({ userId: user?.id, id: item_id });
   const { setDialogName, onCloseDialog, name } = useDialogControl();
   const hasWatched = myItem.data?.status === "watched";
-
+  const unknownWatchStatus = myItem.data?.status;
   const movie_ref = useGetMovieRef(movie_ref_id_url || "");
   const externalDetails = useGetExternalMovieDetailsById(
     movie_ref.data?.external_id
@@ -57,10 +57,7 @@ export const MovieProfile: React.FC = () => {
   const [searchParams] = useSearchParams();
 
   const ratedBy = searchParams.get("ratedBy");
-  const otherPersonRating = useGetRating({
-    user_id: ratedBy,
-    movie_ref_id: movie_ref_id_url || "",
-  });
+
   const myRating = useGetRating({
     user_id: user?.id || "",
     movie_ref_id: movie_ref_id_url || "",
@@ -89,10 +86,10 @@ export const MovieProfile: React.FC = () => {
               {movie_ref.data?.title}
             </Typography>
 
-            <Typography variant="body2" color="textSecondary">
-              Release
+            <Typography variant="caption" color="textSecondary">
+              Release date
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="caption">
               {movie_ref.data?.release
                 ? new Date(movie_ref.data.release).toDateString()
                 : null}
@@ -101,12 +98,17 @@ export const MovieProfile: React.FC = () => {
         </Box>
 
         <Box sx={{ mb: 2 }}>
-          <Box sx={{ mb: 2, flexDirection: "column" }}>
+          {myItem.data?.status === null && (
+            <Typography sx={{ mb: 1 }} color="textSecondary">
+              Have you seen this?
+            </Typography>
+          )}
+        {myItem.data?.status !== null &&  <Box sx={{ mb: 2, flexDirection: "column" }}>
             <Chip
-              size="small"
+            
               icon={
                 !hasWatched ? (
-                  <RadioButtonUncheckedIcon />
+                  <RadioButtonUncheckedIcon color='error' />
                 ) : (
                   <CheckCircleIcon color="success" />
                 )
@@ -122,47 +124,115 @@ export const MovieProfile: React.FC = () => {
               }
               label={hasWatched ? "Watched" : "Not watched"}
             />
-          </Box>
-          <Typography color="textSecondary" sx={{ mb: 1 }} variant="body1">
+          </Box>}
+          <Divider/>
+          {myItem.data?.status === null && (
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Button
+                onClick={() =>
+                  onUpdate({
+                    itemId: item_id,
+                    updatePayload: { status: "watched" },
+                  })
+                }
+                sx={{ mr: 0.5 }}
+                variant="contained"
+                fullWidth
+                color="success"
+              >
+                Yes
+              </Button>
+              <Button
+                onClick={() =>
+                  onUpdate({
+                    itemId: item_id,
+                    updatePayload: { status: "not watched" },
+                  })
+                }
+                sx={{ ml: 0.5 }}
+                variant="outlined"
+                fullWidth
+              >
+                Not yet
+              </Button>
+            </Box>
+          )}
+          {name !== "addRating" &&
+            !myRating.data &&
+            myItem.data?.status === "watched" && (
+              <Button
+                onClick={() => setDialogName("addRating")}
+                fullWidth
+                variant="contained"
+              >
+                Add Rating
+              </Button>
+            )}
+          {name === "addRating" && (
+            <Box
+              component={Paper}
+              variant="outlined"
+              sx={{
+                justifyContent: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <IconButton onClick={onCloseDialog} sx={{ m: 1, ml: "auto" }}>
+                <Close />
+              </IconButton>
+              <RatingInputForm
+                movie_ref_id={Number(movie_ref_id_url)}
+                onClose={onCloseDialog}
+              />
+            </Box>
+          )}
+          {myItem?.data?.status === "not watched" && (
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Button
+                onClick={() =>
+                  onUpdate({
+                    itemId: item_id,
+                    updatePayload: {
+                      status: "watchlist",
+                    },
+                  })
+                }
+                variant="contained"
+                fullWidth
+                sx={{ mb: 1 }}
+              >
+                Add to watchlist
+              </Button>
+              <Button
+                onClick={() =>
+                  onUpdate({
+                    itemId: item_id,
+                    updatePayload: {
+                      status: "later",
+                    },
+                  })
+                }
+                fullWidth
+              >
+                Later
+              </Button>
+            </Box>
+          )}
+
+          <Typography
+            color="textSecondary"
+            sx={{ mt: 2, mb: 0 }}
+            variant="body1"
+          >
             Ratings
           </Typography>
-          {ratedBy !== user?.id && otherPersonRating && (
-            <RatingRow rating={otherPersonRating.data?.rating || 0} />
-          )}
-          <RatingRow rating={myRating.data?.rating || 0} />
+          <AllRatings ratedBy={ratedBy} movie_ref_id_url={movie_ref_id_url} />
         </Box>
-        {!myRating.data && name !== "addRating" && (
-          <Button
-            onClick={() => setDialogName("addRating")}
-            fullWidth
-            variant="outlined"
-          >
-            Add your rating
-          </Button>
-        )}
-        {name === "addRating" && (
-          <Box
-            component={Paper}
-            variant="outlined"
-            sx={{
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <IconButton onClick={onCloseDialog} sx={{ m: 1, ml: "auto" }}>
-              <Close />
-            </IconButton>
-            <RatingInputForm
-              movie_ref_id={Number(movie_ref_id_url)}
-              onClose={onCloseDialog}
-            />
-          </Box>
-        )}
-        <Divider sx={{ mt: 2, mb: 2 }} />
+        <Divider sx={{ mt: 2, mb: 1 }} />
         <Actions />
-        <Divider sx={{ mt: 2, mb: 2 }} />
+        <Divider sx={{ mt: 1, mb: 2 }} />
       </Box>
       <Box
         sx={{ display: "flex", whiteSpace: "wrap", flexDirection: "column" }}
@@ -171,10 +241,6 @@ export const MovieProfile: React.FC = () => {
         <Typography>{externalDetails.data?.overview}</Typography>
       </Box>
 
-      <Divider sx={{ mt: 2, mb: 2 }} />
-      <Box>
-        <Button onClick={() => setDialogName("addToList")}>Add to list</Button>
-      </Box>
       <DialogWrapper
         title={"add"}
         open={name === "addToList"}
