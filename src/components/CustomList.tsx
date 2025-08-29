@@ -9,11 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import {  MovieItem } from "./MovieItem";
+import { MovieItem } from "./MovieItem";
 import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate, useParams } from "react-router";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
-import { Add, Close, Delete, MoreVert } from "@mui/icons-material";
+import { Add, Close, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/deleteList";
 import { useUpdateListName } from "../hooks/mutations/editList";
 import { AddItemFormNew } from "./AddItemFormNew";
@@ -151,15 +151,18 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           </Button>
         </Box>
       </DialogWrapper>
-      <Dialog open={dialog === "itemMore"} onClose={onClose} title={"More"}>
-        <Box sx={{ minWidth: 300 }}>
-          <Toolbar disableGutters variant="dense">
-            <IconButton onClick={onClose} sx={{ ml: "auto", mr: 1 }}>
-              <Close />
-            </IconButton>
-          </Toolbar>
-          <Button startIcon={<Delete />} fullWidth color="error">
+      <Dialog open={dialog === "itemMore"} onClose={onClose}>
+        <Box sx={{ p: 1, minWidth: 300 }}>
+          <Button
+            variant="outlined"
+            startIcon={<Delete />}
+            fullWidth
+            color="error"
+          >
             Remove from list
+          </Button>
+          <Button color='inherit' sx={{ mt: 1 }} onClick={onClose} fullWidth>
+            Cancel
           </Button>
         </Box>
       </Dialog>
@@ -176,7 +179,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
         >
           <MovieItem item={i} />
           <IconButton size="small" onClick={onItemMoreClick}>
-            <MoreVert fontSize="small" color="action" />
+            <MoreHoriz fontSize="small" color="action" />
           </IconButton>
         </Box>
       ))}

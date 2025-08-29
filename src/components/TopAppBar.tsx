@@ -13,9 +13,8 @@ import { useNavigate } from "react-router";
 import { AddItemFormNew } from "./AddItemFormNew";
 const pages = [
   { label: "Your films", path: "all-films" },
-  { label: "lists", path: "lists" },
-  { label: "Watched", path: "watched" },
   { label: "watchlist", path: "watchlist" },
+  { label: "lists", path: "lists" },
 ];
 export const TopAppBar: React.FC = () => {
   const nav = useNavigate();

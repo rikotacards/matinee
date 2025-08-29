@@ -15,7 +15,7 @@ export const ListRow: React.FC<ListPreviewProps> = ({
   const items = useGetItemsByListId(listId);
   const count = items.data?.length || 0;
   if(items.isLoading){
-    return <Skeleton sx={{mb:1}} variant='rectangular' width={200} height={52}/>
+    return <Skeleton sx={{mb:1}} variant='rectangular' width={300} height={52}/>
   }
   return (
     <Box

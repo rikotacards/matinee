@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AllFilms } from "./pages/AllFilms";
 import { SnackbarProvider } from "notistack";
 import { MovieProfile } from "./pages/movieProfile/MovieProfile";
+import { MyWatchlistPage } from "./pages/WatchlistPage";
 const queryClient = new QueryClient();
 
 function App() {
@@ -28,9 +29,14 @@ function App() {
                 <Route index element={<Lists />} />
                 <Route path="all-films" element={<AllFilms />} />
                 <Route path="lists" element={<Lists />} />
+                <Route path="watchlist" element={<MyWatchlistPage />} />
+
                 <Route path={"lists/:list_id"} element={<ListPage />} />
 
-                <Route path={"/movies/:movie_ref_id"} element={<MovieProfile />} />
+                <Route
+                  path={"/movies/:movie_ref_id"}
+                  element={<MovieProfile />}
+                />
                 {/* </Route> */}
               </Route>
             </Routes>

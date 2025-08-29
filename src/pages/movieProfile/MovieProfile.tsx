@@ -1,4 +1,4 @@
-import { ArrowBackIosNew, Close, MoreHoriz } from "@mui/icons-material";
+import { ArrowBackIosNew, Close } from "@mui/icons-material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {
   Avatar,
@@ -30,9 +30,16 @@ import {
   useUpdateUserItem,
   type UpdateUserItem,
 } from "../../hooks/mutations/useUpdateUserItem";
-import { RatingRow } from "./RatingRow";
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+const imageProfileSize = 180;
 import { RatingInputForm } from "../../components/RatingInputForm";
 import { AllRatings } from "./AllRatings";
+import LinkIcon from "@mui/icons-material/Link";
+import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
+import { useUpsertWatchlistItem } from "../../hooks/mutations/useUpsertWatchlistItem";
+import { useGetWatchlistItemByMovieRefId } from "../../hooks/queries/useGetWatchlistItemByItemId";
+import { useDeleteWatchlistItem } from "../../hooks/mutations/useDeleteWatchlistItem";
 export const MovieProfile: React.FC = () => {
   const [q] = useSearchParams();
   const params = useParams();
@@ -47,17 +54,58 @@ export const MovieProfile: React.FC = () => {
   const myItem = useGetUserItemById({ userId: user?.id, id: item_id });
   const { setDialogName, onCloseDialog, name } = useDialogControl();
   const hasWatched = myItem.data?.status === "watched";
-  const unknownWatchStatus = myItem.data?.status;
+  const upsertWatchlist = useUpsertWatchlistItem();
+  const {data: isInWatchlist} = useGetWatchlistItemByMovieRefId({
+    userId: user?.id,
+    movie_ref_id: myItem.data?.movie_ref_id,
+  });
+  console.log('hi', isInWatchlist)
+  const deleteWatchlistItem = useDeleteWatchlistItem();
   const movie_ref = useGetMovieRef(movie_ref_id_url || "");
   const externalDetails = useGetExternalMovieDetailsById(
     movie_ref.data?.external_id
   );
+  const onAddWatchList = () => {
+    if (!myItem.data?.movie_ref_id || !user?.id) {
+      return;
+    }
+    upsertWatchlist.mutateAsync({
+      movie_ref_id: myItem.data?.movie_ref_id,
+      user_id: user.id,
+      item_id: myItem.data.id
+    });
+  };
+  const onDeleteWatchlistItem = () => {
+     if (!myItem.data?.movie_ref_id || !user?.id) {
+      return;
+    }
+    deleteWatchlistItem.mutate({
+      user_id: user?.id,
+      movie_ref_id: myItem.data?.movie_ref_id,
+    });
+  };
   const poster_path = getImage(movie_ref?.data?.poster_path);
 
   const [searchParams] = useSearchParams();
 
   const ratedBy = searchParams.get("ratedBy");
-
+  const actionButtons = [
+    {
+      label: "Add to List",
+      icon: <PlaylistAddIcon />,
+      onClick: () => setDialogName("addToList"),
+    },
+    {
+      label: isInWatchlist ? "Remove from watchlist" : "Add to Watchlist",
+      icon: isInWatchlist ? <BookmarkOutlinedIcon /> : <BookmarkBorderOutlinedIcon />,
+      onClick: isInWatchlist ? onDeleteWatchlistItem : onAddWatchList,
+    },
+    {
+      label: "Share",
+      icon: <LinkIcon />,
+      onClick: () => {},
+    },
+  ];
   const myRating = useGetRating({
     user_id: user?.id || "",
     movie_ref_id: movie_ref_id_url || "",
@@ -68,7 +116,7 @@ export const MovieProfile: React.FC = () => {
   if (movie_ref?.isLoading || externalDetails.isLoading) {
     return <CircularProgress />;
   }
-  const imageProfileSize = 180;
+
   return (
     <Box sx={{ maxWidth: 400 }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -237,7 +285,7 @@ export const MovieProfile: React.FC = () => {
           <AllRatings ratedBy={ratedBy} movie_ref_id_url={movie_ref_id_url} />
         </Box>
         <Divider sx={{ mt: 2, mb: 1 }} />
-        <Actions />
+        <Actions actions={actionButtons} />
         <Divider sx={{ mt: 1, mb: 2 }} />
       </Box>
       <Box
@@ -252,7 +300,7 @@ export const MovieProfile: React.FC = () => {
         open={name === "addToList"}
         onClose={onCloseDialog}
       >
-        <AddToListPage itemId={item_id} />
+        <AddToListPage onClose={onCloseDialog} itemId={item_id} />
       </DialogWrapper>
     </Box>
   );
