@@ -38,9 +38,9 @@ export const AllFilms: React.FC = () => {
   return (
     <Box>
       <SearchButton />
-      <Box sx={{ mt: 2, mb: 1 }}>
+      <Box sx={{ mt: 2, mb: 1, display: 'flex', flexDirection: 'row',  }}>
         <Chip sx={{ mr: 1 }} label="List view" />
-        <Chip label="Not rated" />
+        <Chip sx={{mr:1}} label="Not rated" />
         <Chip label="Grid view" />
         <Chip label="Watch list" />
       </Box>
