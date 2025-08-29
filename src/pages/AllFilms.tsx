@@ -4,6 +4,8 @@ import { useGetUserItems } from "../hooks/queries/useGetUserItems";
 import { useAuth } from "../hooks/useAuth";
 import { MovieItem } from "../components/MovieItem";
 import { useNavigate } from "react-router";
+import { AllFilmsNotLoggedIn } from "./AllFilmsNotLoggedIn";
+import { SearchButton } from "../components/SearchButton";
 
 export const AllFilms: React.FC = () => {
   const { session, user } = useAuth();
@@ -28,20 +30,22 @@ export const AllFilms: React.FC = () => {
     </Box>
   ));
   if (!session) {
-    return <Typography>Sign in to add films</Typography>;
+    return <AllFilmsNotLoggedIn />;
   }
   if (!items.data?.length) {
     return <Typography>You have not added any films</Typography>;
   }
   return (
     <Box>
-      <Box sx={{ mb: 1 }}>
+      <SearchButton />
+      <Box sx={{ mt: 2, mb: 1 }}>
         <Chip sx={{ mr: 1 }} label="List view" />
         <Chip label="Not rated" />
         <Chip label="Grid view" />
         <Chip label="Watch list" />
       </Box>
       {displayedItems}
+    
     </Box>
   );
 };

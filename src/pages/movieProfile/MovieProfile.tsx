@@ -231,15 +231,15 @@ export const MovieProfile: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                p:1
               }}
             >
-              <IconButton onClick={onCloseDialog} sx={{ m: 1, ml: "auto" }}>
-                <Close />
-              </IconButton>
+        
               <RatingInputForm
                 movie_ref_id={Number(movie_ref_id_url)}
                 onClose={onCloseDialog}
               />
+              <Button onClick={onCloseDialog} fullWidth >Cancel</Button>
             </Box>
           )}
           {myItem?.data?.status === "not watched" && (

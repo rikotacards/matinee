@@ -5,7 +5,6 @@ import {
   Dialog,
   IconButton,
   TextField,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -13,7 +12,7 @@ import { MovieItem } from "./MovieItem";
 import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate, useParams } from "react-router";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
-import { Add, Close, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
+import { Add, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/deleteList";
 import { useUpdateListName } from "../hooks/mutations/editList";
 import { AddItemFormNew } from "./AddItemFormNew";

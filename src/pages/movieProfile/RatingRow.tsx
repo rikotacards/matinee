@@ -1,7 +1,6 @@
 import { Delete, MoreHoriz } from "@mui/icons-material";
 import {
   Stack,
-  Avatar,
   Typography,
   Box,
   IconButton,
@@ -18,25 +17,36 @@ interface RatingRowProps {
   isOwner?: boolean;
 }
 
-export const RatingRow: React.FC<RatingRowProps> = ({ isOwner, rating, userId}) => {
+export const RatingRow: React.FC<RatingRowProps> = ({
+  isOwner,
+  rating,
+  userId,
+}) => {
   const { name, onCloseDialog, setDialogName } = useDialogControl();
-  
+
   return (
     <Box>
       <Stack alignItems={"center"} direction="row">
-        <Typography variant='body2' sx={{ mr: 1 }} fontWeight={"bold"}>
+        <Typography variant="body2" sx={{ mr: 1 }} fontWeight={"bold"}>
           {userId}
         </Typography>
-        <Typography variant='body2' color="textSecondary" sx={{ mr: 1 }}>
+        <Typography variant="body2" color="textSecondary" sx={{ mr: 1 }}>
           rated
         </Typography>
         <RatingDisplay textVariant="body2" rating={rating} />
-        <Box sx={{visibility: isOwner ? 'visible' : 'hidden',  ml: "auto" }}>
+        <Box
+          onClick={() => setDialogName("options")}
+          sx={{ visibility: isOwner ? "visible" : "hidden", ml: "auto" }}
+        >
+          <IconButton size="small">
             <MoreHoriz fontSize="small" />
+          </IconButton>
         </Box>
       </Stack>
       <Dialog onClose={onCloseDialog} open={name === "options"}>
-        <Box sx={{ minWidth: 300, display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{ p: 1, minWidth: 300, display: "flex", flexDirection: "column" }}
+        >
           <Button fullWidth color="error" startIcon={<Delete />}>
             Delete rating
           </Button>
@@ -51,7 +61,9 @@ export const RatingRow: React.FC<RatingRowProps> = ({ isOwner, rating, userId}) 
       <Dialog onClose={onCloseDialog} open={name === "edit"}>
         <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
           <RatingInputForm rating={rating} />
-          <Button fullWidth>Cancel</Button>
+          <Button onClick={onCloseDialog} fullWidth>
+            Cancel
+          </Button>
         </Box>
       </Dialog>
     </Box>

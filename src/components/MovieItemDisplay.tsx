@@ -10,8 +10,12 @@ interface CustomListItemProps {
   rating?: number;
 }
 const size = 50;
-export const MovieItemDisplay: React.FC<CustomListItemProps> = ({ title, fullPosterPath, lastWatchDate, rating }) => {
-
+export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
+  title,
+  fullPosterPath,
+  lastWatchDate,
+  rating,
+}) => {
   return (
     <Box
       sx={{
@@ -29,6 +33,9 @@ export const MovieItemDisplay: React.FC<CustomListItemProps> = ({ title, fullPos
             sx={{ textTransform: "capitalize", mr: 1 }}
           >
             {title}
+          </Typography>
+          <Typography sx={{ mr: 1 }} color="textSecondary">
+            -
           </Typography>
           <RatingDisplay rating={rating || 0} />
         </Box>

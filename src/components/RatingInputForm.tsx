@@ -29,18 +29,26 @@ export const RatingInputForm: React.FC<RatingInputForm> = ({
     onClose();
   };
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        minWidth: 300,
+        alignItems: "center",
+      }}
+    >
       <Rating
         size="large"
         name="hover-feedback"
         value={value}
         precision={0.5}
-        onChange={(event, newValue) => {
+        onChange={(_, newValue) => {
           setValue(newValue || 0);
         }}
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
       />
-      <Button sx={{ m: 1 }} onClick={onDone}>
+      <Button sx={{ mt: 1 }} fullWidth onClick={onDone}>
         {rating !== undefined ? "Update" : "Done"}
       </Button>
     </Box>

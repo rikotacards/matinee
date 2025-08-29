@@ -6,10 +6,10 @@ export async function signInWithGoogle() {
     provider: "google",
     options: {
       // optional: specify a redirect URL after sign-in
-    //   redirectTo: window.location.origin + "/",
+      //   redirectTo: window.location.origin + "/",
     },
   });
-
+  
   if (error) {
     console.error("Error signing in with Google:", error);
   }

@@ -13,6 +13,7 @@ import { AllFilms } from "./pages/AllFilms";
 import { SnackbarProvider } from "notistack";
 import { MovieProfile } from "./pages/movieProfile/MovieProfile";
 import { MyWatchlistPage } from "./pages/WatchlistPage";
+import { PublicProfilePage } from "./pages/PublicProfilePage";
 const queryClient = new QueryClient();
 
 function App() {
@@ -26,10 +27,11 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route path="login" element={<LoginPage />} />
                 {/* <Route element={<ProtectedRoute />}> */}
-                <Route index element={<Lists />} />
+                <Route index element={<AllFilms />} />
                 <Route path="all-films" element={<AllFilms />} />
                 <Route path="lists" element={<Lists />} />
                 <Route path="watchlist" element={<MyWatchlistPage />} />
+                <Route path="profile" element={<PublicProfilePage />} />
 
                 <Route path={"lists/:list_id"} element={<ListPage />} />
 
