@@ -5,7 +5,7 @@ import { Box, Button, CircularProgress, Paper } from "@mui/material";
 import { ListRow } from "../components/ListRow";
 import { useAddItemToList } from "../hooks/mutations/useAddItemToList";
 interface AddToListPageProps {
-  itemId: string | null;
+  itemId?: string | null;
   onClose: () => void;
 }
 export const AddToListPage: React.FC<AddToListPageProps> = ({ itemId, onClose }) => {
@@ -17,7 +17,7 @@ export const AddToListPage: React.FC<AddToListPageProps> = ({ itemId, onClose })
     if (!listId) {
       return;
     }
-    await addToList.mutateAsync({ item_id: itemId!, list_id: listId });
+    await addToList.mutateAsync({ item_id: itemId, list_id: listId });
     onClose();
 
   };

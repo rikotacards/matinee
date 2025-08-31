@@ -26,6 +26,7 @@ import { useDialogControl } from "../../hooks/useDialogControl";
 import { RatingInputForm } from "../../components/RatingInputForm";
 import { DialogWrapper } from "../../components/DialogWrapper";
 import { AddToListPage } from "../AddToListPage";
+import { useCheckAndPopulate } from "../../hooks/mutations/useCheckAndPopulate";
 
 export const MovieProfileNew: React.FC = () => {
   const params = useParams();
@@ -34,9 +35,6 @@ export const MovieProfileNew: React.FC = () => {
   const externalId = Number(movie_ref_id); // might not be exteranl id
   const upsertMovieRef = useUpsertMovieRef();
   const { name, onCloseDialog, setDialogName } = useDialogControl();
-  const onEditRating = () => {
-    setDialogName("edit");
-  };
   const { hasInternalRef, movieDetails } = useGetMovieDetailsSwitch(
     externalId,
     is_internal === "true"
@@ -93,6 +91,9 @@ export const MovieProfileNew: React.FC = () => {
       }
     }
   };
+  const onUpdateNew = (status: string) => {
+
+  }
   if (!externalId) {
     return <Typography>Invalid</Typography>;
   }
@@ -145,11 +146,11 @@ export const MovieProfileNew: React.FC = () => {
         </Box>
       </Dialog>
       <DialogWrapper
-        title={"add"}
+        title={"Add to list"}
         open={name === "addToList"}
         onClose={onCloseDialog}
       >
-        <AddToListPage onClose={onCloseDialog} itemId={""} />
+        <AddToListPage onClose={onCloseDialog} itemId={item.data?.id} />
       </DialogWrapper>
     </Box>
   );

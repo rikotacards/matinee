@@ -21,7 +21,7 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
   onOpenDialog
 }) => {
   const watchedLabel = (
-    <Typography variant="caption">
+    <Typography  variant="caption">
       {hasWatched ? "Watched" : "Not watched"}
     </Typography>
   );
@@ -39,7 +39,6 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
     <Box sx={{ mt: 1 }}>
       <Chip
         icon={watchedIcon}
-        variant="outlined"
         sx={{ mr: 1 }}
         onClick={() => onUpdate(hasWatched ? "not watched" : "watched")}
         label={watchedLabel}
@@ -47,7 +46,7 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
       {hasWatched && (
         <Chip
           icon={ratingIcon}
-          variant="outlined"
+          // variant="outlined"
           sx={{ mr: 1 }}
           onClick={() => onOpenDialog('edit')}
           label={
@@ -59,13 +58,13 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
       )}
       <Chip
         icon={<BookmarkBorderIcon fontSize="small" />}
-        variant="outlined"
+        // variant="outlined"
         sx={{ mr: 1 }}
         label={<Typography variant="caption">watchlist</Typography>}
       />
       <Chip
         icon={<Add fontSize="small" />}
-        variant="outlined"
+        // variant="outlined"
         sx={{ mr: 1 }}
         onClick={() => onOpenDialog('addToList')}
         label={<Typography variant="caption">List</Typography>}
