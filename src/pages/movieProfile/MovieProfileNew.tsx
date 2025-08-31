@@ -5,9 +5,8 @@ import { MovieProfileHeader } from "./MovieProfileHeader";
 import {
   Box,
   Button,
-  Card,
-  Chip,
   CircularProgress,
+  Dialog,
   Divider,
   Typography,
 } from "@mui/material";
@@ -18,14 +17,15 @@ import { useUpsertMovieRef } from "../../hooks/mutations/useUpsertMovieRef";
 import { getImage } from "../../utils/getImage";
 import { useUpdateUserItem } from "../../hooks/mutations/useUpdateUserItem";
 import { AllRatings } from "./AllRatings";
-import { Actions } from "./actions";
 import { HaveYouWatched } from "./HaveYouWatched";
 import { useGetRating } from "../../hooks/queries/useGetRating";
-import { Check, CloseOutlined, Star } from "@mui/icons-material";
 import { AddRating } from "./AddRating";
 import { WatchedBy } from "./WatchedBy";
-import { WatchedWith } from "./WatchedWith";
 import { ActionChips } from "./ActionChips";
+import { useDialogControl } from "../../hooks/useDialogControl";
+import { RatingInputForm } from "../../components/RatingInputForm";
+import { DialogWrapper } from "../../components/DialogWrapper";
+import { AddToListPage } from "../AddToListPage";
 
 export const MovieProfileNew: React.FC = () => {
   const params = useParams();
@@ -33,6 +33,10 @@ export const MovieProfileNew: React.FC = () => {
   const { movie_ref_id, is_internal } = params; // should be general ID.
   const externalId = Number(movie_ref_id); // might not be exteranl id
   const upsertMovieRef = useUpsertMovieRef();
+  const { name, onCloseDialog, setDialogName } = useDialogControl();
+  const onEditRating = () => {
+    setDialogName("edit");
+  };
   const { hasInternalRef, movieDetails } = useGetMovieDetailsSwitch(
     externalId,
     is_internal === "true"
@@ -110,6 +114,7 @@ export const MovieProfileNew: React.FC = () => {
       />
 
       <ActionChips
+        onOpenDialog={(name: string) => setDialogName(name)}
         myRating={myRating.data?.rating}
         onUpdate={onUpdate}
         hasWatched={hasWatched}
@@ -118,9 +123,6 @@ export const MovieProfileNew: React.FC = () => {
       <Typography sx={{ mt: 1 }} variant="body2">
         {movieDetails.overview}
       </Typography>
-
-      {/* <WatchedBy hasWatched={hasWatched} /> */}
-      {/* <Divider sx={{ mb: 2, mt: 2 }} /> */}
 
       {hasWatched && item.data && !myRating.data && (
         <AddRating movie_ref_id={movieDetails.id} />
@@ -132,6 +134,23 @@ export const MovieProfileNew: React.FC = () => {
         <AllRatings ratedBy={undefined} movie_ref_id_url={movieDetails.id} />
       </Box>
       <Divider sx={{ mt: 2, mb: 2 }} />
+      <Dialog onClose={onCloseDialog} open={name === "edit"}>
+        <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+          <RatingInputForm
+            onClose={onCloseDialog}
+            movie_ref_id={movieDetails.id}
+            rating={myRating.data?.rating}
+          />
+          <Button onClick={onCloseDialog}>Cancel</Button>
+        </Box>
+      </Dialog>
+      <DialogWrapper
+        title={"add"}
+        open={name === "addToList"}
+        onClose={onCloseDialog}
+      >
+        <AddToListPage onClose={onCloseDialog} itemId={""} />
+      </DialogWrapper>
     </Box>
   );
 };

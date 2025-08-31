@@ -34,7 +34,7 @@ export const ListRow: React.FC<ListPreviewProps> = ({
       component={Card}
       variant="outlined"
     >
-      <Typography sx={{ mr: 1 }} fontWeight={"bold"}>
+      <Typography sx={{ mr: 1, textTransform: 'capitalize'}} >
         {name}
       </Typography>
       <Typography sx={{ ml: "auto" }} color="textSecondary">

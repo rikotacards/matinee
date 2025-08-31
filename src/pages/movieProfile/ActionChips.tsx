@@ -1,8 +1,6 @@
 import {
   Add,
-  Check,
   CheckCircle,
-  Close,
   CloseRounded,
   MoreHoriz,
   Star,
@@ -13,12 +11,14 @@ interface ActionChipsProps {
   hasWatched: boolean;
   onUpdate: (arg: string) => Promise<void>;
   myRating?: number;
+  onOpenDialog: (dialogName: string) => void;
 }
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 export const ActionChips: React.FC<ActionChipsProps> = ({
   myRating,
   hasWatched,
   onUpdate,
+  onOpenDialog
 }) => {
   const watchedLabel = (
     <Typography variant="caption">
@@ -49,6 +49,7 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
           icon={ratingIcon}
           variant="outlined"
           sx={{ mr: 1 }}
+          onClick={() => onOpenDialog('edit')}
           label={
             <Typography variant="caption">
               {myRating ? `${myRating}/5` : "Add rating"}
@@ -66,6 +67,7 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
         icon={<Add fontSize="small" />}
         variant="outlined"
         sx={{ mr: 1 }}
+        onClick={() => onOpenDialog('addToList')}
         label={<Typography variant="caption">List</Typography>}
       />
       <IconButton>
