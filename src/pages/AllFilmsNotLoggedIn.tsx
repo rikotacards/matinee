@@ -1,4 +1,4 @@
-import { Box, Chip, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, Chip, CircularProgress, Typography } from "@mui/material";
 import { useSignIn } from "../hooks/useSignIn";
 import { SearchButton } from "../components/SearchButton";
 
@@ -10,15 +10,27 @@ export const AllFilmsNotLoggedIn: React.FC = () => {
   return (
     <Box
       sx={{
-        cursor: "pointer",
+        cursor: "default",
         width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
-      onClick={() => signIn.mutate()}
     >
-      <SearchButton />
+      <Typography variant={"h2"} fontWeight={"bold"}>
+        Track films you've watched. Save those you want to see. Tell your
+        friends whats good.
+      </Typography>
+      <Box sx={{maxWidth: 300, width: "100%", position: "sticky", bottom: "0", p: 1 }}>
+        <Button
+          onClick={() => signIn.mutate()}
+          fullWidth
+          variant="contained"
+          color="success"
+        >
+          Get started
+        </Button>
+      </Box>
     </Box>
   );
 };

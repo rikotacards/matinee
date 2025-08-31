@@ -15,6 +15,7 @@ interface DialogWrapperProps {
   children: React.ReactNode;
   title: string;
   onBack?: () => void;
+  fullScreen?: boolean;
 }
 export const DialogWrapper: React.FC<DialogWrapperProps> = ({
   open,
@@ -22,9 +23,10 @@ export const DialogWrapper: React.FC<DialogWrapperProps> = ({
   onClose,
   children,
   onBack,
+  fullScreen
 }) => {
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog fullScreen={fullScreen} onClose={onClose} open={open}>
       <AppBar variant="outlined" sx={{ position: "relative" }}>
         <Toolbar variant="dense">
           {onBack && (

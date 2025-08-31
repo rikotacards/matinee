@@ -1,13 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
-
-export const useSearchMovies = (movieName: string, apiId: string) => {
+export interface SearchResult {
+  adult: boolean;
+  backdrop_path: string;
+  genre: string[];
+  id: number; 
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number; 
+  vote_count: number;
+}
+export const useSearchMovies = (movieName?: string, movie_ref_id?: string) => {
   // Use a unique query key that includes the search term.
   const queryKey = ['movies', 'search', movieName];
 
   // The fetch function remains mostly the same.
   const queryFn = async () => {
-    if (!movieName || !!apiId.length) return null; // Prevent the query from running if there's no input.
-
+    if (!movieName || !!movie_ref_id?.length) return []; // Prevent the query from running if there's no input.
+    console.log('hihi', movieName)
     const accessToken = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
     const encodedQuery = encodeURIComponent(movieName);
     const url = `https://api.themoviedb.org/3/search/movie?query=${encodedQuery}`;
@@ -29,7 +44,7 @@ export const useSearchMovies = (movieName: string, apiId: string) => {
   };
   
   // Use useQuery to handle fetching, caching, and state management.
-  return useQuery({
+  return useQuery<SearchResult[]>({
     queryKey,
     queryFn,
     // The enabled option prevents the query from running

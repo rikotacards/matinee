@@ -3,8 +3,8 @@ import { supabase } from "../../supbaseClient";
 import { useSnackbar } from "notistack";
 
 interface UserItemArgs {
-  movie_ref_id: number;
-  status: string;
+  movie_ref_id?: number;
+  status?: string;
   user_id: string;
 }
 
@@ -15,7 +15,7 @@ interface UserItemArgs {
 export const useUpsertUserItem = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
+  console.log('UPSERTING')
   return useMutation({
     mutationFn: async (userItem: UserItemArgs) => {
       const { data, error } = await supabase
@@ -30,11 +30,15 @@ export const useUpsertUserItem = () => {
       }
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (_, data) => {
       // Invalidate the relevant cache after a successful upsert.
       // This ensures any queries that depend on this data are refetched.
       enqueueSnackbar({ message: "Movie added", variant: "success" });
-      queryClient.invalidateQueries({ queryKey: ["items"] });
+      console.log("dd', ", data)
+      queryClient.invalidateQueries({ queryKey: ["user_item", data.user_id, data.movie_ref_id] });
+      queryClient.invalidateQueries({ queryKey: ["movie_ref", {external_id: data.movie_ref_id}] });
+
+
     },
     onError: (e) => {
         enqueueSnackbar({message: 'Failed to add movie', variant:'error'})

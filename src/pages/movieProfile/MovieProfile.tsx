@@ -30,18 +30,18 @@ import {
   useUpdateUserItem,
   type UpdateUserItem,
 } from "../../hooks/mutations/useUpdateUserItem";
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 const imageProfileSize = 180;
 import { RatingInputForm } from "../../components/RatingInputForm";
 import { AllRatings } from "./AllRatings";
 import LinkIcon from "@mui/icons-material/Link";
-import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
+import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
 import { useUpsertWatchlistItem } from "../../hooks/mutations/useUpsertWatchlistItem";
 import { useGetWatchlistItemByMovieRefId } from "../../hooks/queries/useGetWatchlistItemByItemId";
 import { useDeleteWatchlistItem } from "../../hooks/mutations/useDeleteWatchlistItem";
+import { useGetUserItemByMovieRef } from "../../hooks/queries/useGetUserItemByMovieRef";
 export const MovieProfile: React.FC = () => {
-  const [q] = useSearchParams();
   const params = useParams();
   const movie_ref_id_url = params.movie_ref_id;
   const { user } = useAuth();
@@ -50,18 +50,21 @@ export const MovieProfile: React.FC = () => {
     update.mutate(arg);
   };
   const nav = useNavigate();
-  const item_id = q.get("item_id");
-  const myItem = useGetUserItemById({ userId: user?.id, id: item_id });
+
+  const myItem = useGetUserItemByMovieRef({
+    userId: user?.id,
+    movieRefId: Number(movie_ref_id_url),
+  });
   const { setDialogName, onCloseDialog, name } = useDialogControl();
   const hasWatched = myItem.data?.status === "watched";
   const upsertWatchlist = useUpsertWatchlistItem();
-  const {data: isInWatchlist} = useGetWatchlistItemByMovieRefId({
+  const { data: isInWatchlist } = useGetWatchlistItemByMovieRefId({
     userId: user?.id,
     movie_ref_id: myItem.data?.movie_ref_id,
   });
-  console.log('hi', isInWatchlist)
+  console.log("hi", isInWatchlist);
   const deleteWatchlistItem = useDeleteWatchlistItem();
-  const movie_ref = useGetMovieRef(movie_ref_id_url || "");
+  const movie_ref = useGetMovieRef({ id: movie_ref_id_url || "" });
   const externalDetails = useGetExternalMovieDetailsById(
     movie_ref.data?.external_id
   );
@@ -72,11 +75,11 @@ export const MovieProfile: React.FC = () => {
     upsertWatchlist.mutateAsync({
       movie_ref_id: myItem.data?.movie_ref_id,
       user_id: user.id,
-      item_id: myItem.data.id
+      item_id: myItem.data.id,
     });
   };
   const onDeleteWatchlistItem = () => {
-     if (!myItem.data?.movie_ref_id || !user?.id) {
+    if (!myItem.data?.movie_ref_id || !user?.id) {
       return;
     }
     deleteWatchlistItem.mutate({
@@ -97,7 +100,11 @@ export const MovieProfile: React.FC = () => {
     },
     {
       label: isInWatchlist ? "Remove from watchlist" : "Add to Watchlist",
-      icon: isInWatchlist ? <BookmarkOutlinedIcon /> : <BookmarkBorderOutlinedIcon />,
+      icon: isInWatchlist ? (
+        <BookmarkOutlinedIcon />
+      ) : (
+        <BookmarkBorderOutlinedIcon />
+      ),
       onClick: isInWatchlist ? onDeleteWatchlistItem : onAddWatchList,
     },
     {
@@ -107,8 +114,8 @@ export const MovieProfile: React.FC = () => {
     },
   ];
   const myRating = useGetRating({
-    user_id: user?.id || "",
-    movie_ref_id: movie_ref_id_url || "",
+    user_id: user?.id,
+    movie_ref_id: movie_ref_id_url,
   });
   if (!movie_ref_id_url) {
     return <Typography>Invalid page</Typography>;
@@ -159,7 +166,7 @@ export const MovieProfile: React.FC = () => {
                   deleteIcon={<KeyboardArrowDownIcon />}
                   onDelete={() =>
                     onUpdate({
-                      itemId: item_id,
+                      itemId: myItem.data?.id,
                       updatePayload: {
                         status: hasWatched ? "not watched" : "watched",
                       },
@@ -185,7 +192,7 @@ export const MovieProfile: React.FC = () => {
               <Button
                 onClick={() =>
                   onUpdate({
-                    itemId: item_id,
+                    itemId: myItem.data?.id,
                     updatePayload: { status: "watched" },
                   })
                 }
@@ -199,7 +206,7 @@ export const MovieProfile: React.FC = () => {
               <Button
                 onClick={() =>
                   onUpdate({
-                    itemId: item_id,
+                    itemId: myItem.data?.id,
                     updatePayload: { status: "not watched" },
                   })
                 }
@@ -231,15 +238,16 @@ export const MovieProfile: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                p:1
+                p: 1,
               }}
             >
-        
               <RatingInputForm
                 movie_ref_id={Number(movie_ref_id_url)}
                 onClose={onCloseDialog}
               />
-              <Button onClick={onCloseDialog} fullWidth >Cancel</Button>
+              <Button onClick={onCloseDialog} fullWidth>
+                Cancel
+              </Button>
             </Box>
           )}
           {myItem?.data?.status === "not watched" && (
@@ -247,7 +255,7 @@ export const MovieProfile: React.FC = () => {
               <Button
                 onClick={() =>
                   onUpdate({
-                    itemId: item_id,
+                    itemId: myItem.data?.id,
                     updatePayload: {
                       status: "watchlist",
                     },
@@ -262,7 +270,7 @@ export const MovieProfile: React.FC = () => {
               <Button
                 onClick={() =>
                   onUpdate({
-                    itemId: item_id,
+                    itemId: myItem.data?.id,
                     updatePayload: {
                       status: "later",
                     },
@@ -300,7 +308,7 @@ export const MovieProfile: React.FC = () => {
         open={name === "addToList"}
         onClose={onCloseDialog}
       >
-        <AddToListPage onClose={onCloseDialog} itemId={item_id} />
+        <AddToListPage onClose={onCloseDialog} itemId={""} />
       </DialogWrapper>
     </Box>
   );

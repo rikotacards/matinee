@@ -1,4 +1,4 @@
-import { Box, Card, Skeleton, Typography } from "@mui/material";
+import { Box, Card, IconButton, Skeleton, Typography } from "@mui/material";
 import React from "react";
 interface ListPreviewProps {
   name: string;
@@ -7,6 +7,7 @@ interface ListPreviewProps {
 }
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
+import { MoreHoriz, MoreVert } from "@mui/icons-material";
 export const ListRow: React.FC<ListPreviewProps> = ({
   listId,
   onClick,
@@ -14,20 +15,21 @@ export const ListRow: React.FC<ListPreviewProps> = ({
 }) => {
   const items = useGetItemsByListId(listId);
   const count = items.data?.length || 0;
-  if(items.isLoading){
-    return <Skeleton sx={{mb:1}} variant='rectangular' width={300} height={52}/>
+  if (items.isLoading) {
+    return (
+      <Skeleton sx={{ mb: 1 }} variant="rectangular" width={300} height={52} />
+    );
   }
   return (
     <Box
       onClick={onClick}
       sx={{
-        cursor:'pointer',
+        cursor: "pointer",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         p: 2,
-        mb: 1,
-        minWidth:300
+        minWidth: 300,
       }}
       component={Card}
       variant="outlined"

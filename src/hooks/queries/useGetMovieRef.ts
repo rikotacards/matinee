@@ -1,49 +1,49 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../supbaseClient";
 
-/**
- * A custom hook to fetch all items for a specific list, including item details.
- * @param listId The ID of the list to fetch items for.
- * @returns A UseQueryResult object with the data, loading, and error states.
- */
 interface MovieRef {
-    id: string;
-    created_at: string;
-    external_id: number;
-    title: string;
-    poster_path: string;
-    source: string;
-    release: string;
-    backdrop_path: string;
-
+  id: number;
+  created_at: string;
+  external_id: number;
+  title: string;
+  poster_path: string;
+  source: string;
+  release: string;
+  backdrop_path: string;
+  overview?: string;
 }
-export const useGetMovieRef = (id: string) => {
-  
+
+export const useGetMovieRef = ( filters: Partial<MovieRef>) => {
   const queryFn = async () => {
-    if (!id) {
-      return undefined
+    // The query starts with a selection from the table.
+    let query = supabase.from("movie_ref").select("*");
+
+ 
+    // Apply any additional filters.
+    if (filters) {
+      for (const key in filters) {
+        if (filters.hasOwnProperty(key)) {
+          query = query.eq(key, filters[key as keyof MovieRef]);
+        }
+      }
     }
 
-    // Select from the junction table and join the 'items' table
-    const { data, error } = await supabase
-      .from("movie_ref")
-      .select("*") // This is the key. 'items(*)' means select all columns from the related 'items' table.
-      .eq("id", id).single()
+    const { data, error } = await query.maybeSingle()
 
     if (error) {
       throw new Error(error.message);
     }
-    if (!data || data.length === 0) {
-      return [];
-    }
 
-   return data
-     
+
+    // If no ID was provided, return an array of results.
+    return data
   };
+  console.log('f', filters)
+  const queryKey = ["useGetMovieRef",  filters];
 
-  return useQuery<MovieRef, Error>({
-    queryKey: ["items", id],
+  return useQuery<MovieRef | null, Error>({
+    queryKey,
     queryFn,
-    enabled: !!id,
+    enabled: !!filters,
   });
 };

@@ -14,10 +14,12 @@ import { useUpsertRating } from "../hooks/mutations/useUpsertRating";
 interface AddItemFormNewProps {
   onClose: () => void;
   list_id?: string;
+  fullScreen;
 }
 export const AddItemFormNew: React.FC<AddItemFormNewProps> = ({
   list_id,
   onClose,
+  fullScreen,
 }) => {
   const [step, setStep] = React.useState(0);
   const addToList = useAddItemToList();
@@ -46,31 +48,32 @@ export const AddItemFormNew: React.FC<AddItemFormNewProps> = ({
     if (!movie || !user) {
       return;
     }
-   
+
     const movie_ref_id = await upsertMovieRef.mutateAsync({
       source: "TMBD",
       external_id: movie.id,
       poster_path: movie.poster_path,
       title: movie.title,
       release: movie.release_date,
-      backdrop_path: movie.backdrop_path
+      backdrop_path: movie.backdrop_path,
     });
-     if(rating){
-        await upsertRating.mutate({rating, user_id: user.id, movie_ref_id})
+    if (rating) {
+      await upsertRating.mutate({ rating, user_id: user.id, movie_ref_id });
     }
 
     await upsertUserItem.mutate({
       movie_ref_id,
       status: hasWatched ? "watched" : "want",
-      user_id: user.id
+      user_id: user.id,
     });
-    onClose()
+    onClose();
   };
   return (
     <DialogWrapper
       onBack={step > 0 ? () => setStep((p) => p - 1) : undefined}
       title="Add movie"
       open
+      fullScreen={fullScreen}
       onClose={onClose}
     >
       {step == 0 && <SearchForm onSelect={onSelect} />}

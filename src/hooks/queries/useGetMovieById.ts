@@ -5,7 +5,7 @@ export interface Movie {
   title: string;
   poster_path: string;
   overview: string;
-  release_date: string;
+  release: string;
   backdrop_path: string;
   // Add more properties as needed from the TMDb API response
 }
@@ -15,10 +15,12 @@ export interface Movie {
  * @param movieId The unique ID of the movie to fetch.
  * @returns A UseQueryResult object with the movie data, loading state, and error state.
  */
-export const useGetExternalMovieDetailsById = (movieId?: number): UseQueryResult<Movie> => {
+export const useGetExternalMovieDetailsById = (
+  movieId?: number
+): UseQueryResult<Movie> => {
   // Use a unique query key that includes the movie ID. This is crucial for caching.
   const queryKey = ["movie", movieId];
-
+  console.log("movie'", movieId)
   const queryFn = async (): Promise<Movie> => {
     if (!movieId) {
       throw new Error("Movie ID is required.");
@@ -27,7 +29,9 @@ export const useGetExternalMovieDetailsById = (movieId?: number): UseQueryResult
     // Access the API read access token from your environment variables.
     const accessToken = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
     if (!accessToken) {
-      throw new Error("TMDB access token is not defined in environment variables.");
+      throw new Error(
+        "TMDB access token is not defined in environment variables."
+      );
     }
 
     const url = `https://api.themoviedb.org/3/movie/${movieId}`;
@@ -35,12 +39,15 @@ export const useGetExternalMovieDetailsById = (movieId?: number): UseQueryResult
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json;charset=utf-8",
       },
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.status_message || "Failed to fetch movie details.");
+      throw new Error(
+        errorData.status_message || "Failed to fetch movie details."
+      );
     }
 
     return response.json();

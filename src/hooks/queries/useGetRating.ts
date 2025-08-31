@@ -10,9 +10,9 @@ import { supabase } from "../../supbaseClient";
 export interface Rating {
   id: string;
   created_at: string;
-  user_id?: string;
+  user_id?: number;
   rating: number;
-  movie_ref_id: string;
+  movie_ref_id: number;
   review?: string;
 }
 export const useGetRating = ({

@@ -13,7 +13,7 @@ import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate, useParams } from "react-router";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
 import { Add, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
-import { useDeleteList } from "../hooks/mutations/deleteList";
+import { useDeleteList } from "../hooks/mutations/useDeleteList";
 import { useUpdateListName } from "../hooks/mutations/editList";
 import { AddItemFormNew } from "./AddItemFormNew";
 import type { IList } from "../hooks/queries/useGetListById";

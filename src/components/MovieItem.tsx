@@ -13,7 +13,7 @@ interface CustomListItemProps {
 
 export const MovieItem: React.FC<CustomListItemProps> = ({ item }) => {
   const { movie_ref_id, last_watched_date } = item;
-  const { data: movie_ref } = useGetMovieRef(movie_ref_id);
+  const { data: movie_ref } = useGetMovieRef({id: movie_ref_id});
   const { data: rating } = useGetRating({
     movie_ref_id,
     user_id: item.user_id,

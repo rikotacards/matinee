@@ -9,6 +9,7 @@ interface MovieRefArg {
   title: string;
   source: string;
   release: string;
+  overview: string;
 }
 
 /**
@@ -36,13 +37,15 @@ export const useUpsertMovieRef = () => {
       }
       return data[0].id;
     },
-    onSuccess: () => {
+    onSuccess: (_, data) => {
       // Invalidate the relevant cache after a successful upsert.
       // This ensures any queries that depend on this data are refetched.
-      queryClient.invalidateQueries({ queryKey: ["movieRef"] });
+      queryClient.invalidateQueries({
+        queryKey: ["useGetMovieRef", { external_id: data.external_id }],
+      });
     },
     onError: (e) => {
-      enqueueSnackbar({ message: e.message, variant:'error' });
+      enqueueSnackbar({ message: e.message, variant: "error" });
     },
   });
 };
