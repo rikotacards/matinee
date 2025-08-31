@@ -45,7 +45,7 @@ export const Lists: React.FC = () => {
     return <CircularProgress />;
   }
   return (
-    <Box sx={{}}>
+    <Box sx={{ minWidth: 300 }}>
       <Stack sx={{ mb: 1 }} direction={"row"} alignItems={"center"}>
         <Typography fontWeight="bold" variant="h4">
           Lists
@@ -65,7 +65,10 @@ export const Lists: React.FC = () => {
             <Check />
           </IconButton>
         ) : (
-          <IconButton onClick={() => setDialogName("more")}>
+          <IconButton
+            disabled={!lists.data?.length}
+            onClick={() => setDialogName("more")}
+          >
             <MoreHoriz />
           </IconButton>
         )}
@@ -86,6 +89,7 @@ export const Lists: React.FC = () => {
           )}
         </Box>
       ))}
+      {lists.data?.length === 0 && <Typography>You have no lists.</Typography>}
       <Dialog open={open} onClose={onClose}>
         <CreateNewListForm onClose={onClose} />
       </Dialog>

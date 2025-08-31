@@ -10,9 +10,9 @@ import { supabase } from "../../supbaseClient";
 export interface Rating {
   id: string;
   created_at: string;
-  user_id?: number;
+  user_id?: string;
   rating: number;
-  movie_ref_id: number;
+  movie_ref_id?: number;
   review?: string;
 }
 export const useGetRating = ({
@@ -25,7 +25,7 @@ export const useGetRating = ({
  
   const queryFn = async () => {
     if (!user_id || !movie_ref_id) {
-      return null;
+      return undefined;
     }
     console.log('m', user_id)
     const { data, error } = await supabase

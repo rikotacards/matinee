@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     loading,
   };
-  console.log('auth value', value)
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}

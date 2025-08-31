@@ -15,52 +15,71 @@ interface RatingRowProps {
   rating: number;
   userId: string;
   isOwner?: boolean;
+  movie_ref_id: number;
 }
 
 export const RatingRow: React.FC<RatingRowProps> = ({
   isOwner,
   rating,
   userId,
+  movie_ref_id,
 }) => {
   const { name, onCloseDialog, setDialogName } = useDialogControl();
 
   return (
     <Box>
       <Stack alignItems={"center"} direction="row">
-        <Typography variant="body2" sx={{ mr: 1 }} fontWeight={"bold"}>
+        <Typography variant="caption" sx={{ mr: 1 }} fontWeight={"bold"}>
           {userId}
         </Typography>
-        <Typography variant="body2" color="textSecondary" sx={{ mr: 1 }}>
+        <Typography variant="caption" color="textSecondary" sx={{ mr: 1 }}>
           rated
         </Typography>
-        <RatingDisplay textVariant="body2" rating={rating} />
+      <Box >
+
+        <RatingDisplay textVariant="caption" rating={rating} />
+      </Box>
+
         <Box
           onClick={() => setDialogName("options")}
-          sx={{ visibility: isOwner ? "visible" : "hidden", ml: "auto" }}
+          sx={{ visibility: isOwner ? "visible" : "hidden", ml:'auto' }}
         >
-          <IconButton size="small">
-            <MoreHoriz fontSize="small" />
-          </IconButton>
+          <MoreHoriz fontSize="small"/>
         </Box>
       </Stack>
       <Dialog onClose={onCloseDialog} open={name === "options"}>
         <Box
           sx={{ p: 1, minWidth: 300, display: "flex", flexDirection: "column" }}
         >
-          <Button fullWidth color="error" startIcon={<Delete />}>
+          <Button
+            sx={{ mb: 1 }}
+            variant="outlined"
+            fullWidth
+            color="error"
+            startIcon={<Delete />}
+          >
             Delete rating
           </Button>
-          <Button onClick={() => setDialogName("edit")} fullWidth>
+          <Button
+            sx={{ mb: 1 }}
+            variant="outlined"
+            onClick={() => setDialogName("edit")}
+            fullWidth
+          >
             Edit rating
           </Button>
-          <Button onClick={onCloseDialog} fullWidth>
+          <Button variant="outlined" onClick={onCloseDialog} fullWidth>
             Cancel
           </Button>
         </Box>
       </Dialog>
       <Dialog onClose={onCloseDialog} open={name === "edit"}>
         <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
-          <RatingInputForm rating={rating} />
+          <RatingInputForm
+            onClose={onCloseDialog}
+            movie_ref_id={movie_ref_id}
+            rating={rating}
+          />
           <Button onClick={onCloseDialog} fullWidth>
             Cancel
           </Button>

@@ -30,16 +30,16 @@ export const AllFilms: React.FC = () => {
     return <CircularProgress />;
   }
 
-  const goToMovie = (itemId: string, movieRefId: string) => {
-    const path = "/movies/" + movieRefId + '/true';
-    const q = `?ratedBy=${user?.id}&item_id=${itemId}&movie_ref_id=${movieRefId}`;
+  const goToMovie = (movieRefId: string) => {
+    const path = "/movies/" + movieRefId + "/true";
+    const q = `?ratedBy=${user?.id}`;
     nav(path + q);
   };
   const displayedItems = items.data?.map((i) => (
     <Box
       key={i.id}
       sx={{ mb: 2, cursor: "pointer" }}
-      onClick={() => goToMovie(i.id, i.movie_ref_id)}
+      onClick={() => goToMovie(i.movie_ref_id)}
     >
       <MovieItem item={i} />
     </Box>

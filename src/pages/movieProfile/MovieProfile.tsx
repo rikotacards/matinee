@@ -181,7 +181,7 @@ export const MovieProfile: React.FC = () => {
 
         <Box sx={{ mb: 2 }}>
           {myItem.data?.status === null && (
-            <Typography sx={{ mb: 1 }} color="textSecondary">
+            <Typography fontWeight={'bold'} sx={{ mb: 1 }} color="textSecondary">
               Have you seen this?
             </Typography>
           )}

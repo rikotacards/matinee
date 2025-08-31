@@ -56,6 +56,7 @@ export const AddItemFormNew: React.FC<AddItemFormNewProps> = ({
       title: movie.title,
       release: movie.release_date,
       backdrop_path: movie.backdrop_path,
+      overview: movie.overview
     });
     if (rating) {
       await upsertRating.mutate({ rating, user_id: user.id, movie_ref_id });

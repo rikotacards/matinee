@@ -29,11 +29,11 @@ export const useUpdateUserItem = () => {
       }
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (_, data) => {
       // Invalidate the relevant cache after a successful upsert.
       // This ensures any queries that depend on this data are refetched.
       enqueueSnackbar({ message: "Updated", variant: "success" });
-      queryClient.invalidateQueries({ queryKey: ["items"] });
+      queryClient.invalidateQueries({ queryKey: ["user_item"] });
     },
     onError: (e) => {
         enqueueSnackbar({message: 'Failed to update movie', variant:'error'})

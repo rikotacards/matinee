@@ -38,7 +38,7 @@ export const useGetMovieRef = ( filters: Partial<MovieRef>) => {
     // If no ID was provided, return an array of results.
     return data
   };
-  console.log('f', filters)
+
   const queryKey = ["useGetMovieRef",  filters];
 
   return useQuery<MovieRef | null, Error>({

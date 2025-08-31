@@ -1,37 +1,54 @@
 import React from "react";
 import { useParams } from "react-router";
-import { useGetMovieRef } from "../../hooks/queries/useGetMovieRef";
-import { useGetExternalMovieDetailsById } from "../../hooks/queries/useGetMovieById";
 import { useGetMovieDetailsSwitch } from "./useGetMovieDetailsSwitch";
 import { MovieProfileHeader } from "./MovieProfileHeader";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Chip,
+  CircularProgress,
+  Divider,
+  Typography,
+} from "@mui/material";
 import { useGetUserItemByMovieRef } from "../../hooks/queries/useGetUserItemByMovieRef";
 import { useAuth } from "../../hooks/useAuth";
 import { useUpsertUserItem } from "../../hooks/mutations/useUpsertUserItem";
 import { useUpsertMovieRef } from "../../hooks/mutations/useUpsertMovieRef";
 import { getImage } from "../../utils/getImage";
 import { useUpdateUserItem } from "../../hooks/mutations/useUpdateUserItem";
+import { AllRatings } from "./AllRatings";
+import { Actions } from "./actions";
+import { HaveYouWatched } from "./HaveYouWatched";
+import { useGetRating } from "../../hooks/queries/useGetRating";
+import { Check, CloseOutlined, Star } from "@mui/icons-material";
+import { AddRating } from "./AddRating";
+import { WatchedBy } from "./WatchedBy";
+import { WatchedWith } from "./WatchedWith";
+import { ActionChips } from "./ActionChips";
 
 export const MovieProfileNew: React.FC = () => {
   const params = useParams();
   const { user } = useAuth();
-  const { movie_ref_id, is_internal } = params; // should be id
+  const { movie_ref_id, is_internal } = params; // should be general ID.
   const externalId = Number(movie_ref_id); // might not be exteranl id
-  console.log("externalId", is_internal);
   const upsertMovieRef = useUpsertMovieRef();
   const { hasInternalRef, movieDetails } = useGetMovieDetailsSwitch(
     externalId,
     is_internal === "true"
   );
+  const updateUserItem = useUpdateUserItem();
   const item = useGetUserItemByMovieRef({
     userId: user?.id,
     movieRefId: hasInternalRef ? movieDetails.id : undefined,
   });
-  console.log('ITEM', item.data)
-  const update = useUpdateUserItem();
+  const myRating = useGetRating({
+    movie_ref_id: movieDetails.id,
+    user_id: user?.id,
+  });
   const upsertUserItem = useUpsertUserItem();
   const fullPoster = getImage(movieDetails.poster_path);
-  console.log(movieDetails)
+
   const onUpdate = async (status?: string) => {
     if (!user?.id) {
       throw new Error("user not logged in");
@@ -49,21 +66,72 @@ export const MovieProfileNew: React.FC = () => {
       if (!item.data) {
         upsertUserItem.mutateAsync({ movie_ref_id, user_id: user.id, status });
       }
+      if (item.data) {
+        updateUserItem.mutateAsync({
+          updatePayload: { status },
+          itemId: item.data.id,
+        });
+      }
+    }
+    if (hasInternalRef) {
+      if (!item.data) {
+        upsertUserItem.mutateAsync({
+          movie_ref_id: movieDetails.id,
+          user_id: user.id,
+          status,
+        });
+      }
+      if (item.data) {
+        updateUserItem.mutateAsync({
+          updatePayload: { status },
+          itemId: item.data.id,
+        });
+      }
     }
   };
   if (!externalId) {
     return <Typography>Invalid</Typography>;
   }
+  if (item.isLoading) {
+    return <CircularProgress />;
+  }
+  const hasWatched = item.data?.status === "watched";
   return (
-    <Box>
+    <Box sx={{ maxWidth: 500 }}>
       <MovieProfileHeader
         poster_path={fullPoster}
         release={movieDetails.release}
         title={movieDetails.title}
         item={item.data}
         onUpdate={onUpdate}
-        movieId={externalId}
+        movieId={movieDetails.id}
+        userId={user?.id}
+        overview={movieDetails.overview}
       />
+
+      <ActionChips
+        myRating={myRating.data?.rating}
+        onUpdate={onUpdate}
+        hasWatched={hasWatched}
+      />
+
+      <Typography sx={{ mt: 1 }} variant="body2">
+        {movieDetails.overview}
+      </Typography>
+
+      {/* <WatchedBy hasWatched={hasWatched} /> */}
+      {/* <Divider sx={{ mb: 2, mt: 2 }} /> */}
+
+      {hasWatched && item.data && !myRating.data && (
+        <AddRating movie_ref_id={movieDetails.id} />
+      )}
+      <Box sx={{ mt: 2 }}>
+        <WatchedBy hasWatched={hasWatched} />
+        {!item.data && <HaveYouWatched onUpdate={onUpdate} />}
+
+        <AllRatings ratedBy={undefined} movie_ref_id_url={movieDetails.id} />
+      </Box>
+      <Divider sx={{ mt: 2, mb: 2 }} />
     </Box>
   );
 };

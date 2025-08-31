@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../supbaseClient";
-import { useSnackbar } from "notistack";
+import { closeSnackbar, useSnackbar } from "notistack";
 
 interface IRatingArgs {
   id?: number;
@@ -22,7 +22,7 @@ interface RatingReturn {
  */
 export const useUpsertRating = () => {
   const queryClient = useQueryClient();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   return useMutation({
     mutationFn: async (movieRef: IRatingArgs): Promise<RatingReturn[]> => {
@@ -42,8 +42,8 @@ export const useUpsertRating = () => {
       return data;
     },
     onSuccess: () => {
-      // Invalidate the relevant cache after a successful upsert.
-      // This ensures any queries that depend on this data are refetched.
+            enqueueSnackbar({ message: 'Rating updated', variant: "success" });
+
       queryClient.invalidateQueries({ queryKey: ["rating"] });
     },
     onError: (e) => {

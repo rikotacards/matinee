@@ -14,8 +14,7 @@ interface UserItemArgs {
  */
 export const useUpsertUserItem = () => {
   const queryClient = useQueryClient();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  console.log('UPSERTING')
+  const { enqueueSnackbar } = useSnackbar();
   return useMutation({
     mutationFn: async (userItem: UserItemArgs) => {
       const { data, error } = await supabase
@@ -33,8 +32,6 @@ export const useUpsertUserItem = () => {
     onSuccess: (_, data) => {
       // Invalidate the relevant cache after a successful upsert.
       // This ensures any queries that depend on this data are refetched.
-      enqueueSnackbar({ message: "Movie added", variant: "success" });
-      console.log("dd', ", data)
       queryClient.invalidateQueries({ queryKey: ["user_item", data.user_id, data.movie_ref_id] });
       queryClient.invalidateQueries({ queryKey: ["movie_ref", {external_id: data.movie_ref_id}] });
 
