@@ -25,13 +25,10 @@ import { RatingInputForm } from "../../components/RatingInputForm";
 import { DialogWrapper } from "../../components/DialogWrapper";
 import { AddToListPage } from "../AddToListPage";
 import {
-  CalendarMonth,
   ChevronLeft,
-  History,
-  MoreHoriz,
+
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { LastWatched } from "./LastWatched";
 interface ValidMovieProfileProps {
   movie_ref_id: string;
   is_internal: string;
@@ -103,10 +100,9 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
         myRating={myRating.data?.rating}
         onUpdate={onUpdateNew}
         hasWatched={hasWatched}
-        movieId={item.data?.movie_ref_id}
+        movieId={item.data?.movie_ref_id || ""}
         isInternal={isInternal}
       />
-      <LastWatched />
       <Divider sx={{ mt: 2, mb: 2 }} />
       <Typography sx={{ mt: 1 }} variant="body2">
         {movieDetails.overview}

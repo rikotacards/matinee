@@ -5,7 +5,6 @@ import { darkTheme } from "./Theme";
 import { Layout } from "./layouts/Layout";
 import { Route, Routes } from "react-router";
 import { ListPage } from "./pages/ListPage";
-import { ProtectedRoute } from "./components/ProtectedRoute";
 import { LoginPage } from "./pages/LoginPage";
 import { AuthProvider } from "./providers/AuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

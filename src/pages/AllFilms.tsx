@@ -16,7 +16,6 @@ import { useAuth } from "../hooks/useAuth";
 import { MovieItem } from "../components/MovieItem";
 import { useNavigate } from "react-router";
 import { AllFilmsNotLoggedIn } from "./AllFilmsNotLoggedIn";
-import { AddItemFormNew } from "../components/AddItemFormNew";
 import { Add, Close } from "@mui/icons-material";
 import { SearchPage } from "./SearchPage";
 

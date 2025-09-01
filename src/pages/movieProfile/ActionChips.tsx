@@ -42,11 +42,15 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
     <BookmarkBorderIcon />
   );
   const onWatchlistClick = inWatchlist
-    ? () =>
+    ? () => {
+        if (!user?.id) {
+          return;
+        }
         deleteWatchlistItem.mutate({
           movie_ref_id: movieId,
           user_id: user.id,
-        })
+        });
+      }
     : () => addToWatchlist();
   const watchedLabel = (
     <Typography variant="caption">

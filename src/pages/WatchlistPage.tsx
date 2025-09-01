@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
-import { Add, Close, Delete, MoreHoriz } from "@mui/icons-material";
+import { Add, Close, MoreHoriz } from "@mui/icons-material";
 import { useGetUserItemsFromWatchlistByUserId } from "../hooks/queries/useGetWatchlistItemsByUserId";
 import { useDeleteWatchlistItem } from "../hooks/mutations/useDeleteWatchlistItem";
 import { MovieItem } from "../components/MovieItem";
@@ -46,7 +46,7 @@ const OptionsWrapper: React.FC<OptionsWrapperProps> = ({
 };
 export const MyWatchlistPage: React.FC = () => {
   const { user, loading } = useAuth();
-  const watchlist = useGetUserItemsFromWatchlistByUserId({ userId: user?.id });
+  const watchlist = useGetUserItemsFromWatchlistByUserId({ userId: user?.id ||""});
   const [show, setShow] = React.useState(false);
   const onMore = () => {
     setShow(true);

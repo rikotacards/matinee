@@ -2,17 +2,11 @@ import { Close } from "@mui/icons-material";
 import { Box, IconButton, InputAdornment, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import React from "react";
-import { useNavigate } from "react-router";
-import {
- 
-  InfoOutline,
-  ChevronRight,
-} from "@mui/icons-material";
+import { InfoOutline, ChevronRight } from "@mui/icons-material";
 import { useDebounce } from "../hooks/useDebounce";
 import { SearchResult } from "./SearchResult";
 
 export const SearchPage: React.FC = () => {
-  const nav = useNavigate();
   const [showClear, setClear] = React.useState(false);
   const [text, setText] = React.useState("");
   const onClear = () => {
