@@ -1,7 +1,12 @@
 const deleteList = async (listId: string) => {
+  const { error: list_item_delete_error } = await supabase
+    .from("list_items")
+    .delete()
+    .eq("list_id", listId);
+
   const { error } = await supabase.from("lists").delete().eq("id", listId);
 
-  if (error) {
+  if (error || list_item_delete_error) {
     console.error("Error deleting list:", error);
     throw new Error("Failed to delete list.");
   }
@@ -26,6 +31,7 @@ export const useDeleteList = () => {
       // (including those no longer attached to the deleted list).
     },
     onError: (error) => {
+      enqueueSnackbar({ message: error.message, variant: "error" });
       console.error("Deletion failed:", error);
     },
   });

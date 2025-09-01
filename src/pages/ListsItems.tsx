@@ -10,6 +10,40 @@ interface LoadedListsProps {
   dialogName: string;
   userId: string;
 }
+interface ListOptionsWrapperProps {
+  children: React.ReactNode;
+  showOptions: boolean;
+  listId: string;
+}
+const ListOptionsWrapper: React.FC<ListOptionsWrapperProps> = ({
+  children,
+  listId,
+  showOptions,
+}) => {
+  const deleteList = useDeleteList();
+  const deleteIcon = deleteList.isPending ? (
+    <CircularProgress
+      sx={{ ml: 1, heigh: 20, width: 20 }}
+      size={"small"}
+      color="error"
+    />
+  ) : (
+    <IconButton
+      onClick={
+        deleteList.isPending ? undefined : () => deleteList.mutate(listId)
+      }
+      sx={{ ml: 1 }}
+    >
+      <Delete color="error" />
+    </IconButton>
+  );
+  return (
+    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+      {children}
+      {showOptions && deleteIcon}
+    </Box>
+  );
+};
 export const ListsItems: React.FC<LoadedListsProps> = ({
   dialogName,
   userId,
@@ -20,21 +54,6 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
   };
   const lists = useGetLists(userId);
 
-  const deleteList = useDeleteList();
-  const deleteIcon = deleteList.isPending ? (
-    <CircularProgress
-      sx={{ heigh: 20, width: 20 }}
-      size={"small"}
-      color="error"
-    />
-  ) : (
-    <IconButton
-      onClick={deleteList.isPending ? undefined : () => deleteList.mutate(l.id)}
-      sx={{ ml: 1 }}
-    >
-      <Delete color="error" />
-    </IconButton>
-  );
   if (lists.isLoading) {
     return (
       <Box>
@@ -51,9 +70,13 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
   return (
     <Box>
       {lists.data?.map((l) => (
-        <Box sx={{ mb: 1, display: "flex", alignItems: "center" }}>
-          <ListRow listId={l.id} onClick={() => onGo(l.id)} name={l.name} />
-          {dialogName === "more" && deleteIcon}
+        <Box key={l.id} sx={{ mb: 1 }}>
+          <ListOptionsWrapper
+            listId={l.id}
+            showOptions={dialogName === "more"}
+          >
+            <ListRow listId={l.id} onClick={() => onGo(l.id)} name={l.name} />
+          </ListOptionsWrapper>
         </Box>
       ))}
     </Box>

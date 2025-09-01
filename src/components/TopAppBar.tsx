@@ -12,7 +12,6 @@ import { useLocation, useNavigate } from "react-router";
 
 import { useAuth } from "../hooks/useAuth";
 import { Search } from "@mui/icons-material";
-import { SearchSimple } from "../pages/SearchSimple";
 const pages = [
   { label: "Your films", path: "all-films" },
   { label: "watchlist", path: "watchlist" },
@@ -31,7 +30,6 @@ export const TopAppBar: React.FC = () => {
   };
   const page = location.pathname.split("/")?.[1];
 
-  const [open, setOpen] = React.useState(false);
   return (
     <AppBar variant="outlined" elevation={0}>
       <Toolbar>
@@ -69,7 +67,6 @@ export const TopAppBar: React.FC = () => {
           </IconButton>
         </Box>
       </Toolbar>
-      {open && <SearchSimple open={open} onClose={() => setOpen(false)} />}
     </AppBar>
   );
 };

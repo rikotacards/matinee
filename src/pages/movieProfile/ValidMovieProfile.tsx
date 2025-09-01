@@ -10,7 +10,6 @@ import { getImage } from "../../utils/getImage";
 import {
   Box,
   Button,
-  CircularProgress,
   Dialog,
   Divider,
   IconButton,
@@ -26,6 +25,7 @@ import { DialogWrapper } from "../../components/DialogWrapper";
 import { AddToListPage } from "../AddToListPage";
 import { ChevronLeft } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import { MovieProfileSkeleton } from "./MovieProfileSkeleton";
 interface ValidMovieProfileProps {
   movie_ref_id: string;
   is_internal: string;
@@ -43,7 +43,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
     movie_ref_id,
     isInternal
   );
-  const { hasInternalRef, movieDetails } = useGetMovieDetailsSwitch(
+  const { hasInternalRef, movieDetails , isLoading} = useGetMovieDetailsSwitch(
     movie_ref_id,
     isInternal
   );
@@ -75,10 +75,11 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
     });
   };
 
-  if (item.isLoading) {
-    return <CircularProgress />;
+  if (item.isLoading || isLoading) {
+    return <MovieProfileSkeleton />;
   }
   const hasWatched = item.data?.status === "watched";
+ 
   return (
     <Box sx={{ maxWidth: 400 }}>
       <IconButton onClick={onBack}>

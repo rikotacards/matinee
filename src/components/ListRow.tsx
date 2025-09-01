@@ -1,4 +1,4 @@
-import { Box, Card, Skeleton, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import React from "react";
 interface ListPreviewProps {
   name: string;

@@ -1,6 +1,6 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
-import { useSearchMovies, type SearchResult as ISearchResult } from "../hooks/queries/useSearchMovies";
+import {  type SearchResult as ISearchResult } from "../hooks/queries/useSearchMovies";
 import { useNavigate } from "react-router";
 import { TitleOption } from "../components/TitleOption";
 import { AddToListItemWrapper } from "../components/AddToListItemWrapper";
