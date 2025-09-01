@@ -7,8 +7,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import React from "react";
+import { BackIconButton } from "./BackIconButton";
 interface DialogWrapperProps {
   onClose: () => void;
   open: boolean;
@@ -23,17 +23,13 @@ export const DialogWrapper: React.FC<DialogWrapperProps> = ({
   onClose,
   children,
   onBack,
-  fullScreen
+  fullScreen,
 }) => {
   return (
     <Dialog fullScreen={fullScreen} onClose={onClose} open={open}>
       <AppBar variant="outlined" sx={{ position: "relative" }}>
         <Toolbar variant="dense">
-          {onBack && (
-            <IconButton onClick={onBack}>
-              <ArrowBackIosNewIcon />
-            </IconButton>
-          )}
+          {onBack && <BackIconButton onBack={onBack} />}
           <Typography>{title}</Typography>
           <IconButton sx={{ ml: "auto" }} onClick={onClose}>
             <Close />

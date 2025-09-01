@@ -12,7 +12,6 @@ import { InfoOutline, ChevronRight } from "@mui/icons-material";
 import { useDebounce } from "../hooks/useDebounce";
 import { SearchResult } from "./SearchResult";
 import { useSearchMovies } from "../hooks/queries/useSearchMovies";
-import { MovieItemSkeleton } from "../components/MovieItemSkeleton";
 import { MovieItemSkeletonList } from "./MovieItemSkeletonList";
 interface SearchPageProps {
   listId?: string;

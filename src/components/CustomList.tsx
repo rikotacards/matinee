@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  CircularProgress,
   Dialog,
   IconButton,
   TextField,
@@ -11,16 +10,16 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { MovieItem } from "./MovieItem";
 import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate, useParams } from "react-router";
-import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
-import { Add, Close, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
+import { Add, Close, Delete, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/useDeleteList";
 import { useUpdateListName } from "../hooks/mutations/useUpdateListName";
 import type { IList } from "../hooks/queries/useGetListById";
 import { useAuth } from "../hooks/useAuth";
 import { SearchPage } from "../pages/SearchPage";
+import { CustomListItems } from "./CustomListItems";
+import { BackIconButton } from "./BackIconButton";
 
 interface CustomListProps {
   list: IList;
@@ -28,17 +27,13 @@ interface CustomListProps {
 export const CustomList: React.FC<CustomListProps> = ({ list }) => {
   const { user } = useAuth();
   const params = useParams();
-  const items = useGetItemsByListId(params.list_id || "");
   const [dialog, setDialog] = React.useState("");
   const nav = useNavigate();
   const [newName, setNewName] = React.useState(list.name);
   const onClose = () => {
     setDialog("");
   };
-  const onItemMoreClick = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    setDialog("itemMore");
-  };
+
   const updateList = useUpdateListName();
   const onUpdateListName = async () => {
     if (!params.list_id) {
@@ -61,9 +56,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
   if (!params.list_id) {
     return <Box>Error no list</Box>;
   }
-  if (items.isLoading) {
-    return <CircularProgress />;
-  }
+
   const listActions = [
     {
       name: "Make private",
@@ -83,14 +76,11 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
       onClick: onDelete,
     },
   ];
-  const goToMovie = (itemId: string, movieRefId: string | number) => {
-    const path = "/movies/" + itemId;
-    const q = `?ratedBy=${list.user_id}&item_id=${itemId}&movie_ref_id=${movieRefId}`;
-    nav(path + q);
-  };
 
   return (
     <Box>
+              <BackIconButton/>
+      
       <Box
         sx={{
           mt: 2,
@@ -127,7 +117,11 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           </Toolbar>
         </AppBar>
         <Box sx={{ height: "100%" }} elevation={0} component={Card}>
-          <SearchPage listId={params.list_id} enableAddToList onClose={onClose} />
+          <SearchPage
+            listId={params.list_id}
+            enableAddToList
+            onClose={onClose}
+          />
         </Box>
       </Dialog>
       <DialogWrapper open={dialog === "more"} title="options" onClose={onClose}>
@@ -177,22 +171,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
         </Box>
       </Dialog>
 
-      {items.data?.map((i) => (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-          onClick={() => goToMovie(i.id, i.movie_ref_id)}
-          key={i.id}
-        >
-          <MovieItem item={i} />
-          <IconButton size="small" onClick={onItemMoreClick}>
-            <MoreHoriz fontSize="small" color="action" />
-          </IconButton>
-        </Box>
-      ))}
+      <CustomListItems listId={list.id} listOwner={list.user_id} />
     </Box>
   );
 };

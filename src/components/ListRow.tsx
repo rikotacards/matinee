@@ -7,6 +7,7 @@ interface ListPreviewProps {
 }
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
+import { ListRowSkeleton } from "./ListRowSkeleton";
 export const ListRow: React.FC<ListPreviewProps> = ({
   listId,
   onClick,
@@ -16,7 +17,7 @@ export const ListRow: React.FC<ListPreviewProps> = ({
   const count = items.data?.length || 0;
   if (items.isLoading) {
     return (
-      <Skeleton sx={{ mb: 1 }} variant="rectangular" width={300} height={52} />
+     <ListRowSkeleton disablePb/>
     );
   }
   return (
