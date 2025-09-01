@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
-import type { Movie } from "../hooks/queries/useGetMovieById";
+import type { Movie } from "../hooks/queries/useGetExternalMovieDetailsById";
 import { TitleOption } from "./TitleOption";
 interface DetailsInputFormProps {
   movie: Movie;

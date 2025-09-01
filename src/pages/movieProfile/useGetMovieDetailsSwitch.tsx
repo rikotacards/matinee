@@ -1,14 +1,13 @@
-import { useGetExternalMovieDetailsById, type Movie } from "../../hooks/queries/useGetMovieById";
+import { useGetExternalMovieDetailsById, type Movie } from "../../hooks/queries/useGetExternalMovieDetailsById";
 import { useGetMovieRef } from "../../hooks/queries/useGetMovieRef";
 
 // movie id could be internal, or external when searching from API.
-export const useGetMovieDetailsSwitch = (moveId: number, internal: boolean) => {
+export const useGetMovieDetailsSwitch = (moveId: string, internal: boolean) => {
   // movie poster, backdrop, release, title
   const internalMovieRef = useGetMovieRef({ [internal ? 'id' : 'external_id']: moveId });
   const externalMovieRef = useGetExternalMovieDetailsById(
-    internalMovieRef.data ? undefined : moveId
+    internalMovieRef.data ? undefined : Number(moveId)
   );
-  console.log('Internal', internalMovieRef.data)
   const movieDetails: Movie = {
     id: internalMovieRef.data?.id || externalMovieRef.data?.id || 0,
     title: internalMovieRef.data?.title || externalMovieRef.data?.title || "",

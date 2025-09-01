@@ -20,7 +20,7 @@ export const useGetExternalMovieDetailsById = (
 ): UseQueryResult<Movie> => {
   // Use a unique query key that includes the movie ID. This is crucial for caching.
   const queryKey = ["movie", movieId];
-  console.log("movie'", movieId)
+
   const queryFn = async (): Promise<Movie> => {
     if (!movieId) {
       throw new Error("Movie ID is required.");

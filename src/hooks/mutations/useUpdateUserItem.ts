@@ -6,6 +6,8 @@ import type { UserItem } from "../queries/useGetUserItems";
 export interface UpdateUserItem {
   updatePayload: Partial<UserItem>;
   itemId: string;
+  userId: string;
+  movieRefId: string | number;
 }
 
 /**
@@ -17,25 +19,28 @@ export const useUpdateUserItem = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   return useMutation({
+    
     mutationFn: async (args: UpdateUserItem) => {
       const { data, error } = await supabase
         .from("user_item")
         .update( args.updatePayload)
         .eq("id", args.itemId)
-        .select();
+        .select().single();
 
       if (error) {
         throw new Error(error.message);
       }
       return data;
     },
+
     onSuccess: (_, data) => {
+      console.log('updated user item')
       // Invalidate the relevant cache after a successful upsert.
       // This ensures any queries that depend on this data are refetched.
       enqueueSnackbar({ message: "Updated", variant: "success" });
-      queryClient.invalidateQueries({ queryKey: ["user_item"] });
+      queryClient.invalidateQueries({ queryKey: ["user_item", data.userId, data.movieRefId] });
     },
-    onError: (e) => {
+    onError: () => {
         enqueueSnackbar({message: 'Failed to update movie', variant:'error'})
     }
   });

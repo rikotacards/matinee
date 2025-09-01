@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../supbaseClient";
 import { useSnackbar } from "notistack";
+import type { UserItem } from "../queries/useGetUserItems";
 
 interface UserItemArgs {
   movie_ref_id?: number;
-  status?: string;
+  status?: string | null;
   user_id: string;
 }
 
@@ -16,13 +17,13 @@ export const useUpsertUserItem = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
   return useMutation({
-    mutationFn: async (userItem: UserItemArgs) => {
+    mutationFn: async (userItem: UserItemArgs): Promise<UserItem> => {
       const { data, error } = await supabase
         .from("user_item")
         .upsert(userItem, {
           onConflict: "movie_ref_id,user_id", // Specify the columns to check for conflicts
         })
-        .select();
+        .select().single();
 
       if (error) {
         throw new Error(error.message);

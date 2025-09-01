@@ -2,7 +2,7 @@ import React from "react";
 import { SearchForm } from "./SearchForm";
 import { DetailsInputForm } from "./DetailsInputForm";
 import { DialogWrapper } from "./DialogWrapper";
-import type { Movie } from "../hooks/queries/useGetMovieById";
+import type { Movie } from "../hooks/queries/useGetExternalMovieDetailsById";
 import { useAddItem } from "../hooks/mutations/useAddItem";
 import { useAuth } from "../hooks/useAuth";
 import { useAddItemToList } from "../hooks/mutations/useAddItemToList";

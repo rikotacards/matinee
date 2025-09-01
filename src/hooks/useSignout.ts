@@ -14,7 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { supabase } from "../supbaseClient";
 
-export const useDeleteWatchlistItem = () => {
+export const useSignOut = () => {
 
   return useMutation({
     mutationFn: signOut,

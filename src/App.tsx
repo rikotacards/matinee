@@ -11,7 +11,6 @@ import { AuthProvider } from "./providers/AuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AllFilms } from "./pages/AllFilms";
 import { SnackbarProvider } from "notistack";
-import { MovieProfile } from "./pages/movieProfile/MovieProfile";
 import { MyWatchlistPage } from "./pages/WatchlistPage";
 import { PublicProfilePage } from "./pages/PublicProfilePage";
 import { SearchPage } from "./pages/SearchPage";
