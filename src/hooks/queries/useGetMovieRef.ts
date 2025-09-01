@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../supbaseClient";
 
 interface MovieRef {
-  id: number;
+  id: number | string;
   created_at: string;
   external_id: number;
   title: string;

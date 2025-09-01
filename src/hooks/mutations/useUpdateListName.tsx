@@ -1,10 +1,8 @@
-const updateListName = async ({
-  listId,
-  newName,
-}: {
+type Args = {
   listId: string;
   newName: string;
-}) => {
+}
+const updateListName = async ({listId, newName}: Args) => {
   const { data, error } = await supabase
     .from("lists")
     .update({ name: newName }) // Set the new name
@@ -27,7 +25,7 @@ export const useUpdateListName = () => {
 
   return useMutation({
     mutationFn: updateListName,
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       // Invalidate the 'lists' query to trigger a refetch.
       // This ensures your UI is updated with the new name.
       queryClient.invalidateQueries({ queryKey: ["lists"] });

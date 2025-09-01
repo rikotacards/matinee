@@ -14,7 +14,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSelect }) => {
   const [value, setValue] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState("");
   const debounced = useDebounce(inputValue, 500);
-  const { data: movies, isLoading } = useSearchMovies(debounced, "");
+  const { data: movies } = useSearchMovies(debounced, "");
   return (
     <Autocomplete
       sx={{ p: 2 }}
@@ -23,7 +23,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSelect }) => {
         setValue(newValue);
       }}
       options={movies || []}
-      renderOption={(props, option) => {
+      renderOption={(_, option) => {
         return (
           <Box onClick={() => onSelect(option)}>
             <TitleOption
@@ -44,7 +44,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSelect }) => {
         placeholder="Search" variant="outlined" {...params} />
       )}
       inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
+      onInputChange={(_, newInputValue) => {
         setInputValue(newInputValue);
       }}
     />

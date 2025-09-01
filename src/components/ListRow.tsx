@@ -1,4 +1,4 @@
-import { Box, Card, IconButton, Skeleton, Typography } from "@mui/material";
+import { Box, Card, Skeleton, Typography } from "@mui/material";
 import React from "react";
 interface ListPreviewProps {
   name: string;
@@ -7,7 +7,6 @@ interface ListPreviewProps {
 }
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
-import { MoreHoriz, MoreVert } from "@mui/icons-material";
 export const ListRow: React.FC<ListPreviewProps> = ({
   listId,
   onClick,

@@ -1,11 +1,11 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 
 export interface Movie {
-  id: number;
+  id: number | string;
   title: string;
   poster_path: string;
   overview: string;
-  release: string;
+  release_date: string;
   backdrop_path: string;
   // Add more properties as needed from the TMDb API response
 }
@@ -16,7 +16,7 @@ export interface Movie {
  * @returns A UseQueryResult object with the movie data, loading state, and error state.
  */
 export const useGetExternalMovieDetailsById = (
-  movieId?: number
+  movieId?: number | number,
 ): UseQueryResult<Movie> => {
   // Use a unique query key that includes the movie ID. This is crucial for caching.
   const queryKey = ["movie", movieId];

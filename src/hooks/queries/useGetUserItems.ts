@@ -13,7 +13,7 @@ export interface UserItem {
   created_at: string; 
   user_id: string;
   status: string;
-  movie_ref_id: string;
+  movie_ref_id: string | number;
   last_watched_date: string;
 }
 export const useGetUserItems = (userId?: string) => {

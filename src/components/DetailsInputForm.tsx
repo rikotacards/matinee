@@ -52,7 +52,7 @@ export const DetailsInputForm: React.FC<DetailsInputFormProps> = ({
           variant={!hasWatched ? "contained" : "outlined"}
           fullWidth
         >
-          Want to watch
+          Add to watchlist
         </Button>
       </Box>
       <TextField

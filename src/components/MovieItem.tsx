@@ -1,7 +1,5 @@
-import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
 
-import { RatingDisplay } from "./RatingDisplay";
 import { getImage } from "../utils/getImage";
 import type { UserItem } from "../hooks/queries/useGetUserItems";
 import { useGetMovieRef } from "../hooks/queries/useGetMovieRef";

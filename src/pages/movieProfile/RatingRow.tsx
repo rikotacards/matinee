@@ -3,7 +3,6 @@ import {
   Stack,
   Typography,
   Box,
-  IconButton,
   Dialog,
   Button,
 } from "@mui/material";
@@ -15,7 +14,8 @@ interface RatingRowProps {
   rating: number;
   userId: string;
   isOwner?: boolean;
-  movie_ref_id: number;
+  movie_ref_id: number | string;
+  isInternal: boolean;
 }
 
 export const RatingRow: React.FC<RatingRowProps> = ({
@@ -23,6 +23,7 @@ export const RatingRow: React.FC<RatingRowProps> = ({
   rating,
   userId,
   movie_ref_id,
+  isInternal,
 }) => {
   const { name, onCloseDialog, setDialogName } = useDialogControl();
 
@@ -76,6 +77,7 @@ export const RatingRow: React.FC<RatingRowProps> = ({
       <Dialog onClose={onCloseDialog} open={name === "edit"}>
         <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
           <RatingInputForm
+          isInternal={isInternal}
             onClose={onCloseDialog}
             movie_ref_id={movie_ref_id}
             rating={rating}

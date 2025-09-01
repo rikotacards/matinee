@@ -24,10 +24,7 @@ import { AllRatings } from "./AllRatings";
 import { RatingInputForm } from "../../components/RatingInputForm";
 import { DialogWrapper } from "../../components/DialogWrapper";
 import { AddToListPage } from "../AddToListPage";
-import {
-  ChevronLeft,
-
-} from "@mui/icons-material";
+import { ChevronLeft } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 interface ValidMovieProfileProps {
   movie_ref_id: string;
@@ -90,7 +87,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
       {/* {!item.data && <HaveYouWatched onUpdate={onUpdate} />} */}
       <MovieProfileHeader
         poster_path={fullPoster}
-        release={movieDetails.release}
+        release={movieDetails.release_date}
         title={movieDetails.title}
         movieId={movieDetails.id}
       />
@@ -110,12 +107,16 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
       <Divider sx={{ mt: 2, mb: 2 }} />
 
       {hasWatched && item.data && !myRating.data && (
-        <AddRating movie_ref_id={movieDetails.id} />
+        <AddRating isInternal={isInternal} movie_ref_id={movieDetails.id} />
       )}
       <Box sx={{ mt: 2 }}>
         <WatchedBy hasWatched={hasWatched} />
 
-        <AllRatings ratedBy={undefined} movie_ref_id_url={movieDetails.id} />
+        <AllRatings
+          isInternal={isInternal}
+          ratedBy={undefined}
+          movie_ref_id_url={movieDetails.id}
+        />
       </Box>
       <Divider sx={{ mt: 2, mb: 2 }} />
       <Dialog onClose={onCloseDialog} open={name === "edit"}>

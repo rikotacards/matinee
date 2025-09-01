@@ -4,7 +4,7 @@ interface MovieProfileHeaderProps {
   poster_path?: string;
   title: string;
   release: string;
-  movieId: number;
+  movieId: number | string;
 }
 
 export const MovieProfileHeader: React.FC<MovieProfileHeaderProps> = ({

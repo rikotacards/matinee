@@ -18,7 +18,7 @@ export interface UserItem {
 }
 interface Args {
     userId: string | undefined;
-    movieRefId?: number;
+    movieRefId?: number | string;
 }
 export const useGetUserItemByMovieRef = (args: Args) => {
     const {userId, movieRefId} = args;

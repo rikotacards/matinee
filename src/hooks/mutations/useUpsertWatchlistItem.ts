@@ -3,7 +3,7 @@ import { supabase } from "../../supbaseClient";
 import { useSnackbar } from "notistack";
 
 interface WatchlistItem {
-  movie_ref_id: string;
+  movie_ref_id: string | number
   user_id: string;
   item_id: string;
 }
@@ -14,7 +14,7 @@ interface WatchlistItem {
  */
 export const useUpsertWatchlistItem = () => {
   const queryClient = useQueryClient();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   return useMutation({
     mutationFn: async (movieRef: WatchlistItem): Promise<number> => {

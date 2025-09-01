@@ -6,7 +6,7 @@ import { useUpsertMovieRef } from "./useUpsertMovieRef";
 import { useUpsertUserItem } from "./useUpsertUserItem";
 
 export const useCheckAndPopulateUserItem = (
-  movieId: string,
+  movieId: string | number,
   isInternal: boolean
 ) => {
   const { user } = useAuth();
@@ -44,7 +44,7 @@ export const useCheckAndPopulateUserItem = (
         overview: movieDetails.overview,
         external_id: movieDetails.id,
         source: "TMDB",
-        release: movieDetails.release,
+        release: movieDetails.release_date,
         poster_path: movieDetails.poster_path,
         backdrop_path: movieDetails.backdrop_path,
         title: movieDetails.title,

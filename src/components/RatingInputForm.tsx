@@ -7,7 +7,7 @@ import { useCheckAndPopulateUserItem } from "../hooks/mutations/useCheckAndPopul
 import { useUpdateUserItem } from "../hooks/mutations/useUpdateUserItem";
 interface RatingInputForm {
   rating?: number;
-  movie_ref_id: number;
+  movie_ref_id: number | string;
   isInternal: boolean;
 
   onClose: () => void;
@@ -28,6 +28,9 @@ export const RatingInputForm: React.FC<RatingInputForm> = ({
       return;
     }
     const item = await c();
+    if(!item){
+      return;
+    }
     if (item.status !== "watched") {
       await updateUserItem.mutateAsync({
         updatePayload: { status: "watched" },
@@ -36,7 +39,7 @@ export const RatingInputForm: React.FC<RatingInputForm> = ({
         userId: user.id,
       });
     }
-    await updateRating.mutate({
+    await updateRating.mutateAsync({
       rating: value,
       user_id: user.id,
       movie_ref_id: item.movie_ref_id,

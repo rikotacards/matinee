@@ -34,7 +34,7 @@ export const AllFilms: React.FC = () => {
     return <CircularProgress />;
   }
 
-  const goToMovie = (movieRefId: string) => {
+  const goToMovie = (movieRefId: string | number) => {
     const path = "/movies/" + movieRefId + "/true";
     const q = `?ratedBy=${user?.id}`;
     nav(path + q);

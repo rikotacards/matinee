@@ -13,7 +13,7 @@ import { useDeleteWatchlistItem } from "../hooks/mutations/useDeleteWatchlistIte
 import { MovieItem } from "../components/MovieItem";
 interface OptionsWrapperProps {
   children: React.ReactNode;
-  movieRefId: string;
+  movieRefId: string | number;
   userId: string;
   show: boolean;
 }
@@ -25,7 +25,7 @@ const OptionsWrapper: React.FC<OptionsWrapperProps> = ({
 }) => {
   const deleteItem = useDeleteWatchlistItem();
 
-  const onRemove = (movie_ref_id: string) => {
+  const onRemove = (movie_ref_id: string | number) => {
     deleteItem.mutate({
       user_id: userId,
       movie_ref_id,

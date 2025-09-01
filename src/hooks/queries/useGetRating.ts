@@ -12,7 +12,7 @@ export interface Rating {
   created_at: string;
   user_id?: string;
   rating: number;
-  movie_ref_id?: number;
+  movie_ref_id?: number | string
   review?: string;
 }
 export const useGetRating = ({

@@ -2,7 +2,7 @@ const deleteWatchlistItem = async ({
   movie_ref_id,
   user_id,
 }: {
-  movie_ref_id: string;
+  movie_ref_id: string | number;
   user_id: string;
 }) => {
     console.log("HI", user_id)

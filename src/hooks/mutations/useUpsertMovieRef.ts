@@ -3,7 +3,7 @@ import { supabase } from "../../supbaseClient";
 import { useSnackbar } from "notistack";
 
 interface MovieRefArg {
-  external_id: number;
+  external_id: number | string;
   poster_path: string;
   backdrop_path: string;
   title: string;
@@ -18,7 +18,7 @@ interface MovieRefArg {
  */
 export const useUpsertMovieRef = () => {
   const queryClient = useQueryClient();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   return useMutation({
     mutationFn: async (movieRef: MovieRefArg): Promise<number> => {

@@ -10,7 +10,7 @@ const signOut = async () => {
   }
 };
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { supabase } from "../supbaseClient";
 

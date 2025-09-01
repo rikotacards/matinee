@@ -16,7 +16,7 @@ export interface UpdateUserItem {
  */
 export const useUpdateUserItem = () => {
   const queryClient = useQueryClient();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   return useMutation({
     

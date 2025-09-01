@@ -1,19 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../supbaseClient";
-import { closeSnackbar, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 
 interface IRatingArgs {
-  id?: number;
+  id?: number | string;
   rating: number;
   user_id: string;
   review?: string;
-  movie_ref_id: number;
+  movie_ref_id: number | string
 }
 interface RatingReturn {
   rating: number;
   user_id: string;
   review?: string;
-  movie_ref_id: number;
+  movie_ref_id: number | string;
 }
 
 /**

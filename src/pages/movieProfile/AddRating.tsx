@@ -2,9 +2,10 @@ import { Box, Button, Card } from "@mui/material";
 import React from "react";
 import { RatingInputForm } from "../../components/RatingInputForm";
 interface AddRatingProps {
-  movie_ref_id: number;
+  movie_ref_id: number | string;
+  isInternal: boolean;
 }
-export const AddRating: React.FC<AddRatingProps> = ({ movie_ref_id }) => {
+export const AddRating: React.FC<AddRatingProps> = ({ movie_ref_id, isInternal }) => {
   const [open, setOpen] = React.useState(false);
   const onOpen = () => {
     setOpen(true);
@@ -15,7 +16,7 @@ export const AddRating: React.FC<AddRatingProps> = ({ movie_ref_id }) => {
   if (open) {
     return (
       <Box component={Card} sx={{p:1,display: 'flex', flexDirection: 'column'}}>
-        <RatingInputForm movie_ref_id={movie_ref_id} onClose={onClose} />
+        <RatingInputForm isInternal={isInternal} movie_ref_id={movie_ref_id} onClose={onClose} />
         <Button onClick={onClose} fullWidth>Cancel</Button>
       </Box>
     );

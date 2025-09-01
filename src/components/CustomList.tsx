@@ -14,7 +14,7 @@ import { useNavigate, useParams } from "react-router";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
 import { Add, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/useDeleteList";
-import { useUpdateListName } from "../hooks/mutations/editList";
+import { useUpdateListName } from "../hooks/mutations/useUpdateListName";
 import { AddItemFormNew } from "./AddItemFormNew";
 import type { IList } from "../hooks/queries/useGetListById";
 import { useAuth } from "../hooks/useAuth";
@@ -82,7 +82,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
       onClick: onDelete,
     },
   ];
-  const goToMovie = (itemId: string, movieRefId: string) => {
+  const goToMovie = (itemId: string, movieRefId: string | number) => {
     const path = "/movies/" + itemId;
     const q = `?ratedBy=${list.user_id}&item_id=${itemId}&movie_ref_id=${movieRefId}`;
     nav(path + q);

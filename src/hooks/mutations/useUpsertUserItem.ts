@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 import type { UserItem } from "../queries/useGetUserItems";
 
 interface UserItemArgs {
-  movie_ref_id?: number;
+  movie_ref_id?: number | string;
   status?: string | null;
   user_id: string;
 }
@@ -38,7 +38,7 @@ export const useUpsertUserItem = () => {
 
 
     },
-    onError: (e) => {
+    onError: () => {
         enqueueSnackbar({message: 'Failed to add movie', variant:'error'})
     }
   });

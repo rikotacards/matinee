@@ -5,12 +5,10 @@ import {
   Dialog,
   IconButton,
   InputAdornment,
-  Stack,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router";
 interface SearchSimpleProps {
   open: boolean;
   onClose: () => void;
@@ -24,14 +22,9 @@ export const SearchSimple: React.FC<SearchSimpleProps> = ({
   open,
   onClose,
 }) => {
-  const nav = useNavigate();
   const [showClear, setClear] = React.useState(false);
   const [text, setText] = React.useState("");
-  const onSearch = () => {
-    const encodedMovieName = encodeURIComponent(text);
-    console.log(encodedMovieName);
-    nav("/search" + "/" + encodedMovieName);
-  };
+
   const onClear = () => {
     setClear(false);
     setText("");
@@ -40,11 +33,7 @@ export const SearchSimple: React.FC<SearchSimpleProps> = ({
     setClear(true);
     setText(e);
   };
-  const [showResults, setShowResults] = React.useState(false);
-  const onShowResults = () => {
-    setClear(true);
-    setShowResults(true);
-  };
+
   const debouncedName = useDebounce(text, 500);
 
   return (

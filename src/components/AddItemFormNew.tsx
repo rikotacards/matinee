@@ -3,18 +3,16 @@ import { SearchForm } from "./SearchForm";
 import { DetailsInputForm } from "./DetailsInputForm";
 import { DialogWrapper } from "./DialogWrapper";
 import type { Movie } from "../hooks/queries/useGetExternalMovieDetailsById";
-import { useAddItem } from "../hooks/mutations/useAddItem";
 import { useAuth } from "../hooks/useAuth";
 import { useAddItemToList } from "../hooks/mutations/useAddItemToList";
 import { Button } from "@mui/material";
-import { useGetItemByApiAndUser } from "../hooks/queries/useGetMyItemsById";
 import { useUpsertMovieRef } from "../hooks/mutations/useUpsertMovieRef";
 import { useUpsertUserItem } from "../hooks/mutations/useUpsertUserItem";
 import { useUpsertRating } from "../hooks/mutations/useUpsertRating";
 interface AddItemFormNewProps {
   onClose: () => void;
   list_id?: string;
-  fullScreen;
+  fullScreen?: boolean;
 }
 export const AddItemFormNew: React.FC<AddItemFormNewProps> = ({
   list_id,

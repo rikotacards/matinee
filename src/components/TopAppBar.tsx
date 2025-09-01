@@ -10,7 +10,6 @@ import {
 import React from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import { AddItemFormNew } from "./AddItemFormNew";
 import { useAuth } from "../hooks/useAuth";
 import { Search } from "@mui/icons-material";
 import { SearchSimple } from "../pages/SearchSimple";
