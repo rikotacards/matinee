@@ -1,10 +1,19 @@
 import { Close } from "@mui/icons-material";
-import { Box, IconButton, InputAdornment, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  Typography,
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import React from "react";
 import { InfoOutline, ChevronRight } from "@mui/icons-material";
 import { useDebounce } from "../hooks/useDebounce";
 import { SearchResult } from "./SearchResult";
+import { useSearchMovies } from "../hooks/queries/useSearchMovies";
+import { MovieItemSkeleton } from "../components/MovieItemSkeleton";
+import { MovieItemSkeletonList } from "./MovieItemSkeletonList";
 interface SearchPageProps {
   listId?: string;
   enableAddToList?: boolean;
@@ -13,7 +22,7 @@ interface SearchPageProps {
 export const SearchPage: React.FC<SearchPageProps> = ({
   listId,
   enableAddToList,
-  onClose
+  onClose,
 }) => {
   const [showClear, setClear] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -22,7 +31,14 @@ export const SearchPage: React.FC<SearchPageProps> = ({
     setText("");
   };
   const debouncedName = useDebounce(text, 500);
-
+  const { data: searchResults, isLoading } = useSearchMovies(debouncedName);
+  const displayedIcon = isLoading ? (
+    <CircularProgress size={30} />
+  ) : (
+    <IconButton onClick={() => onClear()}>
+      {showClear ? <Close /> : <ChevronRight />}
+    </IconButton>
+  );
   const onChange = (e: string) => {
     setClear(true);
     setText(e);
@@ -45,11 +61,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         value={text}
         InputProps={{
           endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={() => onClear()}>
-                {showClear ? <Close /> : <ChevronRight />}
-              </IconButton>
-            </InputAdornment>
+            <InputAdornment position="end">{displayedIcon}</InputAdornment>
           ),
         }}
         onChange={(e) => onChange(e.target.value)}
@@ -66,14 +78,16 @@ export const SearchPage: React.FC<SearchPageProps> = ({
           display: "flex",
         }}
       >
-        {debouncedName && (
+        {isLoading && (
+          <MovieItemSkeletonList rows={10}/>
+        )}
+        {!isLoading && debouncedName && (
           <SearchResult
             listId={listId}
             onClose={onClose}
-            movieName={debouncedName}
+            searchResults={searchResults || []}
             enableAddToList={enableAddToList}
           />
-          
         )}
       </Box>
     </Box>
