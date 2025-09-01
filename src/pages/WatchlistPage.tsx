@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
-import { MyWatchlist } from "./MyWatchlist";
 import { Add, Close, Delete, MoreHoriz } from "@mui/icons-material";
 import { useGetUserItemsFromWatchlistByUserId } from "../hooks/queries/useGetWatchlistItemsByUserId";
 import { useDeleteWatchlistItem } from "../hooks/mutations/useDeleteWatchlistItem";
@@ -61,6 +60,7 @@ export const MyWatchlistPage: React.FC = () => {
   if (!user) {
     return null;
   }
+
   return (
     <Box
       sx={{
@@ -92,6 +92,7 @@ export const MyWatchlistPage: React.FC = () => {
           <MovieItem key={d.id} item={d} />
         </OptionsWrapper>
       ))}
+      {watchlist.data?.length === 0 && <Typography color='textSecondary'>Your watchlist is empty. Press the + icon to add a movie, or search for one at the top.</Typography>}
     </Box>
   );
 };

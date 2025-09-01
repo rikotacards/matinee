@@ -1,9 +1,12 @@
 import {
+  AppBar,
   Box,
   Chip,
   CircularProgress,
+  Dialog,
   IconButton,
   Stack,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -14,6 +17,7 @@ import { useNavigate } from "react-router";
 import { AllFilmsNotLoggedIn } from "./AllFilmsNotLoggedIn";
 import { AddItemFormNew } from "../components/AddItemFormNew";
 import { Add } from "@mui/icons-material";
+import { SearchPage } from "./SearchPage";
 
 export const AllFilms: React.FC = () => {
   const { session, user } = useAuth();
@@ -64,11 +68,17 @@ export const AllFilms: React.FC = () => {
       <Box sx={{ mt: 2, mb: 1, display: "flex", flexDirection: "row" }}>
         <Chip sx={{ mr: 1 }} label="List view" />
         <Chip sx={{ mr: 1 }} label="Not rated" />
-        <Chip label="Grid view" />
+        <Chip sx={{ mr: 1 }} label="Grid view" />
         <Chip label="Watch list" />
       </Box>
       {displayedItems}
-      {open && <AddItemFormNew fullScreen onClose={onClose} />}
+      {/* {open && <AddItemFormNew fullScreen onClose={onClose} />} */}
+      <Dialog fullScreen open={open} onClose={onClose}>
+        <AppBar position="relative">
+          <Toolbar><Typography>Search</Typography></Toolbar>
+        </AppBar>
+        <SearchPage/>
+      </Dialog>
     </Box>
   );
 };
