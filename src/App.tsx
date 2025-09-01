@@ -30,14 +30,14 @@ function App() {
                 <Route index element={<AllFilms />} />
                 <Route path="all-films" element={<AllFilms />} />
                 <Route path="lists" element={<Lists />} />
+                <Route path={"lists/:list_id"} element={<ListPage />} />
                 <Route path="watchlist" element={<MyWatchlistPage />} />
                 <Route path="profile" element={<PublicProfilePage />} />
 
-                <Route path={"lists/:list_id"} element={<ListPage />} />
                 <Route path="profile" element={<PublicProfilePage />} />
                 <Route path={"/search"} element={<SearchPage />} />
                 <Route
-                  path={"/movies/:movie_ref_id/:is_internal"}
+                  path={"/movies/:movie_ref_id/:is_internal/*"}
                   element={<MovieProfileNew />}
                 />
                 {/* </Route> */}

@@ -5,41 +5,39 @@ import {
   Card,
   Dialog,
   IconButton,
+  Skeleton,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
 import React from "react";
 import { DialogWrapper } from "./DialogWrapper";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Add, Close, Delete, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/useDeleteList";
 import { useUpdateListName } from "../hooks/mutations/useUpdateListName";
-import type { IList } from "../hooks/queries/useGetListById";
+import { useGetListById } from "../hooks/queries/useGetListById";
 import { useAuth } from "../hooks/useAuth";
 import { SearchPage } from "../pages/SearchPage";
 import { CustomListItems } from "./CustomListItems";
 import { BackIconButton } from "./BackIconButton";
 
 interface CustomListProps {
-  list: IList;
+  listId: string;
 }
-export const CustomList: React.FC<CustomListProps> = ({ list }) => {
+export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
   const { user } = useAuth();
-  const params = useParams();
   const [dialog, setDialog] = React.useState("");
   const nav = useNavigate();
-  const [newName, setNewName] = React.useState(list.name);
+  const list = useGetListById(listId);
+  const [newName, setNewName] = React.useState(list.data?.name || "");
   const onClose = () => {
     setDialog("");
   };
 
   const updateList = useUpdateListName();
   const onUpdateListName = async () => {
-    if (!params.list_id) {
-      return;
-    }
-    await updateList.mutate({ listId: params.list_id, newName });
+    await updateList.mutate({ listId, newName });
     onClose();
   };
   const onUpdateClick = () => {
@@ -47,14 +45,11 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
   };
   const deleteAction = useDeleteList();
   const onDelete = async () => {
-    if (!params.list_id) {
-      return;
-    }
-    await deleteAction.mutate(params.list_id || "");
+    await deleteAction.mutate(listId);
     nav(-1);
   };
-  if (!params.list_id) {
-    return <Box>Error no list</Box>;
+  if (!list.isLoading && !list.data?.is_public) {
+    return <Typography>List is private</Typography>;
   }
 
   const listActions = [
@@ -76,11 +71,20 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
       onClick: onDelete,
     },
   ];
+  if (list.isLoading) {
+    return (
+      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <BackIconButton />
+        <Skeleton width={300} variant="text" />
+      </Box>
+    );
+  }
+  if (!list.data) {
+    return <Typography>This list is empty</Typography>;
+  }
 
   return (
     <Box>
-              <BackIconButton/>
-      
       <Box
         sx={{
           mt: 2,
@@ -90,10 +94,15 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h4" fontWeight={"bold"}>
-          {list.name}
-        </Typography>
-        {list.user_id === user?.id && (
+        <BackIconButton />
+        {list.isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <Typography variant="h4" fontWeight={"bold"}>
+            {list.data.name}
+          </Typography>
+        )}
+        {list.data.user_id === user?.id && (
           <IconButton onClick={() => setDialog("add")} sx={{ ml: "auto" }}>
             <Add />
           </IconButton>
@@ -117,11 +126,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           </Toolbar>
         </AppBar>
         <Box sx={{ height: "100%" }} elevation={0} component={Card}>
-          <SearchPage
-            listId={params.list_id}
-            enableAddToList
-            onClose={onClose}
-          />
+          <SearchPage listId={listId} enableAddToList onClose={onClose} />
         </Box>
       </Dialog>
       <DialogWrapper open={dialog === "more"} title="options" onClose={onClose}>
@@ -171,7 +176,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
         </Box>
       </Dialog>
 
-      <CustomListItems listId={list.id} listOwner={list.user_id} />
+      <CustomListItems listId={list.data.id} listOwner={list.data.user_id} />
     </Box>
   );
 };

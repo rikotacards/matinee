@@ -17,7 +17,9 @@ export const Lists: React.FC = () => {
 
   const { user } = useAuth();
   const lists = useGetLists(user?.id);
-
+  if(!user?.id){
+    return null
+  }
   return (
     <Box sx={{ minWidth: 300 }}>
       <Stack sx={{ mb: 1 }} direction={"row"} alignItems={"center"}>
