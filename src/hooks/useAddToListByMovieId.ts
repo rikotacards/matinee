@@ -4,7 +4,7 @@ import { useCheckAndPopulateUserItem } from "./mutations/useCheckAndPopulate";
 export const useAddToListByMovieId = (movieId: string | number, isInternal: boolean) => {
   const check = useCheckAndPopulateUserItem(movieId, isInternal);
   const addItem = useAddItemToList();
-  return async (listId: string) => {
+  return async (listId: string | number) => {
     const item = await check();
     if (!item) {
       return;

@@ -1,10 +1,13 @@
 import {
+  AppBar,
   Box,
   Button,
+  Card,
   CircularProgress,
   Dialog,
   IconButton,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -12,12 +15,12 @@ import { MovieItem } from "./MovieItem";
 import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate, useParams } from "react-router";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
-import { Add, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
+import { Add, Close, Delete, MoreHoriz, MoreVert } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/useDeleteList";
 import { useUpdateListName } from "../hooks/mutations/useUpdateListName";
-import { AddItemFormNew } from "./AddItemFormNew";
 import type { IList } from "../hooks/queries/useGetListById";
 import { useAuth } from "../hooks/useAuth";
+import { SearchPage } from "../pages/SearchPage";
 
 interface CustomListProps {
   list: IList;
@@ -26,11 +29,9 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
   const { user } = useAuth();
   const params = useParams();
   const items = useGetItemsByListId(params.list_id || "");
-
   const [dialog, setDialog] = React.useState("");
   const nav = useNavigate();
   const [newName, setNewName] = React.useState(list.name);
-
   const onClose = () => {
     setDialog("");
   };
@@ -116,9 +117,19 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
         </IconButton>
       </Box>
       <Box></Box>
-      <DialogWrapper open={dialog === "add"} title={"Add"} onClose={onClose}>
-        <AddItemFormNew onClose={onClose} list_id={params.list_id} />
-      </DialogWrapper>
+      <Dialog fullScreen open={dialog === "add"} onClose={onClose}>
+        <AppBar variant="outlined" position="relative">
+          <Toolbar>
+            <Typography sx={{ mr: "auto" }}>Add to list</Typography>
+            <IconButton sx={{ mr: 1 }} onClick={onClose}>
+              <Close />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Box sx={{ height: "100%" }} elevation={0} component={Card}>
+          <SearchPage listId={params.list_id} enableAddToList onClose={onClose} />
+        </Box>
+      </Dialog>
       <DialogWrapper open={dialog === "more"} title="options" onClose={onClose}>
         {listActions.map((b) => (
           <Button
@@ -160,7 +171,7 @@ export const CustomList: React.FC<CustomListProps> = ({ list }) => {
           >
             Remove from list
           </Button>
-          <Button color='inherit' sx={{ mt: 1 }} onClick={onClose} fullWidth>
+          <Button color="inherit" sx={{ mt: 1 }} onClick={onClose} fullWidth>
             Cancel
           </Button>
         </Box>

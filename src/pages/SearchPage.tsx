@@ -5,8 +5,16 @@ import React from "react";
 import { InfoOutline, ChevronRight } from "@mui/icons-material";
 import { useDebounce } from "../hooks/useDebounce";
 import { SearchResult } from "./SearchResult";
-
-export const SearchPage: React.FC = () => {
+interface SearchPageProps {
+  listId?: string;
+  enableAddToList?: boolean;
+  onClose?: () => void;
+}
+export const SearchPage: React.FC<SearchPageProps> = ({
+  listId,
+  enableAddToList,
+  onClose
+}) => {
   const [showClear, setClear] = React.useState(false);
   const [text, setText] = React.useState("");
   const onClear = () => {
@@ -58,7 +66,15 @@ export const SearchPage: React.FC = () => {
           display: "flex",
         }}
       >
-        {debouncedName && <SearchResult movieName={debouncedName} />}
+        {debouncedName && (
+          <SearchResult
+            listId={listId}
+            onClose={onClose}
+            movieName={debouncedName}
+            enableAddToList={enableAddToList}
+          />
+          
+        )}
       </Box>
     </Box>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { useSearchMovies } from "../hooks/queries/useSearchMovies";
+import { useSearchMovies, type SearchResult } from "../hooks/queries/useSearchMovies";
 import { useDebounce } from "../hooks/useDebounce";
 import {
   Autocomplete,
@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { TitleOption } from "./TitleOption";
 interface SearchFormProps {
-  onSelect: (movie: any) => void;
+  onSelect: (movie: SearchResult) => void;
 }
 export const SearchForm: React.FC<SearchFormProps> = ({ onSelect }) => {
   const [value, setValue] = React.useState<string | null>(null);

@@ -3,10 +3,20 @@ import React from "react";
 import { useSearchMovies } from "../hooks/queries/useSearchMovies";
 import { useNavigate } from "react-router";
 import { TitleOption } from "../components/TitleOption";
+import { AddToListItemWrapper } from "../components/AddToListItemWrapper";
 interface SearchResultProps {
   movieName?: string;
+  enableAddToList?: boolean;
+  onSearchResultClick?: () => void;
+  listId?: string | number;
+  onClose?: () => void;
 }
-export const SearchResult: React.FC<SearchResultProps> = ({ movieName }) => {
+export const SearchResult: React.FC<SearchResultProps> = ({
+  movieName,
+  enableAddToList,
+  listId,
+  onClose,
+}) => {
   const { data: searchResults, isLoading } = useSearchMovies(movieName);
   const nav = useNavigate();
   if (isLoading) {
@@ -17,18 +27,39 @@ export const SearchResult: React.FC<SearchResultProps> = ({ movieName }) => {
     return <Typography>We couldn't find this movie</Typography>;
   }
   const go = (id: number) => {
-    nav("/movies/" + id + '/false');
+    nav("/movies/" + id + "/false");
   };
-  console.log("s", searchResults);
-  const displayedMovies = searchResults.map((m) => (
-    <Box onClick={() => go(m.id)}>
-      <TitleOption
-        posterPath={m.poster_path}
-        releaseDate={m.release_date}
-        title={m.title}
-      />
-    </Box>
-  ));
+
+  const displayedMovies = searchResults.map((m) => {
+    if (enableAddToList) {
+      return (
+        <AddToListItemWrapper
+          movieId={m.id}
+          isInternal={false}
+          listId={listId}
+          onClose={() => {
+            onClose?.();
+          }}
+        >
+          <TitleOption
+            posterPath={m.poster_path}
+            releaseDate={m.release_date}
+            title={m.title}
+          />
+          
+        </AddToListItemWrapper>
+      );
+    } else
+      return (
+        <Box onClick={() => go(m.id)}>
+          <TitleOption
+            posterPath={m.poster_path}
+            releaseDate={m.release_date}
+            title={m.title}
+          />
+        </Box>
+      );
+  });
   return (
     <Box
       sx={{

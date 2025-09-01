@@ -3,7 +3,7 @@ import { supabase } from "../../supbaseClient";
 import { useSnackbar } from "notistack";
 
 interface AddItemToListPayload {
-  list_id: string;
+  list_id: string | number;
   item_id: string;
 }
 
