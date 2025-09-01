@@ -1,0 +1,1 @@
+export const movieItemAvatarSize = 50;

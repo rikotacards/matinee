@@ -2,6 +2,7 @@ import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
 
 import { RatingDisplay } from "./RatingDisplay";
+import { movieItemAvatarSize } from "./commonStyles";
 
 interface CustomListItemProps {
   title: string;
@@ -9,7 +10,7 @@ interface CustomListItemProps {
   lastWatchDate?: string;
   rating?: number;
 }
-const size = 50;
+
 export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
   title,
   fullPosterPath,
@@ -25,7 +26,7 @@ export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
         minWidth: 300,
       }}
     >
-      <Avatar sx={{ height: size, width: size, mr: 1 }} src={fullPosterPath} />
+      <Avatar sx={{ height: movieItemAvatarSize, width: movieItemAvatarSize, mr: 1 }} src={fullPosterPath} />
       <Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography
