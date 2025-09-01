@@ -5,7 +5,7 @@ import {
   Star,
   StarOutline,
 } from "@mui/icons-material";
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Typography } from "@mui/material";
 interface ActionChipsProps {
   hasWatched: boolean;
   onUpdate: (arg: string) => Promise<void>;
@@ -41,10 +41,13 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
   ) : (
     <BookmarkBorderIcon />
   );
-  const onWatchlistClick = inWatchlist ? () => deleteWatchlistItem.mutate({
-    movie_ref_id: movieId,
-    user_id: user.id,
-  }) : () => addToWatchlist()
+  const onWatchlistClick = inWatchlist
+    ? () =>
+        deleteWatchlistItem.mutate({
+          movie_ref_id: movieId,
+          user_id: user.id,
+        })
+    : () => addToWatchlist();
   const watchedLabel = (
     <Typography variant="caption">
       {hasWatched ? "Watched" : "Not watched"}
@@ -68,26 +71,19 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
         onClick={() => onUpdate(hasWatched ? "not watched" : "watched")}
         label={watchedLabel}
       />
-      {
-        <Chip
-          icon={ratingIcon}
-          // variant="outlined"
-          sx={{ mr: 1 }}
-          onClick={() => onOpenDialog("edit")}
-          label={
-            <Typography variant="caption">
-              {myRating ? `${myRating}/5` : "Rate"}
-            </Typography>
-          }
-        />
-      }
+
       <Chip
-        icon={watchlistIcon}
+        icon={ratingIcon}
         // variant="outlined"
         sx={{ mr: 1 }}
-        onClick={onWatchlistClick}
-        label={<Typography variant="caption">watchlist</Typography>}
+        onClick={() => onOpenDialog("edit")}
+        label={
+          <Typography variant="caption">
+            {myRating ? `${myRating}/5` : "Rate"}
+          </Typography>
+        }
       />
+
       <Chip
         icon={<Add fontSize="small" />}
         // variant="outlined"
@@ -95,6 +91,7 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
         onClick={() => onOpenDialog("addToList")}
         label={<Typography variant="caption">List</Typography>}
       />
+      <IconButton onClick={onWatchlistClick}>{watchlistIcon}</IconButton>
     </Box>
   );
 };

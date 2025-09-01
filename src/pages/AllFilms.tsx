@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Card,
   Chip,
   CircularProgress,
   Dialog,
@@ -16,7 +17,7 @@ import { MovieItem } from "../components/MovieItem";
 import { useNavigate } from "react-router";
 import { AllFilmsNotLoggedIn } from "./AllFilmsNotLoggedIn";
 import { AddItemFormNew } from "../components/AddItemFormNew";
-import { Add } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import { SearchPage } from "./SearchPage";
 
 export const AllFilms: React.FC = () => {
@@ -64,7 +65,7 @@ export const AllFilms: React.FC = () => {
           <Add />
         </IconButton>
       </Stack>
-      <Typography>Films that you've seen, and haven't rated.</Typography>
+      <Typography>Films that you've <b>watched</b>, and or rated.</Typography>
       <Box sx={{ mt: 2, mb: 1, display: "flex", flexDirection: "row" }}>
         <Chip sx={{ mr: 1 }} label="List view" />
         <Chip sx={{ mr: 1 }} label="Not rated" />
@@ -74,10 +75,13 @@ export const AllFilms: React.FC = () => {
       {displayedItems}
       {/* {open && <AddItemFormNew fullScreen onClose={onClose} />} */}
       <Dialog fullScreen open={open} onClose={onClose}>
-        <AppBar position="relative">
-          <Toolbar><Typography>Search</Typography></Toolbar>
+        <AppBar variant='outlined' position="relative">
+          <Toolbar><Typography sx={{mr: 'auto'}}>Search</Typography><IconButton sx={{mr:1}} onClick={onClose}><Close/></IconButton></Toolbar>
         </AppBar>
+        <Box sx={{height:'100%'}} elevation={0} component={Card}>
+
         <SearchPage/>
+        </Box>
       </Dialog>
     </Box>
   );

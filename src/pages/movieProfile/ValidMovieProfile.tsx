@@ -1,119 +1,149 @@
-import React from 'react';
-import { useDialogControl } from '../../hooks/useDialogControl';
-import { useCheckAndPopulateUserItem } from '../../hooks/mutations/useCheckAndPopulate';
-import { useGetMovieDetailsSwitch } from './useGetMovieDetailsSwitch';
-import { useUpdateUserItem } from '../../hooks/mutations/useUpdateUserItem';
-import { useGetUserItemByMovieRef } from '../../hooks/queries/useGetUserItemByMovieRef';
-import { useAuth } from '../../hooks/useAuth';
-import { useGetRating } from '../../hooks/queries/useGetRating';
-import { getImage } from '../../utils/getImage';
-import { Box, Button, CircularProgress, Dialog, Divider, Typography } from '@mui/material';
-import { MovieProfileHeader } from './MovieProfileHeader';
-import { ActionChips } from './ActionChips';
-import { AddRating } from './AddRating';
-import { WatchedBy } from './WatchedBy';
-import { AllRatings } from './AllRatings';
-import { RatingInputForm } from '../../components/RatingInputForm';
-import { DialogWrapper } from '../../components/DialogWrapper';
-import { AddToListPage } from '../AddToListPage';
+import React from "react";
+import { useDialogControl } from "../../hooks/useDialogControl";
+import { useCheckAndPopulateUserItem } from "../../hooks/mutations/useCheckAndPopulate";
+import { useGetMovieDetailsSwitch } from "./useGetMovieDetailsSwitch";
+import { useUpdateUserItem } from "../../hooks/mutations/useUpdateUserItem";
+import { useGetUserItemByMovieRef } from "../../hooks/queries/useGetUserItemByMovieRef";
+import { useAuth } from "../../hooks/useAuth";
+import { useGetRating } from "../../hooks/queries/useGetRating";
+import { getImage } from "../../utils/getImage";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import { MovieProfileHeader } from "./MovieProfileHeader";
+import { ActionChips } from "./ActionChips";
+import { AddRating } from "./AddRating";
+import { WatchedBy } from "./WatchedBy";
+import { AllRatings } from "./AllRatings";
+import { RatingInputForm } from "../../components/RatingInputForm";
+import { DialogWrapper } from "../../components/DialogWrapper";
+import { AddToListPage } from "../AddToListPage";
+import {
+  CalendarMonth,
+  ChevronLeft,
+  History,
+  MoreHoriz,
+} from "@mui/icons-material";
+import { useNavigate } from "react-router";
+import { LastWatched } from "./LastWatched";
 interface ValidMovieProfileProps {
-    movie_ref_id: string;
-    is_internal: string
+  movie_ref_id: string;
+  is_internal: string;
 }
-export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({movie_ref_id, is_internal}) => {
-    const isInternal = is_internal === 'true'
-    const {user} = useAuth();
-    const { name, onCloseDialog, setDialogName } = useDialogControl();
-      const checkAndPopulate = useCheckAndPopulateUserItem(
-        movie_ref_id,
-        isInternal
-      );
-      const { hasInternalRef, movieDetails } = useGetMovieDetailsSwitch(
-        movie_ref_id,
-        isInternal
-      );
-      const updateUserItem = useUpdateUserItem();
-      const item = useGetUserItemByMovieRef({
-        userId: user?.id,
-        movieRefId: hasInternalRef ? movieDetails.id : undefined,
-      });
-      const myRating = useGetRating({
-        movie_ref_id: movieDetails.id,
-        user_id: user?.id,
-      });
-      const fullPoster = getImage(movieDetails.poster_path);
-    
-      const onUpdateNew = async (status: string) => {
-        const item = await checkAndPopulate();
-       
-        if (!item) {
-          throw new Error("no item");
-        }
-        if(!user?.id){
-            throw new Error('user not logged in')
-        }
-        updateUserItem.mutate({
-          userId: user?.id,
-          movieRefId: movieDetails.id,
-          updatePayload: { status },
-          itemId: item?.id,
-        });
-      };
-    
-      if (item.isLoading) {
-        return <CircularProgress />;
-      }
-      const hasWatched = item.data?.status === "watched";
-      return (
-        <Box sx={{ maxWidth: 400 }}>
-          {/* {!item.data && <HaveYouWatched onUpdate={onUpdate} />} */}
-          <MovieProfileHeader
-            poster_path={fullPoster}
-            release={movieDetails.release}
-            title={movieDetails.title}
-            movieId={movieDetails.id}
-          />
-    
-          <ActionChips
-            onOpenDialog={(name: string) => setDialogName(name)}
-            myRating={myRating.data?.rating}
-            onUpdate={onUpdateNew}
-            hasWatched={hasWatched}
-            movieId={item.data?.movie_ref_id}
-            isInternal={isInternal}
-          />
-    
-          <Typography sx={{ mt: 1 }} variant="body2">
-            {movieDetails.overview}
-          </Typography>
-    
-          {hasWatched && item.data && !myRating.data && (
-            <AddRating movie_ref_id={movieDetails.id} />
-          )}
-          <Box sx={{ mt: 2 }}>
-            <WatchedBy hasWatched={hasWatched} />
-    
-            <AllRatings ratedBy={undefined} movie_ref_id_url={movieDetails.id} />
-          </Box>
-          <Divider sx={{ mt: 2, mb: 2 }} />
-          <Dialog onClose={onCloseDialog} open={name === "edit"}>
-            <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
-              <RatingInputForm
-                onClose={onCloseDialog}
-                movie_ref_id={movieDetails.id}
-                isInternal={is_internal === "true"}
-                rating={myRating.data?.rating}
-              />
-              <Button onClick={onCloseDialog}>Cancel</Button>
-            </Box>
-          </Dialog>
-          <DialogWrapper
-            title={"Add to list"}
-            open={name === "addToList"}
+export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
+  movie_ref_id,
+  is_internal,
+}) => {
+  const isInternal = is_internal === "true";
+  const { user } = useAuth();
+  const nav = useNavigate();
+  const onBack = () => nav(-1);
+  const { name, onCloseDialog, setDialogName } = useDialogControl();
+  const checkAndPopulate = useCheckAndPopulateUserItem(
+    movie_ref_id,
+    isInternal
+  );
+  const { hasInternalRef, movieDetails } = useGetMovieDetailsSwitch(
+    movie_ref_id,
+    isInternal
+  );
+  const updateUserItem = useUpdateUserItem();
+  const item = useGetUserItemByMovieRef({
+    userId: user?.id,
+    movieRefId: hasInternalRef ? movieDetails.id : undefined,
+  });
+  const myRating = useGetRating({
+    movie_ref_id: movieDetails.id,
+    user_id: user?.id,
+  });
+  const fullPoster = getImage(movieDetails.poster_path);
+
+  const onUpdateNew = async (status: string) => {
+    const item = await checkAndPopulate();
+
+    if (!item) {
+      throw new Error("no item");
+    }
+    if (!user?.id) {
+      throw new Error("user not logged in");
+    }
+    updateUserItem.mutate({
+      userId: user?.id,
+      movieRefId: movieDetails.id,
+      updatePayload: { status },
+      itemId: item?.id,
+    });
+  };
+
+  if (item.isLoading) {
+    return <CircularProgress />;
+  }
+  const hasWatched = item.data?.status === "watched";
+  return (
+    <Box sx={{ maxWidth: 400 }}>
+      <IconButton onClick={onBack}>
+        <ChevronLeft />
+      </IconButton>
+      {/* {!item.data && <HaveYouWatched onUpdate={onUpdate} />} */}
+      <MovieProfileHeader
+        poster_path={fullPoster}
+        release={movieDetails.release}
+        title={movieDetails.title}
+        movieId={movieDetails.id}
+      />
+
+      <ActionChips
+        onOpenDialog={(name: string) => setDialogName(name)}
+        myRating={myRating.data?.rating}
+        onUpdate={onUpdateNew}
+        hasWatched={hasWatched}
+        movieId={item.data?.movie_ref_id}
+        isInternal={isInternal}
+      />
+      <LastWatched />
+      <Divider sx={{ mt: 2, mb: 2 }} />
+      <Typography sx={{ mt: 1 }} variant="body2">
+        {movieDetails.overview}
+      </Typography>
+      <Divider sx={{ mt: 2, mb: 2 }} />
+
+      {hasWatched && item.data && !myRating.data && (
+        <AddRating movie_ref_id={movieDetails.id} />
+      )}
+      <Box sx={{ mt: 2 }}>
+        <WatchedBy hasWatched={hasWatched} />
+
+        <AllRatings ratedBy={undefined} movie_ref_id_url={movieDetails.id} />
+      </Box>
+      <Divider sx={{ mt: 2, mb: 2 }} />
+      <Dialog onClose={onCloseDialog} open={name === "edit"}>
+        <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+          <RatingInputForm
             onClose={onCloseDialog}
-          >
-            <AddToListPage onClose={onCloseDialog} isInternal={isInternal} movieId={movieDetails.id} />
-          </DialogWrapper>
+            movie_ref_id={movieDetails.id}
+            isInternal={is_internal === "true"}
+            rating={myRating.data?.rating}
+          />
+          <Button onClick={onCloseDialog}>Cancel</Button>
         </Box>
-      );
-}
+      </Dialog>
+      <DialogWrapper
+        title={"Add to list"}
+        open={name === "addToList"}
+        onClose={onCloseDialog}
+      >
+        <AddToListPage
+          onClose={onCloseDialog}
+          isInternal={isInternal}
+          movieId={movieDetails.id}
+        />
+      </DialogWrapper>
+    </Box>
+  );
+};
