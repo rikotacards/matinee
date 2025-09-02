@@ -1,5 +1,4 @@
 import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
-import type { UserItem } from "../hooks/queries/useGetUserItems";
 import { Close } from "@mui/icons-material";
 import { useDeleteWatchlistItem } from "../hooks/mutations/useDeleteWatchlistItem";
 import { MovieItem } from "../components/MovieItem";
