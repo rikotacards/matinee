@@ -51,7 +51,7 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
           user_id: user.id,
         });
       }
-    : () => addToWatchlist();
+    : () => addToWatchlist()
   const watchedLabel = (
     <Typography variant="caption">
       {hasWatched ? "Watched" : "Not watched"}

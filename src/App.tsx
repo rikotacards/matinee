@@ -10,7 +10,7 @@ import { AuthProvider } from "./providers/AuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AllFilms } from "./pages/AllFilms";
 import { SnackbarProvider } from "notistack";
-import { MyWatchlistPage } from "./pages/WatchlistPage";
+import { WatchlistPage } from "./pages/WatchlistPage";
 import { PublicProfilePage } from "./pages/PublicProfilePage";
 import { SearchPage } from "./pages/SearchPage";
 import { MovieProfileNew } from "./pages/movieProfile/MovieProfileNew";
@@ -31,7 +31,7 @@ function App() {
                 <Route path="all-films" element={<AllFilms />} />
                 <Route path="lists" element={<Lists />} />
                 <Route path={"lists/:list_id"} element={<ListPage />} />
-                <Route path="watchlist" element={<MyWatchlistPage />} />
+                <Route path="watchlist" element={<WatchlistPage />} />
                 <Route path="profile" element={<PublicProfilePage />} />
 
                 <Route path="profile" element={<PublicProfilePage />} />

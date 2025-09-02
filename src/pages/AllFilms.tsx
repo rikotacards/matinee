@@ -31,7 +31,7 @@ export const AllFilms: React.FC = () => {
   }
 
   return (
-    <Box>
+    <Box sx={{maxWidth: 300}}>
       <Stack direction="row" alignItems={"center"}>
         <Typography fontWeight={"bold"} variant="h4">
           Your Films
