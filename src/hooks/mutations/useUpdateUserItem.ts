@@ -8,6 +8,7 @@ export interface UpdateUserItem {
   itemId: string;
   userId: string;
   movieRefId: string | number;
+  rating?: number | null;
 }
 
 /**
@@ -21,6 +22,7 @@ export const useUpdateUserItem = () => {
   return useMutation({
     
     mutationFn: async (args: UpdateUserItem) => {
+      console.log('update', args)
       const { data, error } = await supabase
         .from("user_item")
         .update( args.updatePayload)

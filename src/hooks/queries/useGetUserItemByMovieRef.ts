@@ -15,6 +15,7 @@ export interface UserItem {
   status: string;
   movie_ref_id: string;
   last_watched_date: string;
+  rating?: number | null;
 }
 interface Args {
     userId: string | undefined;

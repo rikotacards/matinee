@@ -5,7 +5,6 @@ import { useGetMovieDetailsSwitch } from "./useGetMovieDetailsSwitch";
 import { useUpdateUserItem } from "../../hooks/mutations/useUpdateUserItem";
 import { useGetUserItemByMovieRef } from "../../hooks/queries/useGetUserItemByMovieRef";
 import { useAuth } from "../../hooks/useAuth";
-import { useGetRating } from "../../hooks/queries/useGetRating";
 import { getImage } from "../../utils/getImage";
 import {
   Box,
@@ -52,10 +51,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
     userId: user?.id,
     movieRefId: hasInternalRef ? movieDetails.id : undefined,
   });
-  const myRating = useGetRating({
-    movie_ref_id: movieDetails.id,
-    user_id: user?.id,
-  });
+ 
   const fullPoster = getImage(movieDetails.poster_path);
 
   const onUpdateNew = async (status: string) => {
@@ -95,7 +91,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
 
       <ActionChips
         onOpenDialog={(name: string) => setDialogName(name)}
-        myRating={myRating.data?.rating}
+        myRating={item.data?.rating || 0}
         onUpdate={onUpdateNew}
         hasWatched={hasWatched}
         movieId={item.data?.movie_ref_id || ""}
@@ -107,7 +103,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
       </Typography>
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      {hasWatched && item.data && !myRating.data && (
+      {hasWatched && !item.data?.rating && (
         <AddRating isInternal={isInternal} movie_ref_id={movieDetails.id} />
       )}
       <Box sx={{ mt: 2 }}>
@@ -126,7 +122,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
             onClose={onCloseDialog}
             movie_ref_id={movieDetails.id}
             isInternal={is_internal === "true"}
-            rating={myRating.data?.rating}
+            rating={item.data?.rating || 0}
           />
           <Button onClick={onCloseDialog}>Cancel</Button>
         </Box>

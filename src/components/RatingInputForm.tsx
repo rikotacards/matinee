@@ -2,7 +2,6 @@ import { Box, Button, Rating } from "@mui/material";
 import React from "react";
 import StarIcon from "@mui/icons-material/Star";
 import { useAuth } from "../hooks/useAuth";
-import { useUpsertRating } from "../hooks/mutations/useUpsertRating";
 import { useCheckAndPopulateUserItem } from "../hooks/mutations/useCheckAndPopulate";
 import { useUpdateUserItem } from "../hooks/mutations/useUpdateUserItem";
 interface RatingInputForm {
@@ -20,7 +19,6 @@ export const RatingInputForm: React.FC<RatingInputForm> = ({
 }) => {
   const [value, setValue] = React.useState<number>(rating || 0);
   const { user } = useAuth();
-  const updateRating = useUpsertRating();
   const updateUserItem = useUpdateUserItem();
   const c = useCheckAndPopulateUserItem(movie_ref_id, isInternal);
   const onDone = async () => {
@@ -28,22 +26,16 @@ export const RatingInputForm: React.FC<RatingInputForm> = ({
       return;
     }
     const item = await c();
-    if(!item){
+    if (!item) {
       return;
     }
-    if (item.status !== "watched") {
-      await updateUserItem.mutateAsync({
-        updatePayload: { status: "watched" },
-        itemId: item.id,
-        movieRefId: item.movie_ref_id,
-        userId: user.id,
-      });
-    }
-    await updateRating.mutateAsync({
-      rating: value,
-      user_id: user.id,
-      movie_ref_id: item.movie_ref_id,
+    await updateUserItem.mutateAsync({
+      updatePayload: { status: "watched", rating: value },
+      itemId: item.id,
+      movieRefId: item.movie_ref_id,
+      userId: user.id,
     });
+
     onClose();
   };
   return (

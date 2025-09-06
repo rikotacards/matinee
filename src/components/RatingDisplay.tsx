@@ -18,7 +18,7 @@ export const RatingDisplay: React.FC<RatingDisplayProps> = ({textVariant, rating
       }}
     >
       <Star sx={{ mr: 0.1, scale: 0.8 }} color="warning" />
-      <Typography variant={'body2'} fontWeight={"bold"}>{rating}/5</Typography>
+      <Typography variant={textVariant} fontWeight={"bold"}>{rating}/5</Typography>
     </Box>
   );
 };

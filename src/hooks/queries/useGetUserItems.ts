@@ -15,6 +15,7 @@ export interface UserItem {
   status: string;
   movie_ref_id: string | number;
   last_watched_date: string;
+  rating?: number | null;
 }
 export const useGetUserItems = (userId?: string) => {
   const queryFn = async () => {
