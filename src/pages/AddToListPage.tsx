@@ -37,7 +37,7 @@ export const AddToListPage: React.FC<AddToListPageProps> = ({ movieId,isInternal
   ));
   return (
     <Box sx={{p:1}} component={Paper}>
-      <Button>Create New List</Button>
+      <Button fullWidth>Create New List</Button>
       {displayedLists}
     </Box>
   );
