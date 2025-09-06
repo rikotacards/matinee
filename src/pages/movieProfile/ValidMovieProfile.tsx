@@ -55,7 +55,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
 
   const onUpdateNew = async (status: string) => {
     const item = await checkAndPopulate();
-
+    console.log('GET', item)
     if (!item) {
       throw new Error("no item");
     }
@@ -64,7 +64,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
     }
     updateUserItem.mutate({
       userId: user?.id,
-      movieRefId: movieDetails.id,
+      movieRefId: item.movie_ref_id,
       updatePayload: { status },
       itemId: item?.id,
     });

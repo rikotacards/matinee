@@ -78,7 +78,6 @@ export const ActionChips: React.FC<ActionChipsProps> = ({
 
       <Chip
         icon={ratingIcon}
-        // variant="outlined"
         sx={{ mr: 1 }}
         onClick={() => onOpenDialog("edit")}
         label={

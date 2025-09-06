@@ -199,6 +199,8 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
       </Box>
       {displayedItems}
       <Dialog open={name === "sort"} onClose={onCloseDialog}>
+        <Box sx={{display: 'flex', flexDirection: 'column', p:1}}>
+
         <Button
           size="small"
           sx={{ mb: 0.5 }}
@@ -236,6 +238,8 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
         <Button size="small" onClick={onCloseDialog}>
           Cancel
         </Button>
+                </Box>
+
       </Dialog>
     </>
   );

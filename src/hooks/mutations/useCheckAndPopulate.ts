@@ -49,7 +49,7 @@ export const useCheckAndPopulateUserItem = (
         backdrop_path: movieDetails.backdrop_path,
         title: movieDetails.title,
       });
-
+      console.log('checking', movie_ref_id)
       const res = await upsertUserItem.mutateAsync({
         movie_ref_id,
         user_id: user.id,
