@@ -75,7 +75,7 @@ export const WatchlistItems: React.FC<WatchlistItemsProps> = ({
     return <MovieItemSkeletonList />;
   }
   if (!watchlist.data?.length) {
-    return <Typography>No data</Typography>;
+    return <Typography>You have no movies in your watchlist.</Typography>;
   }
   return (
     <>

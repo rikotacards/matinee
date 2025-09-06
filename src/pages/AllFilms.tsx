@@ -28,11 +28,6 @@ export const AllFilms: React.FC = () => {
 
   return (
       <PageWrapper
-        desc={
-          <Typography>
-            Films that you've <b>watched</b>, and or rated.
-          </Typography>
-        }
         buttons={
           <>
             {name === '' && <IconButton onClick={() => setDialogName('add')}>
