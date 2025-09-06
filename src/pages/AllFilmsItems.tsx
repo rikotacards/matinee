@@ -2,7 +2,6 @@ import React from "react";
 import { useGetUserItems } from "../hooks/queries/useGetUserItems";
 import {
   Box,
-  Card,
   CircularProgress,
   Divider,
   IconButton,
