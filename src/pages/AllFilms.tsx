@@ -5,7 +5,6 @@ import {
   Chip,
   Dialog,
   IconButton,
-  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -15,6 +14,7 @@ import { AllFilmsNotLoggedIn } from "./AllFilmsNotLoggedIn";
 import { Add, Close } from "@mui/icons-material";
 import { SearchPage } from "./SearchPage";
 import { AllFilmsItems } from "./AllFilmsItems";
+import { PageWrapper } from "../layouts/PageWrapper";
 
 export const AllFilms: React.FC = () => {
   const { session, user } = useAuth();
@@ -32,24 +32,29 @@ export const AllFilms: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 500 }}>
-      <Stack direction="row" alignItems={"center"}>
-        <Typography fontWeight={"bold"} variant="h4">
-          Your Films
-        </Typography>
-        <IconButton sx={{ ml: "auto" }} onClick={onOpen}>
-          <Add />
-        </IconButton>
-      </Stack>
-      <Typography>
-        Films that you've <b>watched</b>, and or rated.
-      </Typography>
-      <Box sx={{ mt: 1, mb: 2, display: "flex", flexDirection: "row" }}>
-        <Chip sx={{ mr: 1 }} label="All" />
-        <Chip sx={{ mr: 1 }} label="Not rated" />
-        <Chip label="Watchlist" />
-      </Box>
-      <AllFilmsItems userId={user.id} />
-      {/* {open && <AddItemFormNew fullScreen onClose={onClose} />} */}
+      <PageWrapper
+        desc={
+          <Typography>
+            Films that you've <b>watched</b>, and or rated.
+          </Typography>
+        }
+        buttons={
+          <>
+            <IconButton sx={{ ml: "auto" }} onClick={onOpen}>
+              <Add />
+            </IconButton>
+          </>
+        }
+        pageName="Your films"
+      >
+        <Box sx={{ mt: 1, mb: 2, display: "flex", flexDirection: "row" }}>
+          <Chip sx={{ mr: 1 }} label="All" />
+          <Chip sx={{ mr: 1 }} label="Not rated" />
+          <Chip label="Watchlist" />
+        </Box>
+        <AllFilmsItems userId={user.id} />
+      </PageWrapper>
+
       <Dialog fullScreen open={open} onClose={onClose}>
         <AppBar variant="outlined" position="relative">
           <Toolbar>

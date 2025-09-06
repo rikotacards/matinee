@@ -38,7 +38,7 @@ const ListOptionsWrapper: React.FC<ListOptionsWrapperProps> = ({
     </IconButton>
   );
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+    <Box sx={{width:'100%', display: "flex", flexDirection: "row", alignItems: "center" }}>
       {children}
       {showOptions && deleteIcon}
     </Box>
@@ -68,9 +68,9 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
   }
 
   return (
-    <Box>
+    <>
       {lists.data?.map((l) => (
-        <Box key={l.id} sx={{ mb: 1 }}>
+        <Box  key={l.id} sx={{width:'100%', mb: 1 }}>
           <ListOptionsWrapper
             listId={l.id}
             showOptions={dialogName === "more"}
@@ -79,6 +79,6 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
           </ListOptionsWrapper>
         </Box>
       ))}
-    </Box>
+    </>
   );
 };

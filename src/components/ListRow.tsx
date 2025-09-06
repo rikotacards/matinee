@@ -29,7 +29,7 @@ export const ListRow: React.FC<ListPreviewProps> = ({
         flexDirection: "row",
         alignItems: "center",
         p: 2,
-        minWidth: 300,
+        width:'100%'
       }}
       component={Card}
       variant="outlined"

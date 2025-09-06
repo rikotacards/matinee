@@ -6,7 +6,6 @@ import {
   CircularProgress,
   Dialog,
   IconButton,
-  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -17,6 +16,7 @@ import { Add, Close, MoreHoriz } from "@mui/icons-material";
 import { WatchlistItems } from "./WatchlistItems";
 import { useDialogControl } from "../hooks/useDialogControl";
 import { SearchPage } from "./SearchPage";
+import { PageWrapper } from "../layouts/PageWrapper";
 
 export const Watchlist: React.FC = () => {
   const { user, loading } = useAuth();
@@ -41,28 +41,33 @@ export const Watchlist: React.FC = () => {
         maxWidth: 500,
       }}
     >
-      <Stack direction={"row"} alignItems={"center"}>
-        <Typography sx={{ mr: "auto", mb:2 }} fontWeight="bold" variant="h4">
-          Watchlist
-        </Typography>
+      <PageWrapper
+        pageName="watchlist"
+        buttons={
+          <>
+            {name == "more" ? null : (
+              <IconButton
+                onClick={() => setDialogName("add")}
+                sx={{ ml: "auto" }}
+              >
+                <Add />
+              </IconButton>
+            )}
+            {name === "more" ? (
+              <Button onClick={() => onCloseDialog()} size="small">
+                Done
+              </Button>
+            ) : (
+              <IconButton onClick={() => onMore()}>
+                <MoreHoriz />
+              </IconButton>
+            )}
+          </>
+        }
+      >
+        <WatchlistItems userId={user.id} show={name === "more"} />
+      </PageWrapper>
 
-        {name == "more" ? null : (
-          <IconButton onClick={() => setDialogName("add")} sx={{ ml: "auto" }}>
-            <Add />
-          </IconButton>
-        )}
-        {name === "more" ? (
-          <Button onClick={() => onCloseDialog()} size="small">
-            Done
-          </Button>
-        ) : (
-          <IconButton onClick={() => onMore()}>
-            <MoreHoriz />
-          </IconButton>
-        )}
-      </Stack>
-
-      <WatchlistItems userId={user.id} show={name === "more"} />
       <Dialog fullScreen open={name === "add"} onClose={onCloseDialog}>
         <AppBar variant="outlined" position="relative">
           <Toolbar>
