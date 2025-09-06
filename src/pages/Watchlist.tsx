@@ -66,7 +66,7 @@ export const Watchlist: React.FC = () => {
           </Toolbar>
         </AppBar>
         <Box sx={{ height: "100%" }} elevation={0} component={Card}>
-          <SearchPage />
+          <SearchPage onClose={onCloseDialog} prevPage="watchlist" />
         </Box>
       </Dialog>
     </Box>

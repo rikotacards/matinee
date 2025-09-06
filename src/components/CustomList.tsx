@@ -126,7 +126,7 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
           </Toolbar>
         </AppBar>
         <Box sx={{ height: "100%" }} elevation={0} component={Card}>
-          <SearchPage listId={listId} enableAddToList onClose={onClose} />
+          <SearchPage prevPage="list" listId={listId} enableAddToList onClose={onClose} />
         </Box>
       </Dialog>
       <DialogWrapper open={dialog === "more"} title="options" onClose={onClose}>

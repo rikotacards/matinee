@@ -1,34 +1,36 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { type SearchResult as ISearchResult } from "../hooks/queries/useSearchMovies";
-import { useNavigate } from "react-router";
 import { TitleOption } from "../components/TitleOption";
+import { AddToWatchlistItemWrapper } from "../components/AddToWatchlistItemWrapper";
 interface SearchResultProps {
   onSearchResultClick?: () => void;
-
+  onClose?: () => void;
   searchResults: ISearchResult[];
 }
-export const SearchResult: React.FC<SearchResultProps> = ({
+export const SearchResultWatchlist: React.FC<SearchResultProps> = ({
+  onClose,
   searchResults,
 }) => {
-  const nav = useNavigate();
-
   if (searchResults === undefined || searchResults?.length === 0) {
     return <Typography>We couldn't find this movie</Typography>;
   }
-  const go = (id: number) => {
-    nav("/movies/" + id + "/false");
-  };
 
   const displayedMovies = searchResults.map((m) => {
     return (
-      <Box onClick={() => go(m.id)}>
+      <AddToWatchlistItemWrapper
+        movieId={m.id}
+        isInternal={false}
+        onClose={() => {
+          onClose?.();
+        }}
+      >
         <TitleOption
           posterPath={m.poster_path}
           releaseDate={m.release_date}
           title={m.title}
         />
-      </Box>
+      </AddToWatchlistItemWrapper>
     );
   });
   return (
@@ -37,6 +39,8 @@ export const SearchResult: React.FC<SearchResultProps> = ({
         flexDirection: "column",
         display: "flex",
         height: "100%",
+        width:'100%',
+        overflowY: 'scroll',
       }}
     >
       {displayedMovies}

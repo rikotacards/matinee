@@ -15,7 +15,7 @@ export const TitleOption: React.FC<TitleOptionsProps> = ({
     ? `${posterBaseUrl}${posterPath}`
     : "https://via.placeholder.com/500x750.png?text=No+Image";
   return (
-    <MenuItem  sx={{ p: 1, display: "flex", flexDirection: "row" }}>
+    <MenuItem  sx={{width:'100%', p: 1, display: "flex", flexDirection: "row" }}>
       <Avatar sx={{ mr: 1, height: 80, width: 80 }} src={imageUrl} />
       <Box>
         <Typography sx={{textWrap: 'wrap'}} fontWeight={"bold"}>{title}</Typography>

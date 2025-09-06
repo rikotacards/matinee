@@ -13,15 +13,18 @@ import { useDebounce } from "../hooks/useDebounce";
 import { SearchResult } from "./SearchResult";
 import { useSearchMovies } from "../hooks/queries/useSearchMovies";
 import { MovieItemSkeletonList } from "./MovieItemSkeletonList";
+import { SearchResultWatchlist } from "./SearchResultWatchlist";
+import { SearchResultList } from "./SearchResultList";
 interface SearchPageProps {
   listId?: string;
   enableAddToList?: boolean;
   onClose?: () => void;
+  prevPage?: string;
 }
 export const SearchPage: React.FC<SearchPageProps> = ({
   listId,
-  enableAddToList,
   onClose,
+  prevPage,
 }) => {
   const [showClear, setClear] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -77,15 +80,23 @@ export const SearchPage: React.FC<SearchPageProps> = ({
           display: "flex",
         }}
       >
-        {isLoading && (
-          <MovieItemSkeletonList rows={10}/>
-        )}
-        {!isLoading && debouncedName && (
-          <SearchResult
+        {isLoading && <MovieItemSkeletonList rows={10} />}
+        {listId && prevPage === "list" && !isLoading && debouncedName && (
+          <SearchResultList
             listId={listId}
             onClose={onClose}
             searchResults={searchResults || []}
-            enableAddToList={enableAddToList}
+          />
+        )}
+        {prevPage === "watchlist" && !isLoading && debouncedName && (
+          <SearchResultWatchlist
+            onClose={onClose}
+            searchResults={searchResults || []}
+          />
+        )}
+        {prevPage === undefined && !isLoading && debouncedName && (
+          <SearchResult
+            searchResults={searchResults || []}
           />
         )}
       </Box>
