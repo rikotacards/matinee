@@ -2,6 +2,7 @@ import React from "react";
 import { useGetUserItems } from "../hooks/queries/useGetUserItems";
 import {
   Box,
+  Chip,
   CircularProgress,
   Divider,
   IconButton,
@@ -75,6 +76,10 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
   userId,
 }) => {
   const items = useGetUserItems(userId);
+  
+  const [filterName, setFilter] = React.useState("all");
+  const notRatedItems = items.data?.filter((i) => !i.rating )
+  const ratedItems = items.data?.filter((i) => !!i.rating)
   const nav = useNavigate();
   if (items.isLoading) {
     return (
@@ -85,12 +90,21 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
       </>
     );
   }
+  const goToWatchlist = () => {
+    nav('/watchlist')
+  }
   const goToMovie = (movieRefId: string | number) => {
     const path = "/movies/" + movieRefId + "/true";
     const q = `?ratedBy=${userId}`;
     nav(path + q);
   };
-  const displayedItems = items.data?.map((i) => (
+  const itemsByFilter = {
+    'all': items.data,
+    'notrated': notRatedItems,
+    'rated': ratedItems
+  }
+  //@ts-expect-error todo this
+  const displayedItems = itemsByFilter[filterName].map((i) => (
     <MoreOptionsWrapper
       key={i.id}
       showMoreOptions={showMoreOptions}
@@ -107,5 +121,30 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
   if (items.data?.length === 0) {
     return <Typography>You have not added any films</Typography>;
   }
-  return <>{displayedItems}</>;
+  return (
+    <>
+      <Box sx={{ mt: 1, mb: 2, display: "flex", flexDirection: "row" }}>
+        <Chip
+          onClick={() => setFilter("all")}
+          variant={filterName === "all" ? "filled" : "outlined"}
+          sx={{ mr: 1 }}
+          label="All"
+        />
+        <Chip
+          onClick={() => setFilter("rated")}
+          variant={filterName === "rated" ? "filled" : "outlined"}
+          sx={{ mr: 1 }}
+          label="Rated"
+        />
+        <Chip
+          onClick={() => setFilter("notrated")}
+          variant={filterName === "notrated" ? "filled" : "outlined"}
+          sx={{ mr: 1 }}
+          label="Not rated"
+        />
+        <Chip onClick={goToWatchlist} variant='outlined' label="Watchlist" />
+      </Box>
+      {displayedItems}
+    </>
+  );
 };

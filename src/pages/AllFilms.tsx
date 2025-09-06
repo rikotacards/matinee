@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  Chip,
   Dialog,
   IconButton,
   Toolbar,
@@ -47,11 +46,6 @@ export const AllFilms: React.FC = () => {
         }
         pageName="Your films"
       >
-        <Box sx={{ mt: 1, mb: 2, display: "flex", flexDirection: "row" }}>
-          <Chip sx={{ mr: 1 }} label="All" />
-          <Chip sx={{ mr: 1 }} label="Not rated" />
-          <Chip label="Watchlist" />
-        </Box>
         <AllFilmsItems showMoreOptions={name === 'more'} userId={user.id} />
       <Dialog fullScreen open={name === 'add'} onClose={onCloseDialog}>
         <AppBar variant="outlined" position="relative">
