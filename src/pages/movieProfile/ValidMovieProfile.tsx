@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import { MovieProfileHeader } from "./MovieProfileHeader";
 import { ActionChips } from "./ActionChips";
-import { AddRating } from "./AddRating";
 import { WatchedBy } from "./WatchedBy";
 import { AllRatings } from "./AllRatings";
 import { RatingInputForm } from "../../components/RatingInputForm";
@@ -103,9 +102,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
       </Typography>
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      {hasWatched && !item.data?.rating && (
-        <AddRating isInternal={isInternal} movie_ref_id={movieDetails.id} />
-      )}
+     
       <Box sx={{ mt: 2 }}>
         <WatchedBy hasWatched={hasWatched} />
 
