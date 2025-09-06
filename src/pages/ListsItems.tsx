@@ -56,11 +56,11 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
 
   if (lists.isLoading) {
     return (
-      <Box>
+      <>
         <ListRowSkeleton />
         <ListRowSkeleton />
         <ListRowSkeleton />
-      </Box>
+      </>
     );
   }
   if (lists.data?.length === 0) {
@@ -68,9 +68,9 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
   }
 
   return (
-    <>
+    <Box>
       {lists.data?.map((l) => (
-        <Box  key={l.id} sx={{width:'100%', mb: 1 }}>
+        <Box  key={l.id} sx={{display: 'flex', width:'100%', mb: 1 }}>
           <ListOptionsWrapper
             listId={l.id}
             showOptions={dialogName === "more"}
@@ -79,6 +79,6 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
           </ListOptionsWrapper>
         </Box>
       ))}
-    </>
+    </Box>
   );
 };
