@@ -19,7 +19,9 @@ const OptionsWrapper: React.FC<OptionsWrapperProps> = ({
 }) => {
   const deleteItem = useDeleteWatchlistItem();
   const icon = !deleteItem.isPending ? (
-    <IconButton onClick={() => onRemove(movieRefId)}>
+    <IconButton onClick={(e: React.SyntheticEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      onRemove(movieRefId)}}>
       <Close color="error" />
     </IconButton>
   ) : (
