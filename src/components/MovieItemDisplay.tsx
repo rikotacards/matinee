@@ -21,14 +21,14 @@ export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
     <Box
       sx={{
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         flexDirection: "row",
         width:'100%',
       }}
     >
       <Avatar sx={{ height: movieItemAvatarSize, width: movieItemAvatarSize, mr: 1 }} src={fullPosterPath} />
       <Box sx={{width:'100%'}}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "flex-start" }}>
           <Typography
             fontWeight={"bold"}
             sx={{ textTransform: "capitalize", mr: 1 }}

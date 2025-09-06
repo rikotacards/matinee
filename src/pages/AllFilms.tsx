@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Button,
   Card,
   Chip,
   Dialog,
@@ -11,27 +12,22 @@ import {
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
 import { AllFilmsNotLoggedIn } from "./AllFilmsNotLoggedIn";
-import { Add, Close } from "@mui/icons-material";
+import { Add, Close, MoreHoriz } from "@mui/icons-material";
 import { SearchPage } from "./SearchPage";
 import { AllFilmsItems } from "./AllFilmsItems";
 import { PageWrapper } from "../layouts/PageWrapper";
+import { useDialogControl } from "../hooks/useDialogControl";
 
 export const AllFilms: React.FC = () => {
   const { session, user } = useAuth();
-  const [open, setOpen] = React.useState(false);
-  const onOpen = () => {
-    setOpen(true);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
+  
+  const {name, setDialogName, onCloseDialog} = useDialogControl()
 
   if (!session || !user) {
     return <AllFilmsNotLoggedIn />;
   }
 
   return (
-    <Box sx={{ maxWidth: 500 }}>
       <PageWrapper
         desc={
           <Typography>
@@ -40,9 +36,13 @@ export const AllFilms: React.FC = () => {
         }
         buttons={
           <>
-            <IconButton sx={{ ml: "auto" }} onClick={onOpen}>
+            {name === '' && <IconButton onClick={() => setDialogName('add')}>
               <Add />
-            </IconButton>
+            </IconButton>}
+            {name == '' && <IconButton onClick={() => setDialogName('more')}>
+              <MoreHoriz/>
+            </IconButton>}
+            {name == 'more' && <Button size='small' onClick={onCloseDialog}>Done</Button>}
           </>
         }
         pageName="Your films"
@@ -52,14 +52,12 @@ export const AllFilms: React.FC = () => {
           <Chip sx={{ mr: 1 }} label="Not rated" />
           <Chip label="Watchlist" />
         </Box>
-        <AllFilmsItems userId={user.id} />
-      </PageWrapper>
-
-      <Dialog fullScreen open={open} onClose={onClose}>
+        <AllFilmsItems showMoreOptions={name === 'more'} userId={user.id} />
+      <Dialog fullScreen open={name === 'add'} onClose={onCloseDialog}>
         <AppBar variant="outlined" position="relative">
           <Toolbar>
             <Typography sx={{ mr: "auto" }}>Search</Typography>
-            <IconButton sx={{ mr: 1 }} onClick={onClose}>
+            <IconButton sx={{ mr: 1 }} onClick={onCloseDialog}>
               <Close />
             </IconButton>
           </Toolbar>
@@ -68,6 +66,7 @@ export const AllFilms: React.FC = () => {
           <SearchPage />
         </Box>
       </Dialog>
-    </Box>
+      </PageWrapper>
+
   );
 };
