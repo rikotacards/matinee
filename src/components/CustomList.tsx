@@ -9,11 +9,12 @@ import {
   TextField,
   Toolbar,
   Typography,
+  type ButtonProps,
 } from "@mui/material";
 import React from "react";
 import { DialogWrapper } from "./DialogWrapper";
 import { useNavigate } from "react-router";
-import { Add, Close, Delete, MoreVert } from "@mui/icons-material";
+import { Add, Close, Delete, MoreHoriz } from "@mui/icons-material";
 import { useDeleteList } from "../hooks/mutations/useDeleteList";
 import { useUpdateListName } from "../hooks/mutations/useUpdateListName";
 import { useGetListById } from "../hooks/queries/useGetListById";
@@ -53,22 +54,27 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
   }
 
   const listActions = [
-    {
-      name: "Make private",
-    },
+    // {
+    //   name: "Make private",
+    // },
     {
       name: "rename",
       onClick: onUpdateClick,
     },
-    {
-      name: "Share",
-    },
-    {
-      name: "Reorder items",
-    },
+    // {
+    //   name: "Share",
+    // },
+    // {
+    //   name: "Reorder items",
+    // },
     {
       name: "Delete list",
+      color: "error",
       onClick: onDelete,
+    },
+    {
+      name: "Cancel",
+      onClick: onClose,
     },
   ];
   if (list.isLoading) {
@@ -112,7 +118,7 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
           size="small"
           sx={{ textTransform: "capitalize" }}
         >
-          <MoreVert />
+          <MoreHoriz />
         </IconButton>
       </Box>
       <Box></Box>
@@ -126,20 +132,30 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
           </Toolbar>
         </AppBar>
         <Box sx={{ height: "100%" }} elevation={0} component={Card}>
-          <SearchPage prevPage="list" listId={listId} enableAddToList onClose={onClose} />
+          <SearchPage
+            prevPage="list"
+            listId={listId}
+            enableAddToList
+            onClose={onClose}
+          />
         </Box>
       </Dialog>
-      <DialogWrapper open={dialog === "more"} title="options" onClose={onClose}>
+      <Dialog
+        open={dialog === "more"}
+        title="options"
+        onClose={onClose}
+      >
         {listActions.map((b) => (
           <Button
             fullWidth
+            color={b.color as ButtonProps['color']}
             onClick={b.onClick ? () => b.onClick() : undefined}
             key={b.name}
           >
             {b.name}
           </Button>
         ))}
-      </DialogWrapper>
+      </Dialog>
       <DialogWrapper
         open={dialog === "updateName"}
         title={"update name"}

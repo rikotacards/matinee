@@ -23,11 +23,11 @@ export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        minWidth: 300,
+        width:'100%',
       }}
     >
       <Avatar sx={{ height: movieItemAvatarSize, width: movieItemAvatarSize, mr: 1 }} src={fullPosterPath} />
-      <Box>
+      <Box sx={{width:'100%'}}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography
             fontWeight={"bold"}
@@ -35,10 +35,10 @@ export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
           >
             {title}
           </Typography>
-          <Typography sx={{ mr: 1 }} color="textSecondary">
-            -
-          </Typography>
+          { <Box sx={{ml:'auto'}}>
+
           <RatingDisplay rating={rating || 0} />
+          </Box>}
         </Box>
         {lastWatchDate ? (
           <Typography color="textSecondary" variant="body2">
@@ -48,7 +48,7 @@ export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
               : "no watch date added"}
           </Typography>
         ) : (
-          <Typography variant="body2" color="textSecondary">
+          <Typography sx={{ml:'auto'}} variant="body2" color="textSecondary">
             No watch date added
           </Typography>
         )}

@@ -11,8 +11,8 @@ export const BackIconButton: React.FC<BackIconButtonProps> = ({ onBack }) => {
     nav(-1);
   };
   return (
-    <IconButton sx={{mr:1}} onClick={onBack ? () => onBack() : () => onBackDefault()}>
-      <ArrowBackIosNew />
+    <IconButton size='small' sx={{mr:1}} onClick={onBack ? () => onBack() : () => onBackDefault()}>
+      <ArrowBackIosNew fontSize="small" />
     </IconButton>
   );
 };

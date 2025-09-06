@@ -31,7 +31,7 @@ export const AllFilms: React.FC = () => {
   }
 
   return (
-    <Box sx={{maxWidth: 300}}>
+    <Box sx={{ maxWidth: 500 }}>
       <Stack direction="row" alignItems={"center"}>
         <Typography fontWeight={"bold"} variant="h4">
           Your Films
@@ -43,11 +43,10 @@ export const AllFilms: React.FC = () => {
       <Typography>
         Films that you've <b>watched</b>, and or rated.
       </Typography>
-      <Box sx={{ mt: 2, mb: 1, display: "flex", flexDirection: "row" }}>
-        <Chip sx={{ mr: 1 }} label="List view" />
+      <Box sx={{ mt: 1, mb: 2, display: "flex", flexDirection: "row" }}>
+        <Chip sx={{ mr: 1 }} label="All" />
         <Chip sx={{ mr: 1 }} label="Not rated" />
-        <Chip sx={{ mr: 1 }} label="Grid view" />
-        <Chip label="Watch list" />
+        <Chip label="Watchlist" />
       </Box>
       <AllFilmsItems userId={user.id} />
       {/* {open && <AddItemFormNew fullScreen onClose={onClose} />} */}

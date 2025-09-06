@@ -81,7 +81,7 @@ export const ValidMovieProfile: React.FC<ValidMovieProfileProps> = ({
   const hasWatched = item.data?.status === "watched";
  
   return (
-    <Box sx={{ maxWidth: 400 }}>
+    <Box sx={{ maxWidth: 500 }}>
       <IconButton onClick={onBack}>
         <ChevronLeft />
       </IconButton>

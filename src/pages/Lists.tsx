@@ -1,10 +1,10 @@
-import { Box, Dialog, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, IconButton, Stack, Typography } from "@mui/material";
 import React from "react";
 
 import { CreateNewListForm } from "../components/CreateNewListForm";
 import { useGetLists } from "../hooks/queries/useGetLists";
 import { useAuth } from "../hooks/useAuth";
-import { Add, Check, MoreHoriz } from "@mui/icons-material";
+import { Add, MoreHoriz } from "@mui/icons-material";
 import { useDialogControl } from "../hooks/useDialogControl";
 import { ListsItems } from "./ListsItems";
 
@@ -37,9 +37,9 @@ export const Lists: React.FC = () => {
           <Add />
         </IconButton>
         {name == "more" ? (
-          <IconButton onClick={onCloseDialog} size="small">
-            <Check />
-          </IconButton>
+          <Button size='small' onClick={onCloseDialog}>
+            Done
+          </Button>
         ) : (
           <IconButton
             disabled={!lists.data?.length}

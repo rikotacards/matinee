@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Button,
   Card,
   CircularProgress,
   Dialog,
@@ -41,22 +42,28 @@ export const Watchlist: React.FC = () => {
       }}
     >
       <Stack direction={"row"} alignItems={"center"}>
-        <Typography fontWeight="bold" variant="h4">
+        <Typography sx={{ mr: "auto", mb:2 }} fontWeight="bold" variant="h4">
           Watchlist
         </Typography>
 
-        <IconButton onClick={() => setDialogName('add')} sx={{ ml: "auto" }}>
-          <Add />
-        </IconButton>
-        <IconButton
-          onClick={name === "more" ? () => onCloseDialog() : () => onMore()}
-        >
-          <MoreHoriz />
-        </IconButton>
+        {name == "more" ? null : (
+          <IconButton onClick={() => setDialogName("add")} sx={{ ml: "auto" }}>
+            <Add />
+          </IconButton>
+        )}
+        {name === "more" ? (
+          <Button onClick={() => onCloseDialog()} size="small">
+            Done
+          </Button>
+        ) : (
+          <IconButton onClick={() => onMore()}>
+            <MoreHoriz />
+          </IconButton>
+        )}
       </Stack>
 
       <WatchlistItems userId={user.id} show={name === "more"} />
-      <Dialog  fullScreen open={name==='add'} onClose={onCloseDialog}>
+      <Dialog fullScreen open={name === "add"} onClose={onCloseDialog}>
         <AppBar variant="outlined" position="relative">
           <Toolbar>
             <Typography sx={{ mr: "auto" }}>Search</Typography>

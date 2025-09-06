@@ -7,7 +7,7 @@ interface RatingDisplayProps {
 }
 export const RatingDisplay: React.FC<RatingDisplayProps> = ({textVariant, rating }) => {
   if (!rating ) {
-    return <Typography variant='caption'>Not rated</Typography>;
+    return <Typography color='textSecondary' sx={{ml:'auto'}} variant='caption'>Not rated</Typography>;
   }
   return (
     <Box
