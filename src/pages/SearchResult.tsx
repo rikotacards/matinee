@@ -17,7 +17,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({
     return <Typography>We couldn't find this movie</Typography>;
   }
   const go = (id: number) => {
-    nav("/movies/" + id + "/false");
+    nav("/movies/" + id);
   };
 
   const displayedMovies = searchResults.map((m) => {

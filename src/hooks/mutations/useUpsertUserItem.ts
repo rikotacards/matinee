@@ -7,6 +7,7 @@ interface UserItemArgs {
   movie_ref_id?: number | string;
   status?: string | null;
   user_id: string;
+  rating?: number | null;
 }
 
 /**

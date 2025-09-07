@@ -20,14 +20,14 @@ export const useUpdateUserItem = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   return useMutation({
-    
     mutationFn: async (args: UpdateUserItem) => {
-      console.log('update', args)
+      console.log("update", args);
       const { data, error } = await supabase
         .from("user_item")
-        .update( args.updatePayload)
+        .update(args.updatePayload)
         .eq("id", args.itemId)
-        .select().single();
+        .select()
+        .single();
 
       if (error) {
         throw new Error(error.message);
@@ -36,16 +36,19 @@ export const useUpdateUserItem = () => {
     },
 
     onSuccess: (_, data) => {
-      console.log('data',data)
+      console.log("data", data);
       // Invalidate the relevant cache after a successful upsert.
       // This ensures any queries that depend on this data are refetched.
       enqueueSnackbar({ message: "Updated", variant: "success" });
-      queryClient.invalidateQueries({ queryKey: ["user_item", data.userId, data.movieRefId] });
-
-
+      queryClient.invalidateQueries({
+        queryKey: ["user_item", data.userId, data.movieRefId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["useGetUserItemByMovieRef", data.userId, data.movieRefId],
+      });
     },
     onError: () => {
-        enqueueSnackbar({message: 'Failed to update movie', variant:'error'})
-    }
+      enqueueSnackbar({ message: "Failed to update movie", variant: "error" });
+    },
   });
 };

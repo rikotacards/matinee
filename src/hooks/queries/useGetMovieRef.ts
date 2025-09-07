@@ -15,18 +15,13 @@ interface MovieRef {
 
 export const useGetMovieRef = ( filters: Partial<MovieRef>) => {
   const queryFn = async () => {
+    const {id} = filters
     // The query starts with a selection from the table.
-    let query = supabase.from("movie_ref").select("*");
+    let query = supabase.from("movie_ref").select("*") .or(`id.eq.${id}, external_id.eq.${id}`);
+
 
  
-    // Apply any additional filters.
-    if (filters) {
-      for (const key in filters) {
-        if (filters.hasOwnProperty(key)) {
-          query = query.eq(key, filters[key as keyof MovieRef]);
-        }
-      }
-    }
+  
 
     const { data, error } = await query.maybeSingle()
 
@@ -39,7 +34,7 @@ export const useGetMovieRef = ( filters: Partial<MovieRef>) => {
     return data
   };
 
-  const queryKey = ["useGetMovieRef",  filters];
+  const queryKey = ["useGetMovieRef", filters.id];
 
   return useQuery<MovieRef | null, Error>({
     queryKey,

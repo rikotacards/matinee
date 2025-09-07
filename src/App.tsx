@@ -13,7 +13,7 @@ import { SnackbarProvider } from "notistack";
 import { Watchlist } from "./pages/Watchlist";
 import { PublicProfilePage } from "./pages/PublicProfilePage";
 import { SearchPage } from "./pages/SearchPage";
-import { MovieProfileNew } from "./pages/movieProfile/MovieProfileNew";
+import { MovieProfilePage } from "./pages/movieProfile/MovieProfilePage";
 const queryClient = new QueryClient();
 
 function App() {
@@ -37,8 +37,8 @@ function App() {
                 <Route path="profile" element={<PublicProfilePage />} />
                 <Route path={"/search"} element={<SearchPage />} />
                 <Route
-                  path={"/movies/:movie_ref_id/:is_internal/*"}
-                  element={<MovieProfileNew />}
+                  path={"/movies/:movie_ref_id/*"}
+                  element={<MovieProfilePage />}
                 />
                 {/* </Route> */}
               </Route>

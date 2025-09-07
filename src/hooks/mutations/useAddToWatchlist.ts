@@ -1,8 +1,8 @@
-import { useCheckAndPopulateUserItem } from "./useCheckAndPopulate"
+import { useCheckAndPopulateNew } from "./useCheckAndPopulateNew";
 import { useUpsertWatchlistItem } from "./useUpsertWatchlistItem";
 
 export const useAddToWatchlist = (movieId: string | number, isInternal: boolean) => {
-    const check = useCheckAndPopulateUserItem(movieId, isInternal); 
+    const check = useCheckAndPopulateNew(movieId); 
     const add = useUpsertWatchlistItem()
     return async() => {
         const item = await check()

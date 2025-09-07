@@ -41,7 +41,7 @@ export const useUpsertMovieRef = () => {
       // Invalidate the relevant cache after a successful upsert.
       // This ensures any queries that depend on this data are refetched.
       queryClient.invalidateQueries({
-        queryKey: ["useGetMovieRef", { external_id: data.external_id }],
+        queryKey: ["useGetMovieRef"],
       });
     },
     onError: (e) => {

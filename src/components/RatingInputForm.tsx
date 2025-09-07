@@ -2,8 +2,8 @@ import { Box, Button, Rating } from "@mui/material";
 import React from "react";
 import StarIcon from "@mui/icons-material/Star";
 import { useAuth } from "../hooks/useAuth";
-import { useCheckAndPopulateUserItem } from "../hooks/mutations/useCheckAndPopulate";
 import { useUpdateUserItem } from "../hooks/mutations/useUpdateUserItem";
+import { useCheckAndPopulateNew } from "../hooks/mutations/useCheckAndPopulateNew";
 interface RatingInputForm {
   rating?: number;
   movie_ref_id: number | string;
@@ -15,12 +15,11 @@ export const RatingInputForm: React.FC<RatingInputForm> = ({
   rating,
   onClose,
   movie_ref_id,
-  isInternal,
 }) => {
   const [value, setValue] = React.useState<number>(rating || 0);
   const { user } = useAuth();
   const updateUserItem = useUpdateUserItem();
-  const c = useCheckAndPopulateUserItem(movie_ref_id, isInternal);
+  const c = useCheckAndPopulateNew(movie_ref_id);
   const onDone = async () => {
     if (!user?.id) {
       return;

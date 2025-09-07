@@ -130,7 +130,7 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
     nav("/watchlist");
   };
   const goToMovie = (movieRefId: string | number) => {
-    const path = "/movies/" + movieRefId + "/true";
+    const path = "/movies/" + movieRefId ;
     const q = `?ratedBy=${userId}`;
     nav(path + q);
   };

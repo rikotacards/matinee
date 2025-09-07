@@ -16,7 +16,7 @@ export interface Movie {
  * @returns A UseQueryResult object with the movie data, loading state, and error state.
  */
 export const useGetExternalMovieDetailsById = (
-  movieId?: number | number,
+  movieId?: number | string,
 ): UseQueryResult<Movie> => {
   // Use a unique query key that includes the movie ID. This is crucial for caching.
   const queryKey = ["movie", movieId];

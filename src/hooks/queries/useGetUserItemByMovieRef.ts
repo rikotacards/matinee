@@ -33,7 +33,7 @@ export const useGetUserItemByMovieRef = (args: Args) => {
       .select('*') // Select all columns from the items table
       .eq('user_id', userId)
       .eq('movie_ref_id', movieRefId) // Filter for rows where user_id matches
-      .single(); // Use single() to get a single row directly, since you expect a unique result
+      .maybeSingle(); // Use single() to get a single row directly, since you expect a unique result
 
     if (error) {
       throw new Error(error.message);
@@ -43,7 +43,7 @@ export const useGetUserItemByMovieRef = (args: Args) => {
   };
 
   return useQuery<UserItem | undefined>({
-    queryKey: ['user_item', userId, movieRefId],
+    queryKey: ['useGetUserItemByMovieRef', userId, movieRefId],
     queryFn,
     enabled: !!userId && !!movieRefId
   });
