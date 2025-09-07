@@ -23,7 +23,7 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
     nav(path + q);
   };
   if(items.data?.length === 0){
-    return <Typography>This list is empty</Typography>
+    return <Typography sx={{mt:1}}>This list is empty</Typography>
   }
   return (
     <Box>

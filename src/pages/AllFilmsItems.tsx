@@ -190,7 +190,7 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
           sx={{ mr: 1 }}
           label="Not rated"
         />
-        <IconButton sx={{ ml: 1 }} onClick={() => setDialogName("sort")}>
+        <IconButton sx={{ ml: 'auto' }} onClick={() => setDialogName("sort")}>
           <SwapVertIcon />
         </IconButton>
       </Box>

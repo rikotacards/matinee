@@ -38,7 +38,7 @@ export const useAddItemToList = () => {
     onSuccess: (_, variables) => {
       enqueueSnackbar({message: 'Added to list', variant:'success'})
       // Invalidate the cache for the specific list to trigger a refetch.
-      queryClient.invalidateQueries({ queryKey: ["items", variables.list_id] });
+      queryClient.invalidateQueries({ queryKey: ["list_items", variables.list_id] });
     },
     onError: (e) => {
       enqueueSnackbar({message: e.message, variant: 'error'})

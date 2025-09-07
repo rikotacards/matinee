@@ -64,7 +64,10 @@ export const ListsItems: React.FC<LoadedListsProps> = ({
     );
   }
   if (lists.data?.length === 0) {
-    return <Typography>You have no lists.</Typography>;
+
+    return <Box sx={{display: 'flex', width:'100%'}}>
+      <Typography>You have no lists.</Typography>;
+      </Box>
   }
 
   return (

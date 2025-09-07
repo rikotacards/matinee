@@ -85,19 +85,17 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
     );
   }
   if (!list.data) {
-    return <Typography>This list is empty</Typography>;
+    return <Typography sx={{mt:1}}>This list is empty</Typography>;
   }
 
   return (
-    <Box sx={{display: 'flex', width:'100%', flexDirection: 'column'}}>
+    <Box>
       <Box
         sx={{
-          mt: 2,
-          mb: 2,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          width:'100%'
+          width: "100%",
         }}
       >
         <BackIconButton />

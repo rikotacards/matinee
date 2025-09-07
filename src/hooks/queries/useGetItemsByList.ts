@@ -30,7 +30,7 @@ export const useGetItemsByListId = (listId: string) => {
   };
 
   return useQuery<UserItem[] | null>({
-    queryKey: ["items", listId],
+    queryKey: ["list_items", listId],
     queryFn,
     enabled: !!listId,
   });

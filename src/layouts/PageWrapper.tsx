@@ -33,7 +33,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
           {buttons}
         </Box>
       </Stack>
-      <Box sx={{mb:2}}>
+      <Box sx={{mb:2, width:'100%'}}>
 
       {children}
       </Box>
