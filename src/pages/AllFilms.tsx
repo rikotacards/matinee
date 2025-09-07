@@ -4,7 +4,9 @@ import {
   Button,
   Card,
   Dialog,
+  Divider,
   IconButton,
+  Paper,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -43,15 +45,16 @@ export const AllFilms: React.FC = () => {
       >
         <AllFilmsItems showMoreOptions={name === 'more'} userId={user.id} />
       <Dialog fullScreen open={name === 'add'} onClose={onCloseDialog}>
-        <AppBar variant="outlined" position="relative">
+        <AppBar elevation={0} position="relative">
           <Toolbar>
             <Typography sx={{ mr: "auto" }}>Search</Typography>
             <IconButton sx={{ mr: 1 }} onClick={onCloseDialog}>
               <Close />
             </IconButton>
           </Toolbar>
+          <Divider/>
         </AppBar>
-        <Box sx={{ height: "100%" }} elevation={0} component={Card}>
+        <Box sx={{ height: "100%" }}  component={Paper}>
           <SearchPage />
         </Box>
       </Dialog>

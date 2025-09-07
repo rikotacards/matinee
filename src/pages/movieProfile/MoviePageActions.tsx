@@ -129,11 +129,11 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
         icon={rateIcon}
         label={
           <Typography variant="caption">
-            {userItem?.rating ? "" : "Rate"}
+            {userItem?.rating ? "Rated" : "Rate"}
           </Typography>
         }
       />
-      <IconButton onClick={() => setDialogName("addList")}>
+      <IconButton  onClick={() => setDialogName("addList")}>
         <PlaylistAddIcon />
       </IconButton>
 

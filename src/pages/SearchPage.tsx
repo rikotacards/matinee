@@ -51,8 +51,8 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
-        width: 400,
         mt: 2,
+        p:2,
         overflow: "hidden",
       }}
     >

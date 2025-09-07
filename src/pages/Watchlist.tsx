@@ -33,40 +33,31 @@ export const Watchlist: React.FC = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minWidth: 300,
-        maxWidth: 500,
-      }}
+    <PageWrapper
+      pageName="watchlist"
+      buttons={
+        <>
+          {name == "more" ? null : (
+            <IconButton
+              onClick={() => setDialogName("add")}
+              sx={{ ml: "auto" }}
+            >
+              <Add />
+            </IconButton>
+          )}
+          {name === "more" ? (
+            <Button onClick={() => onCloseDialog()} size="small">
+              Done
+            </Button>
+          ) : (
+            <IconButton onClick={() => onMore()}>
+              <MoreHoriz />
+            </IconButton>
+          )}
+        </>
+      }
     >
-      <PageWrapper
-        pageName="watchlist"
-        buttons={
-          <>
-            {name == "more" ? null : (
-              <IconButton
-                onClick={() => setDialogName("add")}
-                sx={{ ml: "auto" }}
-              >
-                <Add />
-              </IconButton>
-            )}
-            {name === "more" ? (
-              <Button onClick={() => onCloseDialog()} size="small">
-                Done
-              </Button>
-            ) : (
-              <IconButton onClick={() => onMore()}>
-                <MoreHoriz />
-              </IconButton>
-            )}
-          </>
-        }
-      >
-        <WatchlistItems userId={user.id} show={name === "more"} />
-      </PageWrapper>
+      <WatchlistItems userId={user.id} show={name === "more"} />
 
       <Dialog fullScreen open={name === "add"} onClose={onCloseDialog}>
         <AppBar variant="outlined" position="relative">
@@ -81,6 +72,6 @@ export const Watchlist: React.FC = () => {
           <SearchPage onClose={onCloseDialog} prevPage="watchlist" />
         </Box>
       </Dialog>
-    </Box>
+    </PageWrapper>
   );
 };
