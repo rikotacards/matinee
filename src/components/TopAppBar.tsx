@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   IconButton,
   Toolbar,
   Typography,
@@ -31,7 +32,7 @@ export const TopAppBar: React.FC = () => {
   const page = location.pathname.split("/")?.[1];
 
   return (
-    <AppBar variant="outlined" elevation={0}>
+    <AppBar elevation={0}>
       <Toolbar>
         <Typography
           onClick={goHome}
@@ -67,6 +68,7 @@ export const TopAppBar: React.FC = () => {
           </IconButton>
         </Box>
       </Toolbar>
+      <Divider/>
     </AppBar>
   );
 };

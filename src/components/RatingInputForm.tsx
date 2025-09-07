@@ -27,6 +27,7 @@ export const RatingInputForm: React.FC<RatingInputForm> = ({
     if (!item) {
       return;
     }
+    console.log('item', item)
     await updateUserItem.mutateAsync({
       updatePayload: { status: "watched", rating: value },
       itemId: item.id,

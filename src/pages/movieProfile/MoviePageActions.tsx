@@ -21,7 +21,7 @@ import { RatingInputForm } from "../../components/RatingInputForm";
 import { AddToListPage } from "../AddToListPage";
 import { useAddItemToList } from "../../hooks/mutations/useAddItemToList";
 import { useUpsertWatchlistItem } from "../../hooks/mutations/useUpsertWatchlistItem";
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 interface MoviePageActionsProps {
   userItem?: UserItem;
   isLoading: boolean;
@@ -33,7 +33,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
 }) => {
   const { user } = useAuth();
   const hasWatched = userItem?.status === "watched";
-const hasRating = !!userItem?.rating;
+  const hasRating = !!userItem?.rating;
   const update = useUpdateUserItem();
   const addItemToList = useAddItemToList();
   const add = useUpsertWatchlistItem();
@@ -45,7 +45,7 @@ const hasRating = !!userItem?.rating;
     <StarOutline />
   );
   const watchedIcon = hasWatched ? (
-    <CheckCircleIcon color='success' />
+    <CheckCircleIcon color="success" />
   ) : (
     <RadioButtonUncheckedIcon />
   );
@@ -82,12 +82,17 @@ const hasRating = !!userItem?.rating;
   };
 
   return (
-    <Stack sx={{mt:1, mb:1}} width={'100%'} direction="row" alignItems={"center"}>
+    <Stack
+      sx={{ mt: 1, mb: 1 }}
+      width={"100%"}
+      direction="row"
+      alignItems={"center"}
+    >
       <Chip
         onClick={() =>
           onUpdateMovieStatus(hasWatched ? "not watched" : "watched")
         }
-        sx={{mr:1}}
+        sx={{ mr: 1 }}
         icon={watchedIcon}
         label={
           <Typography variant="caption">
@@ -96,29 +101,33 @@ const hasRating = !!userItem?.rating;
         }
       />
       <Chip
-      sx={{mr:1}}
+        sx={{ mr: 1 }}
         onClick={() => setDialogName("rate")}
         icon={rateIcon}
-        label={<Typography variant='caption'>{userItem?.rating ? '' : 'Rate'}</Typography>}
+        label={
+          <Typography variant="caption">
+            {userItem?.rating ? "" : "Rate"}
+          </Typography>
+        }
       />
-      <Chip
-        onClick={() => setDialogName("addList")}
-        icon={<PlaylistAddIcon />}
-        label={"List"}
-      />
+      <IconButton onClick={() => setDialogName("addList")}>
+        <PlaylistAddIcon />
+      </IconButton>
+
       <IconButton onClick={onAddToWatchlist}>
         <BookmarkBorder />
       </IconButton>
       <Dialog open={name === "rate"} onClose={onCloseDialog}>
-        <Box sx={{p:1}}>
-
-        <RatingInputForm
-          rating={userItem?.rating}
-          movie_ref_id={userItem?.movie_ref_id || ""}
-          onClose={onCloseDialog}
+        <Box sx={{ p: 1 }}>
+          <RatingInputForm
+            rating={userItem?.rating}
+            movie_ref_id={userItem?.movie_ref_id || ""}
+            onClose={onCloseDialog}
           />
-          <Button sx={{mt:1}} fullWidth onClick={onCloseDialog}>Cancel</Button>
-          </Box>
+          <Button sx={{ mt: 1 }} fullWidth onClick={onCloseDialog}>
+            Cancel
+          </Button>
+        </Box>
       </Dialog>
       <Dialog open={name === "addList"} onClose={onCloseDialog}>
         <AddToListPage onClose={onCloseDialog} onAdd={onAddToList} />

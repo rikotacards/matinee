@@ -12,7 +12,7 @@ export const Layout: React.FC = () => {
         sx={{
           margin: "0 auto",
           display: "flex",
-          p: 2,
+          p:2,
           justifyContent: "center",
         }}
         component="main"

@@ -2,8 +2,9 @@ import React from "react";
 import { useGetItemsByListId } from "../hooks/queries/useGetItemsByList";
 import { MovieItemSkeletonList } from "../pages/MovieItemSkeletonList";
 import { MovieItem } from "./MovieItem";
-import { Box,  } from "@mui/material";
+import { Box, Typography,  } from "@mui/material";
 import { useNavigate } from "react-router";
+import { PageWrapper } from "../layouts/PageWrapper";
 interface CustomListItemsProps {
   listId: string;
   listOwner: string;
@@ -22,8 +23,11 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
     const q = `?ratedBy=${listOwner}`
     nav(path + q);
   };
+  if(items.data?.length === 0){
+    return <Typography>This list is empty</Typography>
+  }
   return (
-    <Box>
+    <PageWrapper>
       {items.data?.map((i) => (
         <Box
           sx={{
@@ -39,6 +43,6 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
           <MovieItem item={i} />
         </Box>
       ))}
-    </Box>
+    </PageWrapper>
   );
 };
