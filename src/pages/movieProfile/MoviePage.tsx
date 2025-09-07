@@ -1,5 +1,4 @@
 import React from "react";
-import { Box } from "@mui/material";
 import { useAuth } from "../../hooks/useAuth";
 import { useMovieDetails } from "./useGetMovieDetails";
 import { useGetMovieRef } from "../../hooks/queries/useGetMovieRef";
@@ -8,13 +7,16 @@ import { MovieProfileHeader } from "./MovieProfileHeader";
 import { getImage } from "../../utils/getImage";
 
 import { MoviePageActions } from "./MoviePageActions";
+import { PageWrapper } from "../../layouts/PageWrapper";
+import { OverviewSkeleton } from "./OverviewSkeleton";
+import { Typography } from "@mui/material";
+import { BackIconButton } from "../../components/BackIconButton";
 interface MoviePageProps {
   movieIdUrl: string;
 }
 export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
   const movieDetails = useMovieDetails(movieIdUrl);
-
-  const fullPoster = getImage(movieDetails.poster_path || "");
+  const fullPoster = getImage(movieDetails.data.poster_path || "");
   const internalMovieRef = useGetMovieRef({ id: movieIdUrl });
   const { user } = useAuth();
   // here item is used to display status
@@ -24,21 +26,25 @@ export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
   });
 
   return (
-    <Box>
-      {item.data?.id ? "yes" : "no"}
+    <PageWrapper>
+      <BackIconButton/>
       <MovieProfileHeader
         poster_path={fullPoster}
-        title={movieDetails.title || ""}
-        release={movieDetails.release || ""}
-        movieId={movieDetails.id || ""}
+        isLoading={movieDetails.isLoading}
+        title={movieDetails.data.title || ""}
+        release={movieDetails.data.release || ""}
+        movieId={movieDetails.data.id || ""}
       />
-      {movieDetails.overview}
-
       <MoviePageActions
         userItem={item.data}
         movieIdUrl={movieIdUrl}
         isLoading={item.isLoading}
       />
-    </Box>
+      {movieDetails.isLoading ? (
+        <OverviewSkeleton />
+      ) : (
+        <Typography variant="body2">{movieDetails.data.overview}</Typography>
+      )}
+    </PageWrapper>
   );
 };

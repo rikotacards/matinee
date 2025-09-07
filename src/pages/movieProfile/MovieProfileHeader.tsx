@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import { movieProfileAvatar } from "../../components/commonStyles";
 interface MovieProfileHeaderProps {
@@ -6,6 +6,7 @@ interface MovieProfileHeaderProps {
   title: string;
   release: string;
   movieId: number | string;
+  isLoading:boolean;
 }
 
 export const MovieProfileHeader: React.FC<MovieProfileHeaderProps> = ({
@@ -13,9 +14,14 @@ export const MovieProfileHeader: React.FC<MovieProfileHeaderProps> = ({
   title,
   release,
   movieId,
+  isLoading
 }) => {
 
-
+  if(isLoading){
+    return <Box>
+      <Skeleton variant='circular' height={movieProfileAvatar} width={movieProfileAvatar}/>
+    </Box>
+  }
   if (!movieId) {
     return <Typography>Cant find the movie</Typography>;
   }

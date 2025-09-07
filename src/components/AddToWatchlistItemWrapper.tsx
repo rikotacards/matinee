@@ -5,13 +5,12 @@ import { useAddToWatchlist } from "../hooks/mutations/useAddToWatchlist";
 interface AddToWatchlistItemWrapperProps {
   children: React.ReactNode;
   movieId: string | number;
-  isInternal: boolean;
   onClose: () => void;
 }
 export const AddToWatchlistItemWrapper: React.FC<
   AddToWatchlistItemWrapperProps
-> = ({ onClose, movieId, isInternal, children }) => {
-  const addToWatchlist = useAddToWatchlist(movieId, isInternal);
+> = ({ onClose, movieId, children }) => {
+  const addToWatchlist = useAddToWatchlist(movieId);
   const [loading, setLoading] = React.useState(false);
 
   const onClick = async () => {

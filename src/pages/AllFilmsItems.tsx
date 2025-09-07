@@ -110,7 +110,6 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
     latest: sortFnLatest,
   };
   const items = useGetUserItems(userId);
-  console.log("items", items.data);
   const [sortMethod, setSortMethod] = React.useState<keyof SortMap>("latest");
   const { name, setDialogName, onCloseDialog } = useDialogControl();
   const [filterName, setFilter] = React.useState("all");
@@ -126,9 +125,7 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
       </>
     );
   }
-  const goToWatchlist = () => {
-    nav("/watchlist");
-  };
+
   const goToMovie = (movieRefId: string | number) => {
     const path = "/movies/" + movieRefId ;
     const q = `?ratedBy=${userId}`;
@@ -192,7 +189,6 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
           sx={{ mr: 1 }}
           label="Not rated"
         />
-        <Chip onClick={goToWatchlist} variant="outlined" label="Watchlist" />
         <IconButton sx={{ml:1}} onClick={() => setDialogName("sort")}>
           <SwapVertIcon />
         </IconButton>

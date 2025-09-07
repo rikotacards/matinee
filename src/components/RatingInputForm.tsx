@@ -3,7 +3,6 @@ import React from "react";
 import StarIcon from "@mui/icons-material/Star";
 import { useAuth } from "../hooks/useAuth";
 import { useUpdateUserItem } from "../hooks/mutations/useUpdateUserItem";
-import { useCheckAndPopulateNew } from "../hooks/mutations/useCheckAndPopulateNew";
 import { useGetCheckAndPopulate } from "../hooks/mutations/useGetCheckAndPopulate";
 interface RatingInputForm {
   rating?: number | null;

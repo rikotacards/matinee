@@ -43,11 +43,14 @@ export const useGetExternalMovieDetailsById = (
       },
     });
 
+    
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(
+      const error = new Error(
         errorData.status_message || "Failed to fetch movie details."
-      );
+      ) as any; // Cast to 'any' to add a custom property
+      error.statusCode = response.status; // Add the status code to the error object
+      throw error;
     }
 
     return response.json();
@@ -57,6 +60,14 @@ export const useGetExternalMovieDetailsById = (
   return useQuery({
     queryKey,
     queryFn,
+    retry: (failureCount, error) => {
+      // Check if the error has a statusCode property and if it's 404.
+      if ((error as any).statusCode === 404) {
+        return false; // Do not retry for 404 Not Found errors.
+      }
+      // Otherwise, retry up to 3 times (or your desired number).
+      return failureCount < 3;
+    },
     // The enabled property prevents the query from running if movieId is not provided.
     enabled: !!movieId,
   });

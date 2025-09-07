@@ -3,9 +3,8 @@ import React from "react";
 import { RatingInputForm } from "../../components/RatingInputForm";
 interface AddRatingProps {
   movie_ref_id: number | string;
-  isInternal: boolean;
 }
-export const AddRating: React.FC<AddRatingProps> = ({ movie_ref_id, isInternal }) => {
+export const AddRating: React.FC<AddRatingProps> = ({ movie_ref_id }) => {
   const [open, setOpen] = React.useState(false);
   const onOpen = () => {
     setOpen(true);

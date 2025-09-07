@@ -9,8 +9,8 @@ interface AddToListItemWrapperProps {
     onClose: () => void;
     listId?: string | number;
 }
-export const AddToListItemWrapper:React.FC<AddToListItemWrapperProps> = ({onClose, listId, movieId, isInternal, children}) => {
-    const addToList = useAddToListByMovieId(movieId, isInternal);
+export const AddToListItemWrapper:React.FC<AddToListItemWrapperProps> = ({onClose, listId, movieId, children}) => {
+    const addToList = useAddToListByMovieId(movieId);
     const onClick = async() => {
         if(!listId){
             throw new Error('no list provided')

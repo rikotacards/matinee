@@ -20,7 +20,6 @@ export const SearchResultWatchlist: React.FC<SearchResultProps> = ({
     return (
       <AddToWatchlistItemWrapper
         movieId={m.id}
-        isInternal={false}
         onClose={() => {
           onClose?.();
         }}

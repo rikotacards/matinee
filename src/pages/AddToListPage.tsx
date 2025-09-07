@@ -1,8 +1,9 @@
 import React from "react";
 import { useGetLists } from "../hooks/queries/useGetLists";
 import { useAuth } from "../hooks/useAuth";
-import { Box, Button, CircularProgress, Paper } from "@mui/material";
+import { Box, Button, Paper, Stack } from "@mui/material";
 import { ListRow } from "../components/ListRow";
+import { ListRowSkeleton } from "../components/ListRowSkeleton";
 interface AddToListPageProps {
   onClose: () => void;
   onAdd: (listId: string) => Promise<void>
@@ -13,9 +14,7 @@ export const AddToListPage: React.FC<AddToListPageProps> = ({ onAdd }) => {
 
   
   const lists = useGetLists(user?.id);
-  if (lists.isLoading) {
-    return <CircularProgress />;
-  }
+ 
 
   const displayedLists = lists.data?.map((l) => (
     <ListRow
@@ -26,9 +25,14 @@ export const AddToListPage: React.FC<AddToListPageProps> = ({ onAdd }) => {
     />
   ));
   return (
-    <Box sx={{p:1}} component={Paper}>
-      <Button fullWidth>Create New List</Button>
-      {displayedLists}
+    <Box sx={{p:1, width:200}} component={Paper}>
+      <Button sx={{mb:1}} fullWidth>Create New List</Button>
+      {lists.isLoading ? <Stack direction='column'>
+
+        <ListRowSkeleton/>
+        <ListRowSkeleton/>
+        <ListRowSkeleton/>
+      </Stack> : displayedLists}
     </Box>
   );
 };

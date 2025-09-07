@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 interface PageWrapperProps {
-  pageName: string;
+  pageName?: string;
   desc?: React.ReactNode;
   children: React.ReactNode;
   buttons?: React.ReactNode;
@@ -16,9 +16,9 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
     <Box sx={{ display: "flex", flexDirection: "column" }} minWidth={400} maxWidth={500}>
       <Stack sx={{mb:2}} direction="row" alignItems="center">
         <Stack direction="column">
-          <Typography sx={{textTransform: 'capitalize'}} fontWeight={"bold"} variant="h4">
+          {pageName && <Typography sx={{textTransform: 'capitalize'}} fontWeight={"bold"} variant="h4">
             {pageName}
-          </Typography>
+          </Typography>}
           {desc}
         </Stack>
 

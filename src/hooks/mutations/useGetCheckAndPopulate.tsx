@@ -24,13 +24,13 @@ export const useGetCheckAndPopulate = (id: string | number) => {
     let movieId = internalMovieRef.data?.id;
     if (!movieId) {
       movieId = await addMovieRef.mutateAsync({
-        external_id: movieDetails.id,
-        poster_path: movieDetails.poster_path,
-        backdrop_path: movieDetails.backdrop_path,
-        title: movieDetails.title,
+        external_id: movieDetails.data.id,
+        poster_path: movieDetails.data.poster_path,
+        backdrop_path: movieDetails.data.backdrop_path,
+        title: movieDetails.data.title,
         source: "TMDB",
-        release: movieDetails.release,
-        overview: movieDetails.overview || "",
+        release: movieDetails.data.release,
+        overview: movieDetails.data.overview || "",
       });
       console.log("creating internal ref", movieId);
     }

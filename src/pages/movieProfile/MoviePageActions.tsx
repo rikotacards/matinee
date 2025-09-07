@@ -1,15 +1,16 @@
 import {
+  Box,
+  Button,
   Chip,
   Dialog,
   IconButton,
-  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
 import type { UserItem } from "../../hooks/queries/useGetUserItems";
 import { RatingDisplay } from "../../components/RatingDisplay";
-import { Add, BookmarkBorder, StarOutline } from "@mui/icons-material";
+import { BookmarkBorder, StarOutline } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import { useAuth } from "../../hooks/useAuth";
@@ -20,7 +21,7 @@ import { RatingInputForm } from "../../components/RatingInputForm";
 import { AddToListPage } from "../AddToListPage";
 import { useAddItemToList } from "../../hooks/mutations/useAddItemToList";
 import { useUpsertWatchlistItem } from "../../hooks/mutations/useUpsertWatchlistItem";
-
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 interface MoviePageActionsProps {
   userItem?: UserItem;
   isLoading: boolean;
@@ -29,24 +30,22 @@ interface MoviePageActionsProps {
 export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   userItem,
   movieIdUrl,
-  isLoading,
 }) => {
   const { user } = useAuth();
   const hasWatched = userItem?.status === "watched";
-  const hasRating = !!userItem?.rating;
+const hasRating = !!userItem?.rating;
   const update = useUpdateUserItem();
   const addItemToList = useAddItemToList();
   const add = useUpsertWatchlistItem();
-
   const checkAndPopulate = useGetCheckAndPopulate(movieIdUrl);
   const { name, setDialogName, onCloseDialog } = useDialogControl();
   const rateIcon = hasRating ? (
-    <RatingDisplay rating={userItem.rating} />
+    <RatingDisplay textVariant="caption" rating={userItem.rating} />
   ) : (
     <StarOutline />
   );
   const watchedIcon = hasWatched ? (
-    <CheckCircleIcon />
+    <CheckCircleIcon color='success' />
   ) : (
     <RadioButtonUncheckedIcon />
   );
@@ -83,11 +82,12 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   };
 
   return (
-    <Stack direction="row" alignItems={"center"}>
+    <Stack sx={{mt:1, mb:1}} width={'100%'} direction="row" alignItems={"center"}>
       <Chip
         onClick={() =>
           onUpdateMovieStatus(hasWatched ? "not watched" : "watched")
         }
+        sx={{mr:1}}
         icon={watchedIcon}
         label={
           <Typography variant="caption">
@@ -96,24 +96,29 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
         }
       />
       <Chip
+      sx={{mr:1}}
         onClick={() => setDialogName("rate")}
         icon={rateIcon}
-        label={"Rate"}
+        label={<Typography variant='caption'>{userItem?.rating ? '' : 'Rate'}</Typography>}
       />
       <Chip
         onClick={() => setDialogName("addList")}
-        icon={<Add />}
-        label={"list"}
+        icon={<PlaylistAddIcon />}
+        label={"List"}
       />
       <IconButton onClick={onAddToWatchlist}>
         <BookmarkBorder />
       </IconButton>
       <Dialog open={name === "rate"} onClose={onCloseDialog}>
+        <Box sx={{p:1}}>
+
         <RatingInputForm
           rating={userItem?.rating}
           movie_ref_id={userItem?.movie_ref_id || ""}
           onClose={onCloseDialog}
-        />
+          />
+          <Button sx={{mt:1}} fullWidth onClick={onCloseDialog}>Cancel</Button>
+          </Box>
       </Dialog>
       <Dialog open={name === "addList"} onClose={onCloseDialog}>
         <AddToListPage onClose={onCloseDialog} onAdd={onAddToList} />

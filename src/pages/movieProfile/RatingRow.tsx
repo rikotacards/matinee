@@ -23,7 +23,6 @@ export const RatingRow: React.FC<RatingRowProps> = ({
   rating,
   userId,
   movie_ref_id,
-  isInternal,
 }) => {
   const { name, onCloseDialog, setDialogName } = useDialogControl();
 
@@ -77,7 +76,6 @@ export const RatingRow: React.FC<RatingRowProps> = ({
       <Dialog onClose={onCloseDialog} open={name === "edit"}>
         <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
           <RatingInputForm
-          isInternal={isInternal}
             onClose={onCloseDialog}
             movie_ref_id={movie_ref_id}
             rating={rating}
