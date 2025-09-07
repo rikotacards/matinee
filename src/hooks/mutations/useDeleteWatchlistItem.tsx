@@ -5,7 +5,6 @@ const deleteWatchlistItem = async ({
   movie_ref_id: string | number;
   user_id: string;
 }) => {
-    console.log("HI", user_id)
   const { error } = await supabase
     .from("watchlist_item")
     .delete()
@@ -22,6 +21,8 @@ const deleteWatchlistItem = async ({
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../supbaseClient";
 import { enqueueSnackbar } from "notistack";
+import { BookmarkBorder } from "@mui/icons-material";
+import { Stack, Typography } from "@mui/material";
 
 export const useDeleteWatchlistItem = () => {
   const queryClient = useQueryClient();
@@ -30,8 +31,9 @@ export const useDeleteWatchlistItem = () => {
     mutationFn: deleteWatchlistItem,
     onSuccess: (_, data) => {
       enqueueSnackbar({
-        message: "Removed from watchlist",
-        variant: "success",
+        message: <Stack direction='row' alignItems={'center'}>
+          <BookmarkBorder/><Typography>Removed from watchlist</Typography>
+        </Stack>
       });
       queryClient.invalidateQueries({ queryKey: ["watchlist_items", data.user_id] });
       // You may also want to refetch the items if you're showing all items

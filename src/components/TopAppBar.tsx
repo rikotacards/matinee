@@ -42,7 +42,7 @@ export const TopAppBar: React.FC = () => {
         >
           Matinée
         </Typography>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box sx={{overlfowX: 'auto', display: "flex", flexDirection: "row" }}>
           {pages.map((p) => (
             <Button
               variant="text"

@@ -22,6 +22,9 @@ import { AddToListPage } from "../AddToListPage";
 import { useAddItemToList } from "../../hooks/mutations/useAddItemToList";
 import { useUpsertWatchlistItem } from "../../hooks/mutations/useUpsertWatchlistItem";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import { useGetWatchlistItemByMovieRefId } from "../../hooks/queries/useGetWatchlistItemByItemId";
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import { useDeleteWatchlistItem } from "../../hooks/mutations/useDeleteWatchlistItem";
 interface MoviePageActionsProps {
   userItem?: UserItem;
   isLoading: boolean;
@@ -37,6 +40,11 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   const update = useUpdateUserItem();
   const addItemToList = useAddItemToList();
   const add = useUpsertWatchlistItem();
+  const removeFromWatchlist = useDeleteWatchlistItem();
+  const watchlistItem = useGetWatchlistItemByMovieRefId({
+    userId: user?.id,
+    movie_ref_id: userItem?.movie_ref_id,
+  });
   const checkAndPopulate = useGetCheckAndPopulate(movieIdUrl);
   const { name, setDialogName, onCloseDialog } = useDialogControl();
   const rateIcon = hasRating ? (
@@ -49,6 +57,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   ) : (
     <RadioButtonUncheckedIcon />
   );
+  const watchlistIcon = watchlistItem.data ? <BookmarkAddedIcon/> : <BookmarkBorder/>
   const onUpdateMovieStatus = async (status: string) => {
     const item = await checkAndPopulate();
     if (!user?.id) {
@@ -80,6 +89,20 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
       user_id: user?.id,
     });
   };
+  
+  const onRemoveFromWatchlist = async() => {
+    if(!userItem){
+      throw new Error('No movie to begin with')
+    }
+    if(!user){
+      throw new Error('no user')
+    }
+    await removeFromWatchlist.mutateAsync({
+      movie_ref_id: userItem?.movie_ref_id,
+      user_id: user?.id
+    })
+  }
+  const onWatchlistClick = watchlistItem.data ? onRemoveFromWatchlist : onAddToWatchlist
 
   return (
     <Stack
@@ -114,8 +137,8 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
         <PlaylistAddIcon />
       </IconButton>
 
-      <IconButton onClick={onAddToWatchlist}>
-        <BookmarkBorder />
+      <IconButton onClick={onWatchlistClick}>
+        {watchlistIcon}
       </IconButton>
       <Dialog open={name === "rate"} onClose={onCloseDialog}>
         <Box sx={{ p: 1 }}>

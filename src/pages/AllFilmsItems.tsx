@@ -127,7 +127,7 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
   }
 
   const goToMovie = (movieRefId: string | number) => {
-    const path = "/movies/" + movieRefId ;
+    const path = "/movies/" + movieRefId;
     const q = `?ratedBy=${userId}`;
     nav(path + q);
   };
@@ -189,53 +189,51 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
           sx={{ mr: 1 }}
           label="Not rated"
         />
-        <IconButton sx={{ml:1}} onClick={() => setDialogName("sort")}>
+        <IconButton sx={{ ml: 1 }} onClick={() => setDialogName("sort")}>
           <SwapVertIcon />
         </IconButton>
       </Box>
       {displayedItems}
       <Dialog open={name === "sort"} onClose={onCloseDialog}>
-        <Box sx={{display: 'flex', flexDirection: 'column', p:1}}>
-
-        <Button
-          size="small"
-          sx={{ mb: 0.5 }}
-          variant={sortMethod === "highest" ? "contained" : "outlined"}
-          onClick={() => onSetSort("highest")}
-          startIcon={<ArrowUpwardIcon />}
-        >
-          Sort by highest rating
-        </Button>
-        <Button
-          size="small"
-          sx={{ mt: 0.5, mb: 0.5 }}
-          variant={sortMethod === "lowest" ? "contained" : "outlined"}
-          onClick={() => onSetSort("lowest")}
-          startIcon={<ArrowDownwardIcon />}
-        >
-          Sort by lowest rating
-        </Button>
-        <Button
-          size="small"
-          sx={{ mt: 0.5, mb: 0.5 }}
-          variant={sortMethod === "latest" ? "contained" : "outlined"}
-          onClick={() => onSetSort("latest")}
-        >
-          Sorty by latest date added
-        </Button>
-        <Button
-          size="small"
-          sx={{ mt: 0.5, mb: 0.5 }}
-          variant={sortMethod === "earliest" ? "contained" : "outlined"}
-          onClick={() => onSetSort("earliest")}
-        >
-          Sorty by earliest date added
-        </Button>
-        <Button size="small" onClick={onCloseDialog}>
-          Cancel
-        </Button>
-                </Box>
-
+        <Box sx={{ display: "flex", flexDirection: "column", p: 1 }}>
+          <Button
+            size="small"
+            sx={{ mb: 0.5 }}
+            variant={sortMethod === "highest" ? "contained" : "outlined"}
+            onClick={() => onSetSort("highest")}
+            startIcon={<ArrowUpwardIcon />}
+          >
+            Sort by highest rating
+          </Button>
+          <Button
+            size="small"
+            sx={{ mt: 0.5, mb: 0.5 }}
+            variant={sortMethod === "lowest" ? "contained" : "outlined"}
+            onClick={() => onSetSort("lowest")}
+            startIcon={<ArrowDownwardIcon />}
+          >
+            Sort by lowest rating
+          </Button>
+          <Button
+            size="small"
+            sx={{ mt: 0.5, mb: 0.5 }}
+            variant={sortMethod === "latest" ? "contained" : "outlined"}
+            onClick={() => onSetSort("latest")}
+          >
+            Sort by latest date added
+          </Button>
+          <Button
+            size="small"
+            sx={{ mt: 0.5, mb: 0.5 }}
+            variant={sortMethod === "earliest" ? "contained" : "outlined"}
+            onClick={() => onSetSort("earliest")}
+          >
+            Sorty by earliest date added
+          </Button>
+          <Button size="small" onClick={onCloseDialog}>
+            Cancel
+          </Button>
+        </Box>
       </Dialog>
     </>
   );

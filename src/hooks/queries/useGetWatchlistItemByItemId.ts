@@ -18,7 +18,7 @@ export interface UserItem {
 }
 interface Args {
     userId: string | undefined;
-    movie_ref_id: string | undefined;
+    movie_ref_id: number | string | undefined;
 }
 export const useGetWatchlistItemByMovieRefId = (args: Args) => {
     const {userId, movie_ref_id} = args;

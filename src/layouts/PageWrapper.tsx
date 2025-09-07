@@ -13,7 +13,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
   children,
 }) => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }} minWidth={400} maxWidth={500}>
+    <Box sx={{ display: "flex", flexDirection: "column" }} maxWidth={500}>
       <Stack sx={{mb:2}} direction="row" alignItems="center">
         <Stack direction="column">
           {pageName && <Typography sx={{textTransform: 'capitalize'}} fontWeight={"bold"} variant="h4">

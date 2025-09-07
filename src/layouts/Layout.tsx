@@ -10,7 +10,7 @@ export const Layout: React.FC = () => {
       <Toolbar />
       <Box
         sx={{
-          margin: "0 auto",
+          margin:  "0 auto",
           display: "flex",
           p:2,
           justifyContent: "center",
