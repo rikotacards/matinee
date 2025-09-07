@@ -96,6 +96,7 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
           flexDirection: "row",
           alignItems: "center",
           width: "100%",
+          mb:2
         }}
       >
         <BackIconButton />

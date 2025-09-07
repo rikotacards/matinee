@@ -26,7 +26,7 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
     return <Typography sx={{mt:1}}>This list is empty</Typography>
   }
   return (
-    <Box>
+    <Box sx={{width:'100%', display: 'flex'}}>
       {items.data?.map((i) => (
         <Box
           sx={{
@@ -35,6 +35,7 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            width:'100%',
           }}
           onClick={() => goToMovie(i.movie_ref_id, true)}
           key={i.id}
