@@ -89,14 +89,14 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
   }
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', width:'100%'}}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           width: "100%",
-          mb:2
+          mb:2,
         }}
       >
         <BackIconButton />

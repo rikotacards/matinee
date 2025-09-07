@@ -21,7 +21,7 @@ export const MovieItemDisplay: React.FC<CustomListItemProps> = ({
     <Box
       sx={{
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "center",
         flexDirection: "row",
         width:'100%',
       }}

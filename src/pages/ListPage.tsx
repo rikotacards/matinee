@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomList } from "../components/CustomList";
 import { useParams } from "react-router";
-import { Box, Typography } from "@mui/material";
+import {  Typography } from "@mui/material";
 
 export const ListPage: React.FC = () => {
   const params = useParams();
@@ -11,8 +11,8 @@ export const ListPage: React.FC = () => {
     return <Typography>List can't be found</Typography>;
   }
   return (
-    <Box sx={{ mb: 1 }}>
+    <>
       <CustomList listId={list_id} />
-    </Box>
+    </>
   );
 };

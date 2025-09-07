@@ -13,12 +13,21 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
   children,
 }) => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", width:'100%' }} maxWidth={500}>
-      <Stack sx={{mb:2}} direction="row" alignItems="center">
+    <Box
+      sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+      maxWidth={500}
+    >
+      <Stack sx={{ mb: 2 }} direction="row" alignItems="center">
         <Stack direction="column">
-          {pageName && <Typography sx={{textTransform: 'capitalize'}} fontWeight={"bold"} variant="h4">
-            {pageName}
-          </Typography>}
+          {pageName && (
+            <Typography
+              sx={{ textTransform: "capitalize" }}
+              fontWeight={"bold"}
+              variant="h4"
+            >
+              {pageName}
+            </Typography>
+          )}
           {desc}
         </Stack>
 
@@ -33,9 +42,10 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
           {buttons}
         </Box>
       </Stack>
-      <Box sx={{mb:2, width:'100%'}}>
-
-      {children}
+      <Box
+        sx={{ display: "flex", flexDirection: "column", mb: 2, width: "100%" }}
+      >
+        {children}
       </Box>
     </Box>
   );
