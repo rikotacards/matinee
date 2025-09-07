@@ -7,7 +7,6 @@ import { useCheckAndPopulateNew } from "../hooks/mutations/useCheckAndPopulateNe
 interface RatingInputForm {
   rating?: number;
   movie_ref_id: number | string;
-  isInternal: boolean;
 
   onClose: () => void;
 }

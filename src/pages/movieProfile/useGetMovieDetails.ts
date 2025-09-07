@@ -1,5 +1,5 @@
 import { useGetExternalMovieDetailsById } from "../../hooks/queries/useGetExternalMovieDetailsById";
-import { useGetMovieRef } from "../../hooks/queries/useGetMovieRef";
+import { useGetMovieRef, type MovieRef } from "../../hooks/queries/useGetMovieRef";
 
 export const useMovieDetails = (movieId: string | number) => {
     console.log('getting movie detials with', movieId)
@@ -12,5 +12,5 @@ export const useMovieDetails = (movieId: string | number) => {
         return internal.data
     }
     console.log('ex', external.data)
-    return {...external.data, release: external.data?.release_date}
+    return {...external.data, release: external.data?.release_date} as MovieRef
 }
