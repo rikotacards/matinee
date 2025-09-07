@@ -1,6 +1,7 @@
 import { useMovieDetails } from "../../pages/movieProfile/useGetMovieDetails";
 import { useGetMovieRef } from "../queries/useGetMovieRef";
 import { useGetUserItemByMovieRef } from "../queries/useGetUserItemByMovieRef";
+import type { UserItem } from "../queries/useGetUserItems";
 import { useAuth } from "../useAuth";
 import { useUpsertMovieRef } from "./useUpsertMovieRef";
 import { useUpsertUserItem } from "./useUpsertUserItem";
@@ -16,7 +17,7 @@ export const useGetCheckAndPopulate = (id: string | number) => {
     movieRefId: internalMovieRef.data?.id,
     userId: user?.id,
   });
-  return async () => {
+  return async (): Promise<UserItem> => {
     if (!user?.id) {
       throw new Error("no user id");
     }
