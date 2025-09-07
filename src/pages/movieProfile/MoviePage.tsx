@@ -22,19 +22,19 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useDialogControl } from "../../hooks/useDialogControl";
 import { RatingInputForm } from "../../components/RatingInputForm";
 import { RatingDisplay } from "../../components/RatingDisplay";
-import { useAddToWatchlist } from "../../hooks/mutations/useAddToWatchlist";
-import { useGetAddToWatchlist } from "../../hooks/mutations/useGetAddToWatchlist copy";
 import { useUpsertWatchlistItem } from "../../hooks/mutations/useUpsertWatchlistItem";
+import { AddToListPage } from "../AddToListPage";
+import { useAddItemToList } from "../../hooks/mutations/useAddItemToList";
 interface MoviePageProps {
   movieIdUrl: string;
 }
 export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
   const movieDetails = useMovieDetails(movieIdUrl);
-      const add = useUpsertWatchlistItem()
-  
+  const add = useUpsertWatchlistItem();
+  const addItemToList = useAddItemToList();
+
   const fullPoster = getImage(movieDetails.poster_path || "");
   const internalMovieRef = useGetMovieRef({ id: movieIdUrl });
-  const addToWatchlist = useGetAddToWatchlist(internalMovieRef.data?.id || "");
   const { user } = useAuth();
   const update = useUpdateUserItem();
   // here item is used to display status
@@ -72,15 +72,23 @@ export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
     });
   };
   const onAddToWatchlist = async () => {
-    if(!user?.id){
-        throw new Error('no user')
+    if (!user?.id) {
+      throw new Error("no user");
     }
     const item = await checkAndPopulate();
     await add.mutateAsync({
-        item_id: item.id,
-        movie_ref_id: item.movie_ref_id,
-        user_id: user?.id
-    })
+      item_id: item.id,
+      movie_ref_id: item.movie_ref_id,
+      user_id: user?.id,
+    });
+  };
+  const onAddToList = async (listId: string) => {
+    const item = await checkAndPopulate();
+    addItemToList.mutateAsync({
+      list_id: listId,
+      item_id: item.id,
+    });
+    onCloseDialog();
   };
   return (
     <Box>
@@ -110,7 +118,11 @@ export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
           icon={rateIcon}
           label={"Rate"}
         />
-        <Chip icon={<Add />} label={"list"} />
+        <Chip
+          onClick={() => setDialogName("addList")}
+          icon={<Add />}
+          label={"list"}
+        />
         <IconButton onClick={onAddToWatchlist}>
           <BookmarkBorder />
         </IconButton>
@@ -120,6 +132,13 @@ export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
           rating={item.data?.rating}
           movie_ref_id={item.data?.movie_ref_id || ""}
           onClose={onCloseDialog}
+        />
+      </Dialog>
+      <Dialog open={name === "addList"} onClose={onCloseDialog}>
+        <AddToListPage
+          onClose={onCloseDialog}
+          onAdd={onAddToList}
+          movieId={item.data?.movie_ref_id || ""}
         />
       </Dialog>
     </Box>

@@ -1,9 +1,7 @@
 import { useMovieDetails } from "../../pages/movieProfile/useGetMovieDetails";
-import { useGetMovieRef, type MovieRef } from "../queries/useGetMovieRef";
+import { useGetMovieRef } from "../queries/useGetMovieRef";
 import { useGetUserItemByMovieRef } from "../queries/useGetUserItemByMovieRef";
-import type { UserItem } from "../queries/useGetUserItems";
 import { useAuth } from "../useAuth";
-import { useUpdateUserItem } from "./useUpdateUserItem";
 import { useUpsertMovieRef } from "./useUpsertMovieRef";
 import { useUpsertUserItem } from "./useUpsertUserItem";
 

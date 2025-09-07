@@ -1,15 +1,15 @@
 import { useAddItemToList } from "./mutations/useAddItemToList";
-import { useCheckAndPopulateNew } from "./mutations/useCheckAndPopulateNew";
+import { useGetCheckAndPopulate } from "./mutations/useGetCheckAndPopulate";
 
-export const useAddToListByMovieId = (movieId: string | number, isInternal: boolean) => {
-  const check = useCheckAndPopulateNew(movieId);
-  const addItem = useAddItemToList();
+export const useAddToListByMovieId = (movieId: string | number) => {
+  const check = useGetCheckAndPopulate(movieId);
+  const addItemToList = useAddItemToList();
   return async (listId: string | number) => {
     const item = await check();
     if (!item) {
       return;
     }
-    addItem.mutate({
+    addItemToList.mutate({
       list_id: listId,
       item_id: item.id,
     });

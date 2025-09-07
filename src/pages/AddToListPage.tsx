@@ -3,25 +3,15 @@ import { useGetLists } from "../hooks/queries/useGetLists";
 import { useAuth } from "../hooks/useAuth";
 import { Box, Button, CircularProgress, Paper } from "@mui/material";
 import { ListRow } from "../components/ListRow";
-import { useAddToListByMovieId } from "../hooks/useAddToListByMovieId";
 interface AddToListPageProps {
-  movieId: string | number
-  isInternal: boolean;
   onClose: () => void;
+  onAdd: (listId: string) => Promise<void>
 }
-export const AddToListPage: React.FC<AddToListPageProps> = ({ movieId,isInternal, onClose }) => {
+export const AddToListPage: React.FC<AddToListPageProps> = ({ onAdd }) => {
   const { user } = useAuth();
 
-  const add = useAddToListByMovieId(movieId, isInternal);
 
-  const onAddItemToList = async(listId: string | null) => {
-    if (!listId) {
-      return;
-    }
-    await add( listId);
-    onClose();
-
-  };
+  
   const lists = useGetLists(user?.id);
   if (lists.isLoading) {
     return <CircularProgress />;
@@ -30,7 +20,7 @@ export const AddToListPage: React.FC<AddToListPageProps> = ({ movieId,isInternal
   const displayedLists = lists.data?.map((l) => (
     <ListRow
     key={l.id}
-      onClick={() => onAddItemToList(l.id)}
+      onClick={() => onAdd(l.id)}
       listId={l.id}
       name={l.name}
     />
