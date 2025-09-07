@@ -48,7 +48,7 @@ export const TopAppBar: React.FC = () => {
     </Button>
   ));
   return (
-    <AppBar sx={{ }} elevation={0}>
+    <AppBar elevation={0}>
       <Toolbar
         sx={{
           display: "flex",
@@ -56,14 +56,10 @@ export const TopAppBar: React.FC = () => {
           alingItems: "center",
         }}
       >
-        <Box sx={{mr:1,display: 'flex', flexDirection: 'row',  alignItems: "center" }}>
+        <Box sx={{ mr:1,display: 'flex', flexDirection: 'row',  alignItems: "center" }}>
           <Typography
             onClick={goHome}
             sx={{
-              backgroundColor: "palette.default",
-              zIndex: 2,
-              position: "sticky",
-              left: 0,
               cursor: "pointer",
             }}
             fontWeight={"bold"}
@@ -75,10 +71,11 @@ export const TopAppBar: React.FC = () => {
 
         <Box
           sx={{
-            flex: 1,
+            flex: 2,
             overlfowX: "scroll",
             display: "flex",
             flexDirection: "row",
+            justifyContent: 'space-between'
           }}
         >
           {buttons}

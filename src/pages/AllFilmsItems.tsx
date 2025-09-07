@@ -8,7 +8,6 @@ import {
   Button,
   Chip,
   CircularProgress,
-  Dialog,
   Divider,
   Drawer,
   IconButton,

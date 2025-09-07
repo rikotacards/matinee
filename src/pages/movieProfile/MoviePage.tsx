@@ -7,7 +7,6 @@ import { MovieProfileHeader } from "./MovieProfileHeader";
 import { getImage } from "../../utils/getImage";
 
 import { MoviePageActions } from "./MoviePageActions";
-import { PageWrapper } from "../../layouts/PageWrapper";
 import { OverviewSkeleton } from "./OverviewSkeleton";
 import { Box, Typography } from "@mui/material";
 import { BackIconButton } from "../../components/BackIconButton";
