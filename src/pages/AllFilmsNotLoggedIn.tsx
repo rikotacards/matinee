@@ -11,22 +11,23 @@ export const AllFilmsNotLoggedIn: React.FC = () => {
       sx={{
         cursor: "default",
         width: "100%",
+        height:'100%',
         display: "flex",
+        position:  'relative',
         flexDirection: "column",
         alignItems: "center",
+        p:2,
       }}
     >
-      <Typography variant={"h2"} fontWeight={"bold"}>
+      <Typography sx={{mb:2}} variant={"h3"} fontWeight={"bold"}>
         Track films you've watched. Save those you want to see. Tell your
         friends whats good.
       </Typography>
       <Box
         sx={{
-          maxWidth: 300,
           width: "100%",
           position: "sticky",
           bottom: "0",
-          p: 1,
         }}
       >
         <Button
@@ -34,6 +35,7 @@ export const AllFilmsNotLoggedIn: React.FC = () => {
           fullWidth
           variant="contained"
           color="success"
+          
         >
           Get started
         </Button>

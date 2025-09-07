@@ -9,7 +9,7 @@ import { getImage } from "../../utils/getImage";
 import { MoviePageActions } from "./MoviePageActions";
 import { PageWrapper } from "../../layouts/PageWrapper";
 import { OverviewSkeleton } from "./OverviewSkeleton";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { BackIconButton } from "../../components/BackIconButton";
 interface MoviePageProps {
   movieIdUrl: string;
@@ -26,7 +26,7 @@ export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
   });
 
   return (
-    <PageWrapper>
+    <Box>
       <BackIconButton/>
       <MovieProfileHeader
         poster_path={fullPoster}
@@ -45,6 +45,6 @@ export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
       ) : (
         <Typography variant="body2">{movieDetails.data.overview}</Typography>
       )}
-    </PageWrapper>
+    </Box>
   );
 };

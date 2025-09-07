@@ -1,13 +1,13 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { signOut } from "../userActions/signOut";
+import { PageWrapper } from "../layouts/PageWrapper";
 
 export const PublicProfilePage: React.FC = () => {
   return (
-    <Box>
+    <PageWrapper>
       <Typography>Profile coming soon</Typography>
-      <Typography>Reserve a username</Typography>
-      <TextField size='small' />
+     
       <Button
         onClick={() => signOut()}
         sx={{ mt: 2 }}
@@ -17,6 +17,6 @@ export const PublicProfilePage: React.FC = () => {
       >
         Sign out
       </Button>
-    </Box>
+    </PageWrapper>
   );
 };

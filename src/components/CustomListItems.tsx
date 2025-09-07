@@ -4,7 +4,6 @@ import { MovieItemSkeletonList } from "../pages/MovieItemSkeletonList";
 import { MovieItem } from "./MovieItem";
 import { Box, Typography,  } from "@mui/material";
 import { useNavigate } from "react-router";
-import { PageWrapper } from "../layouts/PageWrapper";
 interface CustomListItemsProps {
   listId: string;
   listOwner: string;
@@ -27,7 +26,7 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
     return <Typography>This list is empty</Typography>
   }
   return (
-    <PageWrapper>
+    <Box>
       {items.data?.map((i) => (
         <Box
           sx={{
@@ -43,6 +42,6 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
           <MovieItem item={i} />
         </Box>
       ))}
-    </PageWrapper>
+    </Box>
   );
 };

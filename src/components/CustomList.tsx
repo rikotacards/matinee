@@ -90,7 +90,7 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
   }
 
   return (
-    <Box>
+    <Box sx={{display: 'flex', width:'100%', flexDirection: 'column'}}>
       <Box
         sx={{
           mt: 2,
@@ -98,6 +98,7 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
+          width:'100%'
         }}
       >
         <BackIconButton />
@@ -121,7 +122,6 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
           <MoreHoriz />
         </IconButton>
       </Box>
-      <Box></Box>
       <Dialog fullScreen open={dialog === "add"} onClose={onClose}>
         <AppBar variant="outlined" position="relative">
           <Toolbar>
@@ -131,24 +131,18 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Box sx={{ height: "100%" }} elevation={0} component={Card}>
-          <SearchPage
-            prevPage="list"
-            listId={listId}
-            enableAddToList
-            onClose={onClose}
-          />
-        </Box>
+        <SearchPage
+          prevPage="list"
+          listId={listId}
+          enableAddToList
+          onClose={onClose}
+        />
       </Dialog>
-      <Dialog
-        open={dialog === "more"}
-        title="options"
-        onClose={onClose}
-      >
+      <Dialog open={dialog === "more"} title="options" onClose={onClose}>
         {listActions.map((b) => (
           <Button
             fullWidth
-            color={b.color as ButtonProps['color']}
+            color={b.color as ButtonProps["color"]}
             onClick={b.onClick ? () => b.onClick() : undefined}
             key={b.name}
           >

@@ -54,9 +54,7 @@ export const AllFilms: React.FC = () => {
           </Toolbar>
           <Divider/>
         </AppBar>
-        <Box sx={{ height: "100%" }}  component={Paper}>
           <SearchPage />
-        </Box>
       </Dialog>
       </PageWrapper>
 

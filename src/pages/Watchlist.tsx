@@ -5,6 +5,7 @@ import {
   Card,
   CircularProgress,
   Dialog,
+  Divider,
   IconButton,
   Toolbar,
   Typography,
@@ -60,17 +61,16 @@ export const Watchlist: React.FC = () => {
       <WatchlistItems userId={user.id} show={name === "more"} />
 
       <Dialog fullScreen open={name === "add"} onClose={onCloseDialog}>
-        <AppBar variant="outlined" position="relative">
+        <AppBar position='relative' elevation={0}>
           <Toolbar>
             <Typography sx={{ mr: "auto" }}>Search</Typography>
             <IconButton sx={{ mr: 1 }} onClick={onCloseDialog}>
               <Close />
             </IconButton>
           </Toolbar>
+          <Divider/>
         </AppBar>
-        <Box sx={{ height: "100%" }} elevation={0} component={Card}>
           <SearchPage onClose={onCloseDialog} prevPage="watchlist" />
-        </Box>
       </Dialog>
     </PageWrapper>
   );

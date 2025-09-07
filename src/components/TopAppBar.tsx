@@ -40,7 +40,7 @@ export const TopAppBar: React.FC = () => {
         whiteSpace: "nowrap",
         fontWeight: page === p.path ? "bold" : undefined,
       }}
-      size={isSmall ? 'small' : undefined}
+      size={isSmall ? "large" : undefined}
       key={p.label}
       onClick={() => nav(p.path)}
     >
@@ -48,32 +48,34 @@ export const TopAppBar: React.FC = () => {
     </Button>
   ));
   return (
-    <AppBar sx={{ overflow: "hidden" }} elevation={0}>
+    <AppBar sx={{ }} elevation={0}>
       <Toolbar
         sx={{
-          overflowY: "auto",
           display: "flex",
           flexDirection: "row",
           alingItems: "center",
         }}
       >
-        <Typography
-          onClick={goHome}
-          sx={{
-            backgroundColor: "palette.default",
-            zIndex: 2,
-            position: "sticky",
-            left: 0,
-            mr: 2,
-            cursor: "pointer",
-          }}
-          fontWeight={"bold"}
-          variant={isSmall ? "h6" : "h5"}
-        >
-          Matinée
-        </Typography>
+        <Box sx={{mr:1,display: 'flex', flexDirection: 'row',  alignItems: "center" }}>
+          <Typography
+            onClick={goHome}
+            sx={{
+              backgroundColor: "palette.default",
+              zIndex: 2,
+              position: "sticky",
+              left: 0,
+              cursor: "pointer",
+            }}
+            fontWeight={"bold"}
+            variant={isSmall ? "h6" : "h5"}
+          >
+            Matinée
+          </Typography>
+        </Box>
+
         <Box
           sx={{
+            flex: 1,
             overlfowX: "scroll",
             display: "flex",
             flexDirection: "row",
@@ -83,11 +85,11 @@ export const TopAppBar: React.FC = () => {
           <IconButton onClick={() => nav("search")}>
             <Search color={page === "search" ? "primary" : undefined} />
           </IconButton>
-        </Box>
-        <Box sx={{ display: user ? "" : "none", pr: 1, ml: "auto" }}>
-          <IconButton onClick={goProfile} size="small">
-            <Avatar sx={{ height: 30, width: 30 }} />
-          </IconButton>
+          <Box sx={{ display: user ? "" : "none", pr: 1, ml: "auto" }}>
+            <IconButton onClick={goProfile} size="small">
+              <Avatar sx={{ height: 30, width: 30 }} />
+            </IconButton>
+          </Box>
         </Box>
       </Toolbar>
       <Divider />

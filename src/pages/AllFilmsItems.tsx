@@ -10,6 +10,7 @@ import {
   CircularProgress,
   Dialog,
   Divider,
+  Drawer,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -60,7 +61,8 @@ const MoreOptionsWrapper: React.FC<MoreOptionsWrapperProps> = ({
     <>
       <Box
         sx={{
-          p: 1,
+          pb:1, 
+          pt:1,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -194,10 +196,23 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
         </IconButton>
       </Box>
       {displayedItems}
-      <Dialog open={name === "sort"} onClose={onCloseDialog}>
+      <Drawer anchor="bottom" open={name === "sort"} onClose={onCloseDialog}>
         <Box sx={{ display: "flex", flexDirection: "column", p: 1 }}>
           <Button
-            size="small"
+            sx={{ mt: 0.5, mb: 0.5 }}
+            variant={sortMethod === "latest" ? "contained" : "outlined"}
+            onClick={() => onSetSort("latest")}
+          >
+            Sort by latest date added
+          </Button>
+          <Button
+            sx={{ mt: 0.5, mb: 0.5 }}
+            variant={sortMethod === "earliest" ? "contained" : "outlined"}
+            onClick={() => onSetSort("earliest")}
+          >
+            Sorty by earliest date added
+          </Button>
+          <Button
             sx={{ mb: 0.5 }}
             variant={sortMethod === "highest" ? "contained" : "outlined"}
             onClick={() => onSetSort("highest")}
@@ -206,7 +221,6 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
             Sort by highest rating
           </Button>
           <Button
-            size="small"
             sx={{ mt: 0.5, mb: 0.5 }}
             variant={sortMethod === "lowest" ? "contained" : "outlined"}
             onClick={() => onSetSort("lowest")}
@@ -214,27 +228,17 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
           >
             Sort by lowest rating
           </Button>
+
           <Button
-            size="small"
-            sx={{ mt: 0.5, mb: 0.5 }}
-            variant={sortMethod === "latest" ? "contained" : "outlined"}
-            onClick={() => onSetSort("latest")}
+            sx={{ mt: 1 }}
+            variant="outlined"
+            size="large"
+            onClick={onCloseDialog}
           >
-            Sort by latest date added
-          </Button>
-          <Button
-            size="small"
-            sx={{ mt: 0.5, mb: 0.5 }}
-            variant={sortMethod === "earliest" ? "contained" : "outlined"}
-            onClick={() => onSetSort("earliest")}
-          >
-            Sorty by earliest date added
-          </Button>
-          <Button size="small" onClick={onCloseDialog}>
             Cancel
           </Button>
         </Box>
-      </Dialog>
+      </Drawer>
     </>
   );
 };
