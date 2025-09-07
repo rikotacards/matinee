@@ -16,7 +16,7 @@ export const AddRating: React.FC<AddRatingProps> = ({ movie_ref_id, isInternal }
   if (open) {
     return (
       <Box component={Card} sx={{p:1,display: 'flex', flexDirection: 'column'}}>
-        <RatingInputForm isInternal={isInternal} movie_ref_id={movie_ref_id} onClose={onClose} />
+        <RatingInputForm movie_ref_id={movie_ref_id} onClose={onClose} />
         <Button onClick={onClose} fullWidth>Cancel</Button>
       </Box>
     );
