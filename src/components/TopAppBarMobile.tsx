@@ -38,7 +38,6 @@ export const TopAppBarMobile: React.FC<TopAppBarMobileProps> = ({
         sx={{
           width: "100%",
           textAlign: "center",
-        //   p: 1,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -60,9 +59,12 @@ export const TopAppBarMobile: React.FC<TopAppBarMobileProps> = ({
         }
 
         <Collapse in={showFull} orientation="horizontal">
-          <Typography sx={{ p: 1, mr: 3 }} fontWeight={"bold"} variant="h5">
+        <Box sx={{mr:3}}>
+
+          <Typography sx={{ p: 1, mr: 4}} fontWeight={"bold"} variant="h5">
             Matinée
           </Typography>
+        </Box>
         </Collapse>
         {/* <Avatar sx={{ alignSelf: "flex-end", height: 30, width: 30 }} /> */}
         <Box
@@ -76,7 +78,7 @@ export const TopAppBarMobile: React.FC<TopAppBarMobileProps> = ({
         >
           <IconButton
             sx={{ mr: 2 }}
-            color={page === "all-films" ? "primary" : undefined}
+            color={(page === "all-films" || page === '/') ? "primary" : undefined}
             onClick={goHome}
           >
             <LocalMoviesRoundedIcon />
