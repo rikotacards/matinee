@@ -60,8 +60,8 @@ const MoreOptionsWrapper: React.FC<MoreOptionsWrapperProps> = ({
     <>
       <Box
         sx={{
-          pb:1, 
-          pt:1,
+          pb: 1,
+          pt: 1,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -190,12 +190,24 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
           sx={{ mr: 1 }}
           label="Not rated"
         />
-        <IconButton sx={{ ml: 'auto' }} onClick={() => setDialogName("sort")}>
+        <IconButton sx={{ ml: "auto" }} onClick={() => setDialogName("sort")}>
           <SwapVertIcon />
         </IconButton>
       </Box>
       {displayedItems}
-      <Drawer anchor="bottom" open={name === "sort"} onClose={onCloseDialog}>
+      <Drawer
+        slotProps={{
+          paper: {
+            sx: {
+              borderTopLeftRadius: 10, // Adjust the value for desired curvature
+              borderTopRightRadius: 10, // Adjust the value for desired curvature
+            },
+          },
+        }}
+        anchor="bottom"
+        open={name === "sort"}
+        onClose={onCloseDialog}
+      >
         <Box sx={{ display: "flex", flexDirection: "column", p: 1 }}>
           <Button
             sx={{ mt: 0.5, mb: 0.5 }}
@@ -231,7 +243,7 @@ export const AllFilmsItems: React.FC<AllFilmsItems> = ({
           <Button
             sx={{ mt: 1 }}
             variant="outlined"
-            size="large"
+            size="medium"
             onClick={onCloseDialog}
           >
             Cancel

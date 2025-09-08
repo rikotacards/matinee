@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { Search } from "@mui/icons-material";
 import { useIsSmall } from "../hooks/useIsSmall";
+import { TopAppBarMobile } from "./TopAppBarMobile";
 const pages = [
   { label: "Your films", path: "all-films" },
   { label: "watchlist", path: "watchlist" },
@@ -37,10 +38,11 @@ export const TopAppBar: React.FC = () => {
       variant="text"
       color={page === p.path ? "primary" : "inherit"}
       sx={{
+        mb: 0,
         whiteSpace: "nowrap",
         fontWeight: page === p.path ? "bold" : undefined,
       }}
-      size={isSmall ? "large" : undefined}
+      size={isSmall ? "small" : "large"}
       key={p.label}
       onClick={() => nav(p.path)}
     >
@@ -49,46 +51,57 @@ export const TopAppBar: React.FC = () => {
   ));
   return (
     <AppBar elevation={0}>
-      <Toolbar
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alingItems: "flex-start",
-        }}
-      >
-        <Box sx={{ mr:1,display: 'flex', flexDirection: 'row',  alignItems: "flex-start" }}>
-          <Typography
-            onClick={goHome}
-            sx={{
-              cursor: "pointer",
-            }}
-            fontWeight={"bold"}
-            variant={isSmall ? "h6" : "h5"}
-          >
-            Matinée
-          </Typography>
-        </Box>
-
-        <Box
+      {isSmall ? (
+        <TopAppBarMobile onSearch={() => nav("search")} />
+      ) : (
+        <Toolbar
           sx={{
-            flex: 2,
-            overlfowX: "scroll",
             display: "flex",
             flexDirection: "row",
-            justifyContent: 'flex-start'
+            alingItems: "flex-start",
           }}
         >
-          {buttons}
-          <IconButton onClick={() => nav("search")}>
-            <Search color={page === "search" ? "primary" : undefined} />
-          </IconButton>
-          <Box sx={{ display: user ? "" : "none", pr: 1, ml: "auto" }}>
-            <IconButton onClick={goProfile} size="small">
-              <Avatar sx={{ height: 30, width: 30 }} />
-            </IconButton>
+          <Box
+            sx={{
+              mr: 1,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-start",
+            }}
+          >
+            <Typography
+              onClick={goHome}
+              sx={{
+                cursor: "pointer",
+              }}
+              fontWeight={"bold"}
+              variant={isSmall ? "h6" : "h5"}
+            >
+              Matinée
+            </Typography>
           </Box>
-        </Box>
-      </Toolbar>
+
+          <Box
+            sx={{
+              flex: 2,
+              overlfowX: "scroll",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+            }}
+          >
+            {buttons}
+            <IconButton onClick={() => nav("search")}>
+              <Search color={page === "search" ? "primary" : undefined} />
+            </IconButton>
+            <Box sx={{ display: user ? "" : "none", pr: 1, ml: "auto" }}>
+              <IconButton onClick={goProfile} size="small">
+                <Avatar sx={{ height: 20, width: 20 }} />
+              </IconButton>
+            </Box>
+          </Box>
+        </Toolbar>
+      )}
       <Divider />
     </AppBar>
   );
