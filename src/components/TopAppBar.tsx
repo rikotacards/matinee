@@ -53,10 +53,10 @@ export const TopAppBar: React.FC = () => {
         sx={{
           display: "flex",
           flexDirection: "row",
-          alingItems: "center",
+          alingItems: "flex-start",
         }}
       >
-        <Box sx={{ mr:1,display: 'flex', flexDirection: 'row',  alignItems: "center" }}>
+        <Box sx={{ mr:1,display: 'flex', flexDirection: 'row',  alignItems: "flex-start" }}>
           <Typography
             onClick={goHome}
             sx={{
@@ -75,7 +75,7 @@ export const TopAppBar: React.FC = () => {
             overlfowX: "scroll",
             display: "flex",
             flexDirection: "row",
-            justifyContent: 'space-between'
+            justifyContent: 'flex-start'
           }}
         >
           {buttons}

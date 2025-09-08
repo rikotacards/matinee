@@ -1,5 +1,6 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { useSignIn } from "../hooks/useSignIn";
+import { PageWrapper } from "../layouts/PageWrapper";
 
 export const AllFilmsNotLoggedIn: React.FC = () => {
   const signIn = useSignIn();
@@ -7,18 +8,8 @@ export const AllFilmsNotLoggedIn: React.FC = () => {
     return <CircularProgress />;
   }
   return (
-    <Box
-      sx={{
-        cursor: "default",
-        width: "100%",
-        height:'100%',
-        display: "flex",
-        position:  'relative',
-        flexDirection: "column",
-        alignItems: "center",
-        p:2,
-      }}
-    >
+    <PageWrapper>
+
       <Typography sx={{mb:2}} variant={"h3"} fontWeight={"bold"}>
         Track films you've watched. Save those you want to see. Tell your
         friends whats good.
@@ -40,6 +31,7 @@ export const AllFilmsNotLoggedIn: React.FC = () => {
           Get started
         </Button>
       </Box>
-    </Box>
+         </PageWrapper>
+
   );
 };
