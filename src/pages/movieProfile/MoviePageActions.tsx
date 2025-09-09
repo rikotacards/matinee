@@ -10,7 +10,7 @@ import {
 import React from "react";
 import type { UserItem } from "../../hooks/queries/useGetUserItems";
 import { RatingDisplay } from "../../components/RatingDisplay";
-import { BookmarkBorder, StarOutline } from "@mui/icons-material";
+import { BookmarkBorder, Star, StarOutline } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import { useAuth } from "../../hooks/useAuth";
@@ -48,7 +48,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   const checkAndPopulate = useGetCheckAndPopulate(movieIdUrl);
   const { name, setDialogName, onCloseDialog } = useDialogControl();
   const rateIcon = hasRating ? (
-    <RatingDisplay textVariant="caption" rating={userItem.rating} />
+    <Star color='warning'/>
   ) : (
     <StarOutline />
   );
@@ -129,7 +129,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
         icon={rateIcon}
         label={
           <Typography variant="caption">
-            {userItem?.rating ? "Rated" : "Rate"}
+            {userItem?.rating ? userItem.rating : "Rate"}
           </Typography>
         }
       />
