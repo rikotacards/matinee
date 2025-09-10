@@ -14,7 +14,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
 }) => {
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+      sx={{ height:'100%',  display: "flex", flexDirection: "column", width: "100%" }}
       maxWidth={500}
     >
       <Stack sx={{ mb: 2 }} direction="row" alignItems="center">
@@ -43,7 +43,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
         </Box>
       </Stack>
       <Box
-        sx={{ display: "flex", flexDirection: "column", mb: 2, width: "100%" }}
+        sx={{height:'100%', display: "flex", flexDirection: "column", mb: 2, width: "100%" }}
       >
         {children}
       </Box>

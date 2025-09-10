@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Dialog,
+  Fade,
   IconButton,
   Skeleton,
   TextField,
@@ -21,6 +22,7 @@ import { useAuth } from "../hooks/useAuth";
 import { SearchPage } from "../pages/SearchPage";
 import { CustomListItems } from "./CustomListItems";
 import { BackIconButton } from "./BackIconButton";
+import { DialogWithSwitch } from "./DialogWithSwitch";
 
 interface CustomListProps {
   listId: string;
@@ -51,14 +53,21 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
   if (!list.isLoading && !list.data?.is_public) {
     return <Typography>List is private</Typography>;
   }
+  const onEditList = () => {
+    setDialog("editList");
+  };
 
   const listActions = [
     // {
     //   name: "Make private",
     // },
     {
-      name: "rename",
+      name: "rename list",
       onClick: onUpdateClick,
+    },
+    {
+      name: "Edit list",
+      onClick: onEditList,
     },
     // {
     //   name: "Share",
@@ -85,18 +94,18 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
     );
   }
   if (!list.data) {
-    return <Typography sx={{mt:1}}>This list is empty</Typography>;
+    return <Typography sx={{ mt: 1 }}>This list is empty</Typography>;
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width:'100%'}}>
+    <Box sx={{ height:'100%',  display: "flex", flexDirection: "column", width: "100%" }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           width: "100%",
-          mb:2,
+          mb: 2,
         }}
       >
         <BackIconButton />
@@ -136,7 +145,11 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
           onClose={onClose}
         />
       </Dialog>
-      <Dialog open={dialog === "more"} title="options" onClose={onClose}>
+      <DialogWithSwitch
+        isSmall
+        open={dialog === "more"}
+        onClose={onClose}
+      >
         {listActions.map((b) => (
           <Button
             fullWidth
@@ -147,7 +160,7 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
             {b.name}
           </Button>
         ))}
-      </Dialog>
+      </DialogWithSwitch>
       <DialogWrapper
         open={dialog === "updateName"}
         title={"update name"}
@@ -184,7 +197,18 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
         </Box>
       </Dialog>
 
-      <CustomListItems listId={list.data.id} listOwner={list.data.user_id} />
+      <CustomListItems
+        showOptions={dialog === "editList"}
+        listId={list.data.id}
+        listOwner={list.data.user_id}
+      />
+      <Box sx={{position: 'sticky', bottom: 0}}>
+        <Fade in={dialog === "editList"}>
+          <Button onClick={() => setDialog('')} variant='outlined' fullWidth sx={{ p: 1 }}>
+            Done
+          </Button>
+        </Fade>
+      </Box>
     </Box>
   );
 };
