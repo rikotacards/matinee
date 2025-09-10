@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import type { UserItem } from "../../hooks/queries/useGetUserItems";
-import { RatingDisplay } from "../../components/RatingDisplay";
 import { BookmarkBorder, Star, StarOutline } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
@@ -129,7 +128,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
         icon={rateIcon}
         label={
           <Typography variant="caption">
-            {userItem?.rating ? userItem.rating : "Rate"}
+            {userItem?.rating ? `${userItem.rating}/5` : "Rate"}
           </Typography>
         }
       />
