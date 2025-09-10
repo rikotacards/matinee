@@ -14,7 +14,7 @@ export const UnAuthedWatchlist: React.FC = () => {
   return (
     <PageWrapper pageName="watchlist">
       <Typography fontWeight={"bold"} variant="h3">
-        Sign up to save movies to your watchlist
+        Save movies to your watchlist to watch later
       </Typography>
       <Button
         onClick={onClick}

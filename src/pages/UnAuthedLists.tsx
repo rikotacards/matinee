@@ -13,7 +13,7 @@ export const UnAuthedList: React.FC = () => {
   return (
     <PageWrapper pageName="Lists">
       <Typography fontWeight={'bold'} variant="h3">
-        Sign up to create your own movie lists
+        Create your own movie lists
       </Typography>
       <Button loading={loading} onClick={onClick} sx={{mt:2}} fullWidth color="success" variant="contained">
         {loading ?<CircularProgress size={20}/> : 'Sign Up'}
