@@ -57,7 +57,7 @@ export const Lists: React.FC = () => {
     >
       <ListsItems dialogName={name} userId={user.id} />
 
-      <Dialog open={open} onClose={onClose}>
+      <Dialog fullScreen open={open} onClose={onClose}>
         <CreateNewListForm onClose={onClose} />
       </Dialog>
     </PageWrapper>

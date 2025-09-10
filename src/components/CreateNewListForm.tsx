@@ -7,6 +7,7 @@ import {
   IconButton,
   AppBar,
   DialogContent,
+  Divider,
 } from "@mui/material";
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
@@ -30,13 +31,14 @@ export const CreateNewListForm: React.FC<CreateNewListFormProps> = ({
   };
   return (
     <Box sx={{ p: 0 }}>
-      <AppBar sx={{ position: "relative" }}>
+      <AppBar elevation={0} sx={{ position: "relative" }}>
         <Toolbar>
           New List
           <IconButton sx={{ ml: "auto" }} onClick={onClose}>
             <Close />
           </IconButton>
         </Toolbar>
+        <Divider/>  
       </AppBar>
       <DialogContent>
         <Box>

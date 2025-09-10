@@ -58,8 +58,9 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   ) : (
     <RadioButtonUncheckedIcon />
   );
-  const watchlistIcon = watchlistItem.data ? (
-    <BookmarkAddedIcon />
+  console.log('watchlist', watchlistItem.data)
+  const watchlistIcon = (!watchlistItem.isLoading && watchlistItem.data?.id) ? (
+    <BookmarkAddedIcon color='success' />
   ) : (
     <BookmarkBorder />
   );
@@ -128,6 +129,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
     ? onRemoveFromWatchlist
     : onAddToWatchlist;
   const onAddList = () => {
+    console.log("hi");
     if (!session || !user?.id) {
       setDialogName("signIn");
       return;
@@ -163,7 +165,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
           </Typography>
         }
       />
-      <IconButton onClick={() => onAddList}>
+      <IconButton onClick={() => onAddList()}>
         <PlaylistAddIcon />
       </IconButton>
 
