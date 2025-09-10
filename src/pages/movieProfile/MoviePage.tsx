@@ -17,6 +17,7 @@ export const MoviePage: React.FC<MoviePageProps> = ({ movieIdUrl }) => {
   const movieDetails = useMovieDetails(movieIdUrl);
   const fullPoster = getImage(movieDetails.data.poster_path || "");
   const internalMovieRef = useGetMovieRef({ id: movieIdUrl });
+  console.log('inten', internalMovieRef.data)
   const { user } = useAuth();
   // here item is used to display status
   const item = useGetUserItemByMovieRef({

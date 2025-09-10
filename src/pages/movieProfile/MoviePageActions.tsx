@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import SendIcon from '@mui/icons-material/Send';
 import type { UserItem } from "../../hooks/queries/useGetUserItems";
 import { BookmarkBorder, Star, StarOutline } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -24,6 +25,7 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { useGetWatchlistItemByMovieRefId } from "../../hooks/queries/useGetWatchlistItemByItemId";
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import { useDeleteWatchlistItem } from "../../hooks/mutations/useDeleteWatchlistItem";
+import { useGetCopy } from "../../hooks/useGetCopy";
 interface MoviePageActionsProps {
   userItem?: UserItem;
   isLoading: boolean;
@@ -34,11 +36,13 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   movieIdUrl,
 }) => {
   const { user } = useAuth();
+  const copy = useGetCopy();
   const hasWatched = userItem?.status === "watched";
   const hasRating = !!userItem?.rating;
   const update = useUpdateUserItem();
   const addItemToList = useAddItemToList();
   const add = useUpsertWatchlistItem();
+  const pageUrl = window.location.href
   const removeFromWatchlist = useDeleteWatchlistItem();
   const watchlistItem = useGetWatchlistItemByMovieRefId({
     userId: user?.id,
@@ -88,6 +92,10 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
       user_id: user?.id,
     });
   };
+
+  const onShare = () => {
+    copy(pageUrl)
+  }
   
   const onRemoveFromWatchlist = async() => {
     if(!userItem){
@@ -138,6 +146,9 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
 
       <IconButton onClick={onWatchlistClick}>
         {watchlistIcon}
+      </IconButton>
+      <IconButton onClick={() => onShare()} size='small'>
+        <SendIcon/>
       </IconButton>
       <Dialog open={name === "rate"} onClose={onCloseDialog}>
         <Box sx={{ p: 1 }}>

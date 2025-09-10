@@ -9,7 +9,7 @@ export const useMovieDetails = (movieId: string | number) => {
   const internal = useGetMovieRef({
     id: movieId,
   });
-
+  console.log('intena', internal.data)
   return {
     isLoading: internal.isLoading || external.isLoading,
     data:
