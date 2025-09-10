@@ -66,7 +66,6 @@ export const TopAppBarMobile: React.FC<TopAppBarMobileProps> = ({
           </Typography>
         </Box>
         </Collapse>
-        {/* <Avatar sx={{ alignSelf: "flex-end", height: 30, width: 30 }} /> */}
         <Box
           sx={{
             display: "flex",

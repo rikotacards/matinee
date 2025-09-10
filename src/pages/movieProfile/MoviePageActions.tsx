@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 import type { UserItem } from "../../hooks/queries/useGetUserItems";
 import { BookmarkBorder, Star, StarOutline } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -23,9 +23,11 @@ import { useAddItemToList } from "../../hooks/mutations/useAddItemToList";
 import { useUpsertWatchlistItem } from "../../hooks/mutations/useUpsertWatchlistItem";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { useGetWatchlistItemByMovieRefId } from "../../hooks/queries/useGetWatchlistItemByItemId";
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import { useDeleteWatchlistItem } from "../../hooks/mutations/useDeleteWatchlistItem";
 import { useGetCopy } from "../../hooks/useGetCopy";
+import { DialogWithSwitch } from "../../components/DialogWithSwitch";
+import { SignUp } from "../../components/SignUp";
 interface MoviePageActionsProps {
   userItem?: UserItem;
   isLoading: boolean;
@@ -35,14 +37,14 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   userItem,
   movieIdUrl,
 }) => {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const copy = useGetCopy();
   const hasWatched = userItem?.status === "watched";
   const hasRating = !!userItem?.rating;
   const update = useUpdateUserItem();
   const addItemToList = useAddItemToList();
   const add = useUpsertWatchlistItem();
-  const pageUrl = window.location.href
+  const pageUrl = window.location.href;
   const removeFromWatchlist = useDeleteWatchlistItem();
   const watchlistItem = useGetWatchlistItemByMovieRefId({
     userId: user?.id,
@@ -50,22 +52,23 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
   });
   const checkAndPopulate = useGetCheckAndPopulate(movieIdUrl);
   const { name, setDialogName, onCloseDialog } = useDialogControl();
-  const rateIcon = hasRating ? (
-    <Star color='warning'/>
-  ) : (
-    <StarOutline />
-  );
+  const rateIcon = hasRating ? <Star color="warning" /> : <StarOutline />;
   const watchedIcon = hasWatched ? (
     <CheckCircleIcon color="success" />
   ) : (
     <RadioButtonUncheckedIcon />
   );
-  const watchlistIcon = watchlistItem.data ? <BookmarkAddedIcon/> : <BookmarkBorder/>
+  const watchlistIcon = watchlistItem.data ? (
+    <BookmarkAddedIcon />
+  ) : (
+    <BookmarkBorder />
+  );
   const onUpdateMovieStatus = async (status: string) => {
-    const item = await checkAndPopulate();
-    if (!user?.id) {
-      throw new Error("no user");
+    if (!session || !user?.id) {
+      setDialogName("signIn");
+      return;
     }
+    const item = await checkAndPopulate();
     await update.mutateAsync({
       updatePayload: { status },
       userId: user?.id,
@@ -74,6 +77,10 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
     });
   };
   const onAddToList = async (listId: string) => {
+    if (!session || !user?.id) {
+      setDialogName("signIn");
+      return;
+    }
     const item = await checkAndPopulate();
     addItemToList.mutateAsync({
       list_id: listId,
@@ -82,35 +89,51 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
     onCloseDialog();
   };
   const onAddToWatchlist = async () => {
-    if (!user?.id) {
-      throw new Error("no user");
+    if (!session || !user?.id) {
+      setDialogName("signIn");
+      return;
     }
     const item = await checkAndPopulate();
     await add.mutateAsync({
       item_id: item.id,
       movie_ref_id: item.movie_ref_id,
-      user_id: user?.id,
+      user_id: user.id,
     });
   };
 
   const onShare = () => {
-    copy(pageUrl)
-  }
-  
-  const onRemoveFromWatchlist = async() => {
-    if(!userItem){
-      throw new Error('No movie to begin with')
+    copy(pageUrl);
+  };
+
+  const onRemoveFromWatchlist = async () => {
+    if (!userItem) {
+      throw new Error("No movie to begin with");
     }
-    if(!user){
-      throw new Error('no user')
+    if (!user) {
+      throw new Error("no user");
     }
     await removeFromWatchlist.mutateAsync({
       movie_ref_id: userItem?.movie_ref_id,
-      user_id: user?.id
-    })
-  }
-  const onWatchlistClick = watchlistItem.data ? onRemoveFromWatchlist : onAddToWatchlist
-
+      user_id: user?.id,
+    });
+  };
+  const onRate = () => {
+    if (!session || !user?.id) {
+      setDialogName("signIn");
+      return;
+    }
+    setDialogName("rate");
+  };
+  const onWatchlistClick = watchlistItem.data
+    ? onRemoveFromWatchlist
+    : onAddToWatchlist;
+  const onAddList = () => {
+    if (!session || !user?.id) {
+      setDialogName("signIn");
+      return;
+    }
+    setDialogName("addList");
+  };
   return (
     <Stack
       sx={{ mt: 1, mb: 1 }}
@@ -132,7 +155,7 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
       />
       <Chip
         sx={{ mr: 1 }}
-        onClick={() => setDialogName("rate")}
+        onClick={() => onRate()}
         icon={rateIcon}
         label={
           <Typography variant="caption">
@@ -140,15 +163,13 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
           </Typography>
         }
       />
-      <IconButton  onClick={() => setDialogName("addList")}>
+      <IconButton onClick={() => onAddList}>
         <PlaylistAddIcon />
       </IconButton>
 
-      <IconButton onClick={onWatchlistClick}>
-        {watchlistIcon}
-      </IconButton>
-      <IconButton onClick={() => onShare()} size='small'>
-        <SendIcon/>
+      <IconButton onClick={onWatchlistClick}>{watchlistIcon}</IconButton>
+      <IconButton onClick={() => onShare()} size="small">
+        <SendIcon />
       </IconButton>
       <Dialog open={name === "rate"} onClose={onCloseDialog}>
         <Box sx={{ p: 1 }}>
@@ -165,6 +186,9 @@ export const MoviePageActions: React.FC<MoviePageActionsProps> = ({
       <Dialog open={name === "addList"} onClose={onCloseDialog}>
         <AddToListPage onClose={onCloseDialog} onAdd={onAddToList} />
       </Dialog>
+      <DialogWithSwitch open={name === "signIn"} onClose={onCloseDialog}>
+        <SignUp />
+      </DialogWithSwitch>
     </Stack>
   );
 };

@@ -16,6 +16,7 @@ import { WatchlistItems } from "./WatchlistItems";
 import { useDialogControl } from "../hooks/useDialogControl";
 import { SearchPage } from "./SearchPage";
 import { PageWrapper } from "../layouts/PageWrapper";
+import { UnAuthedWatchlist } from "./UnAuthedWatchlist";
 
 export const Watchlist: React.FC = () => {
   const { user, loading } = useAuth();
@@ -28,7 +29,7 @@ export const Watchlist: React.FC = () => {
     return <CircularProgress />;
   }
   if (!user) {
-    return null;
+    return <UnAuthedWatchlist/>
   }
 
   return (

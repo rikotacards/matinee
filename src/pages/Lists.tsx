@@ -12,6 +12,7 @@ import { Add, MoreHoriz } from "@mui/icons-material";
 import { useDialogControl } from "../hooks/useDialogControl";
 import { ListsItems } from "./ListsItems";
 import { PageWrapper } from "../layouts/PageWrapper";
+import { UnAuthedList } from "./UnAuthedLists";
 
 export const Lists: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -23,7 +24,7 @@ export const Lists: React.FC = () => {
   const { user } = useAuth();
   const lists = useGetLists(user?.id);
   if (!user?.id) {
-    return null;
+    return <UnAuthedList/>
   }
   return (
     <PageWrapper

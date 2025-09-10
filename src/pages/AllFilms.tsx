@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
-import { AllFilmsNotLoggedIn } from "./AllFilmsNotLoggedIn";
+import { UnAuthedAllFilms } from "./UnAuthedAllFilms";
 import { Add, Close, MoreHoriz } from "@mui/icons-material";
 import { SearchPage } from "./SearchPage";
 import { AllFilmsItems } from "./AllFilmsItems";
@@ -22,7 +22,7 @@ export const AllFilms: React.FC = () => {
   const {name, setDialogName, onCloseDialog} = useDialogControl()
 
   if (!session || !user) {
-    return <AllFilmsNotLoggedIn />;
+    return <UnAuthedAllFilms />;
   }
 
   return (

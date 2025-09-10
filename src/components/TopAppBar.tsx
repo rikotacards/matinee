@@ -96,7 +96,7 @@ export const TopAppBar: React.FC = () => {
             </IconButton>
             <Box sx={{ display: user ? "" : "none", pr: 1, ml: "auto" }}>
               <IconButton onClick={goProfile} size="small">
-                <Avatar sx={{ height: 20, width: 20 }} />
+                <Avatar sx={{ height: 30, width: 30 }} />
               </IconButton>
             </Box>
           </Box>
