@@ -34,7 +34,7 @@ export const CustomListItems: React.FC<CustomListItemsProps> = ({
     return <Typography sx={{ mt: 1 }}>This list is empty</Typography>;
   }
   return (
-    <Box sx={{ width: "100%", display: "flex" }}>
+    <Box sx={{flexDirection: 'column', width: "100%", display: "flex" }}>
       {items.data?.map((i) => (
         <Box
           sx={{

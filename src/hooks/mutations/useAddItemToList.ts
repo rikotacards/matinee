@@ -36,6 +36,7 @@ export const useAddItemToList = () => {
   return useMutation({
     mutationFn,
     onSuccess: (_, variables) => {
+      console.log('v', variables)
       enqueueSnackbar({message: 'Added to list', variant:'success'})
       // Invalidate the cache for the specific list to trigger a refetch.
       queryClient.invalidateQueries({ queryKey: ["list_items", variables.list_id] });

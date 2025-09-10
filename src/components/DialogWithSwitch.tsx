@@ -11,14 +11,26 @@ export const DialogWithSwitch: React.FC<DialogWithSwitchProps> = ({
   onClose,
   fullScreen,
   open,
-  isSmall
+  isSmall,
 }) => {
   if (isSmall) {
-    return <Drawer
-    onClose={onClose}
-    open={open}
-    anchor="bottom"
-    >{children}</Drawer>;
+    return (
+      <Drawer
+        slotProps={{
+          paper: {
+            sx: {
+              borderTopLeftRadius: 10, // Adjust the value for desired curvature
+              borderTopRightRadius: 10, // Adjust the value for desired curvature
+            },
+          },
+        }}
+        onClose={onClose}
+        open={open}
+        anchor="bottom"
+      >
+        {children}
+      </Drawer>
+    );
   }
   return (
     <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>

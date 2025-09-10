@@ -8,6 +8,7 @@ import type { UserItem } from "./useGetUserItems";
  * @returns A UseQueryResult object with the data, loading, and error states.
  */
 export const useGetItemsByListId = (listId: string) => {
+  console.log('li', listId)
   const queryFn = async () => {
     if (!listId) {
       return [] as UserItem[]
@@ -30,7 +31,7 @@ export const useGetItemsByListId = (listId: string) => {
   };
 
   return useQuery<UserItem[] | null>({
-    queryKey: ["list_items", listId],
+    queryKey: ["list_items", `${listId}`],
     queryFn,
     enabled: !!listId,
   });

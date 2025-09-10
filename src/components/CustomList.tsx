@@ -66,19 +66,14 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
       onClick: onUpdateClick,
     },
     {
-      name: "Edit list",
-      onClick: onEditList,
-    },
-    // {
-    //   name: "Share",
-    // },
-    // {
-    //   name: "Reorder items",
-    // },
-    {
       name: "Delete list",
       color: "error",
       onClick: onDelete,
+    },
+    {
+      name: "Remove movies from list",
+      color:'error',
+      onClick: onEditList,
     },
     {
       name: "Cancel",
@@ -130,7 +125,7 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
         </IconButton>
       </Box>
       <Dialog fullScreen open={dialog === "add"} onClose={onClose}>
-        <AppBar variant="outlined" position="relative">
+        <AppBar elevation={0} position="relative">
           <Toolbar>
             <Typography sx={{ mr: "auto" }}>Add to list</Typography>
             <IconButton sx={{ mr: 1 }} onClick={onClose}>
@@ -150,9 +145,12 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
         open={dialog === "more"}
         onClose={onClose}
       >
+        <Box sx={{p:1}}>
+
         {listActions.map((b) => (
           <Button
             fullWidth
+            sx={{mb:1}}
             color={b.color as ButtonProps["color"]}
             onClick={b.onClick ? () => b.onClick() : undefined}
             key={b.name}
@@ -160,6 +158,8 @@ export const CustomList: React.FC<CustomListProps> = ({ listId }) => {
             {b.name}
           </Button>
         ))}
+                </Box>
+
       </DialogWithSwitch>
       <DialogWrapper
         open={dialog === "updateName"}
